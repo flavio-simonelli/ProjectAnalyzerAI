@@ -1,3 +1,6 @@
-public static void main(String[] args) {
-    System.out.println("Hello, ISW2!");
+import it.flaviosimonelli.isw2.ui.ConsoleMenu;
+
+public static void main() {
+    ConsoleMenu cm = new ConsoleMenu();
+    cm.start();
 }
