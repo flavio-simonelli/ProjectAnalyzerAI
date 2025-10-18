@@ -21,6 +21,12 @@ public class JiraClient {
         return readJsonArrayFromUrl(url);
     }
 
+    public JSONArray getprojectIssues(String projectKey) throws IOException, URISyntaxException {
+        String url = Config.JIRA_BASE_URL + "rest/api/2/search?jql=project%20%3D%20" + projectKey + "%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20(Resolved%2C%20Closed)%20AND%20resolution%20%3D%20Fixed";
+        return readJsonArrayFromUrl(url);
+    }
+    //https://issues.apache.org/jira/rest/api/2/search?jql=project%20%3D%20BOOKKEEPER%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20(Resolved%2C%20Closed)%20AND%20resolution%20%3D%20Fixed
+
 
     private JSONArray readJsonArrayFromUrl(String urlStr) throws IOException, JSONException, URISyntaxException {
         URI uri = new URI(urlStr);
