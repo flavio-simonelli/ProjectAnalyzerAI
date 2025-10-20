@@ -1,0 +1,1133 @@
+selfUrl,id,createdDate,fixVersions,affectedVersions
+https://issues.apache.org/jira/rest/api/2/issue/13623411,13623411,2025-07-15,[4.1.2],[4.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13622051,13622051,2025-06-28,[4.1.2],[4.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13621211,13621211,2025-06-18,[4.1.2],[4.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13621174,13621174,2025-06-18,[],[4.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13614695,13614695,2025-04-09,[4.1.1],"[4.0.1, 4.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13605430,13605430,2025-01-17,[4.1.0],[4.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/13605078,13605078,2025-01-15,[4.1.0],[4.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/13602968,13602968,2024-12-22,[4.1.0],[4.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/13593524,13593524,2024-09-27,[4.1.0],[4.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/13590180,13590180,2024-08-27,[4.1.1],"[3.2.2, 4.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13585390,13585390,2024-07-11,[4.0.1],[4.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13580595,13580595,2024-05-27,[4.0.1],[4.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13560226,13560226,2023-12-01,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/13551137,13551137,2023-09-18,"[3.2.3, 4.0.0]",[3.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/13533336,13533336,2023-04-20,[],[3.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/13427435,13427435,2022-02-09,[4.1.0],"[3.2.1, 3.2.2]"
+https://issues.apache.org/jira/rest/api/2/issue/13418216,13418216,2021-12-17,[3.2.1],[]
+https://issues.apache.org/jira/rest/api/2/issue/13414503,13414503,2021-11-30,[3.2.1],[3.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/13413196,13413196,2021-11-22,[3.2.1],[3.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/13407779,13407779,2021-10-21,[3.2.1],[3.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/13406236,13406236,2021-10-12,[3.2.1],[2.2.3]
+https://issues.apache.org/jira/rest/api/2/issue/13389149,13389149,2021-07-12,[3.2.1],[]
+https://issues.apache.org/jira/rest/api/2/issue/13383264,13383264,2021-06-10,[3.2.1],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13377427,13377427,2021-05-08,[3.2.0],[3.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/13370796,13370796,2021-04-10,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13370640,13370640,2021-04-09,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13370381,13370381,2021-04-08,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13370336,13370336,2021-04-08,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369867,13369867,2021-04-06,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369821,13369821,2021-04-06,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369612,13369612,2021-04-05,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369478,13369478,2021-04-04,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369444,13369444,2021-04-03,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369411,13369411,2021-04-03,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369393,13369393,2021-04-03,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13369194,13369194,2021-04-01,[3.2.0],[3.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/13369137,13369137,2021-04-01,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13368675,13368675,2021-03-30,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13368546,13368546,2021-03-30,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13368188,13368188,2021-03-28,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13362330,13362330,2021-03-04,[],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13347111,13347111,2020-12-21,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13343524,13343524,2020-12-01,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13343379,13343379,2020-11-30,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13330140,13330140,2020-09-30,[3.2.0],[3.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13329774,13329774,2020-09-28,[3.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/13327700,13327700,2020-09-15,[3.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/13327695,13327695,2020-09-15,[3.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/13327639,13327639,2020-09-15,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13326284,13326284,2020-09-07,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/13318915,13318915,2020-07-23,[3.2.0],[3.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/13300132,13300132,2020-04-22,[3.1.2],[3.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13288239,13288239,2020-02-28,[3.1.2],[3.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13281596,13281596,2020-01-26,[1.3.0],[3.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/13275175,13275175,2019-12-18,[3.1.1],[3.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/13253665,13253665,2019-08-29,[3.2.0],"[2.4.3, 3.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13241314,13241314,2019-06-24,"[2.4.4, 3.1.0]",[2.4.3]
+https://issues.apache.org/jira/rest/api/2/issue/13240239,13240239,2019-06-18,[3.2.0],[2.4.3]
+https://issues.apache.org/jira/rest/api/2/issue/13228776,13228776,2019-04-18,[3.2.0],[3.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/13227117,13227117,2019-04-10,[3.1.0],[3.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/13223173,13223173,2019-03-21,"[2.4.4, 3.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/13222843,13222843,2019-03-20,"[2.4.4, 3.1.0]","[2.4.2, 2.4.3, 3.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13218858,13218858,2019-03-01,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13213478,13213478,2019-02-02,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13213471,13213471,2019-02-02,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13211132,13211132,2019-01-22,[3.1.0],"[2.4.2, 2.4.3, 3.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13208761,13208761,2019-01-10,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13207236,13207236,2019-01-02,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13203088,13203088,2018-12-07,[3.1.0],"[2.2.1, 2.4.3, 3.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13197604,13197604,2018-11-10,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13197602,13197602,2018-11-10,[3.1.0],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13179257,13179257,2018-08-16,[3.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/13171751,13171751,2018-07-12,[3.1.1],[2.4.2]
+https://issues.apache.org/jira/rest/api/2/issue/13169066,13169066,2018-06-29,"[2.4.4, 3.1.0]","[2.4.3, 3.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13150873,13150873,2018-04-09,[3.1.0],[2.4.2]
+https://issues.apache.org/jira/rest/api/2/issue/13148406,13148406,2018-03-27,"[2.2.3, 3.2.0]",[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/13128235,13128235,2018-01-03,"[2.4.3, 3.0.0]","[2.2.3, 2.4.2]"
+https://issues.apache.org/jira/rest/api/2/issue/13089058,13089058,2017-07-21,[],[3.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/13087231,13087231,2017-07-14,"[2.1.2, 2.2.3]",[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/13085509,13085509,2017-07-07,"[2.2.3, 2.4.4, 3.1.0]",[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/13068265,13068265,2017-05-01,"[2.4.3, 3.0.0]",[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/13049729,13049729,2017-03-09,"[2.4.3, 3.0.0]",[2.4.2]
+https://issues.apache.org/jira/rest/api/2/issue/13049689,13049689,2017-03-09,"[2.4.3, 3.0.0]",[2.4.2]
+https://issues.apache.org/jira/rest/api/2/issue/13046596,13046596,2017-02-27,"[2.4.3, 3.0.0]","[2.4.2, 3.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/13028389,13028389,2016-12-15,"[2.4.2, 3.0.0]","[2.3.0, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/13013779,13013779,2016-10-20,"[2.4.2, 3.0.0]",[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/13013777,13013777,2016-10-20,"[2.4.2, 3.0.0]",[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/13013140,13013140,2016-10-18,"[2.4.2, 3.0.0]",[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/13011662,13011662,2016-10-12,[3.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/13011101,13011101,2016-10-10,"[2.2.3, 2.4.2, 3.0.0]","[2.2.3, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12998751,12998751,2016-08-21,[3.0.0],[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/12995760,12995760,2016-08-08,"[2.2.3, 2.4.0, 2.4.2]","[2.2.2, 2.3.0, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12989655,12989655,2016-07-15,"[2.2.3, 2.4.0, 2.4.2]","[2.2.3, 2.3.0, 2.4.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12986113,12986113,2016-07-01,[3.2.0],[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/12981420,12981420,2016-06-21,"[2.2.3, 2.4.3, 3.0.0]","[2.2.3, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12980275,12980275,2016-06-17,[2.2.3],"[1.1.0, 1.2.3, 1.3.0, 2.0.1, 2.1.2, 2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12958112,12958112,2016-04-12,[2.4.2],[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/12956186,12956186,2016-04-05,[],[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12954855,12954855,2016-03-31,"[2.2.3, 2.4.2]","[2.2.3, 2.4.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12946975,12946975,2016-03-04,[2.4.2],[2.4.1]
+https://issues.apache.org/jira/rest/api/2/issue/12938647,12938647,2016-02-11,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.2]","[2.1.2, 2.2.3, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12936155,12936155,2016-02-02,[],"[1.2.3, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12935076,12935076,2016-01-29,[2.4.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12916621,12916621,2015-11-27,[2.4.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12915363,12915363,2015-11-23,[2.4.1],"[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.1.0, 1.2.0, 1.2.1, 1.2.2, 1.2.3, 2.0.0, 2.0.1, 2.1.0, 2.1.1, 2.2.0, 2.2.1, 2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12913703,12913703,2015-11-17,[3.2.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12902522,12902522,2015-10-05,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.1]","[2.2.3, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12854226,12854226,2015-08-11,"[2.2.3, 2.4.1]","[2.2.2, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12852374,12852374,2015-08-05,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.1]","[2.1.2, 2.2.1.1, 2.2.3, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12846325,12846325,2015-07-20,[2.4.1],"[2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12841422,12841422,2015-06-29,[2.4.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12841234,12841234,2015-06-29,[2.4.1],[]
+https://issues.apache.org/jira/rest/api/2/issue/12835928,12835928,2015-06-06,[2.4.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12830023,12830023,2015-05-15,"[2.0.2, 2.1.2, 2.2.1.1, 2.2.3, 2.4.1]","[2.1.2, 2.2.2, 2.2.1.1, 2.4.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12827195,12827195,2015-05-05,[2.4.1],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12818810,12818810,2015-04-07,[2.4.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12782204,12782204,2015-03-16,[2.4.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12777706,12777706,2015-02-25,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.2.3, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12771750,12771750,2015-02-02,"[2.4.4, 3.1.0]",[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12766612,12766612,2015-01-10,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.2, 2.2.2, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12765122,12765122,2015-01-06,[3.1.0],"[2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12760787,12760787,2014-12-10,[2.4.0],"[2.2.1, 2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12758123,12758123,2014-11-27,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12757745,12757745,2014-11-25,"[2.1.2, 2.2.2, 2.2.1.1, 2.4.0]","[2.1.2, 2.2.2, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12754473,12754473,2014-11-11,[2.4.0],"[2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12750258,12750258,2014-10-24,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.1]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12747887,12747887,2014-10-14,"[2.1.2, 2.2.2, 2.2.1.1, 2.4.0]","[2.1.2, 2.2.1.1, 2.2.3, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12746427,12746427,2014-10-07,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.2, 2.2.1.1, 2.2.3, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12746303,12746303,2014-10-07,"[2.2.3, 2.4.0]","[2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12736206,12736206,2014-08-22,"[2.2.3, 2.4.0]",[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12727288,12727288,2014-07-15,"[2.2.3, 2.4.1]","[2.2.0, 2.2.1, 2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12726142,12726142,2014-07-08,[2.4.0],"[2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12717862,12717862,2014-06-02,[],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12717267,12717267,2014-05-29,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.2.2, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12716905,12716905,2014-05-27,[2.4.0],"[2.2.0, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12716383,12716383,2014-05-23,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.0.1, 2.1.1, 2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12714792,12714792,2014-05-16,"[2.2.3, 2.4.0]","[2.1.0, 2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12713350,12713350,2014-05-09,"[2.2.1.1, 2.2.3, 2.4.0]","[2.2.1, 2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12708310,12708310,2014-04-14,"[2.2.3, 2.4.0]","[2.2.1.1, 2.2.3, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12700809,12700809,2014-03-11,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.1, 2.2.2, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12699402,12699402,2014-03-07,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12694802,12694802,2014-02-12,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.2, 2.2.2, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12693951,12693951,2014-02-07,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.0, 2.2.0, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12692355,12692355,2014-01-30,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]","[2.1.1, 2.2.2, 2.2.1.1, 2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12689595,12689595,2014-01-17,"[2.2.1.1, 2.2.3, 2.4.0]","[2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12688907,12688907,2014-01-15,"[2.2.3, 2.4.0]","[2.0.1, 2.1.1, 2.2.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12685900,12685900,2013-12-20,[2.4.0],[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12682710,12682710,2013-12-04,[2.4.0],"[2.0.1, 2.1.2, 2.2.2, 2.2.1.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12679798,12679798,2013-11-18,[2.4.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12675569,12675569,2013-10-24,"[2.3.0, 2.4.0]",[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12675132,12675132,2013-10-22,"[2.3.0, 2.4.0]","[2.3.0, 2.4.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12674871,12674871,2013-10-21,[2.4.0],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12674821,12674821,2013-10-21,[2.4.0],[2.4.0]
+https://issues.apache.org/jira/rest/api/2/issue/12674126,12674126,2013-10-16,[2.3.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12673459,12673459,2013-10-11,"[2.2.1.1, 2.2.3, 2.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12672937,12672937,2013-10-09,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.1.0, 2.2.2, 2.2.1.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12670908,12670908,2013-09-27,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12666733,12666733,2013-09-03,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12665556,12665556,2013-08-26,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.1.1, 2.2.2, 2.2.1.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12663617,12663617,2013-08-14,[2.3.0],"[2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12662235,12662235,2013-08-06,"[2.2.3, 2.3.0]","[2.0.2, 2.1.2, 2.2.3, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12659627,12659627,2013-07-24,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.2.3, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12657213,12657213,2013-07-11,[2.3.0],[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12654693,12654693,2013-06-25,[2.3.0],[2.2.3]
+https://issues.apache.org/jira/rest/api/2/issue/12652902,12652902,2013-06-14,[2.3.0],[2.2.3]
+https://issues.apache.org/jira/rest/api/2/issue/12650354,12650354,2013-05-31,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12649901,12649901,2013-05-29,[2.3.0],[2.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12648936,12648936,2013-05-22,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12647764,12647764,2013-05-15,"[2.2.3, 2.4.0]",[2.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12646130,12646130,2013-05-05,[2.3.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12644570,12644570,2013-04-25,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12644134,12644134,2013-04-23,[2.3.0],"[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12642602,12642602,2013-04-15,[2.3.0],"[2.2.1, 2.2.3]"
+https://issues.apache.org/jira/rest/api/2/issue/12638547,12638547,2013-03-22,[2.3.0],"[2.2.0, 2.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12638102,12638102,2013-03-20,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12634822,12634822,2013-03-01,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12634436,12634436,2013-02-27,[2.4.1],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12633817,12633817,2013-02-24,[2.2.1],"[2.2.0, 2.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12633087,12633087,2013-02-19,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12633067,12633067,2013-02-19,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12632301,12632301,2013-02-13,"[2.2.2, 2.3.0]","[2.2.2, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12631234,12631234,2013-02-07,"[2.1.2, 2.2.1.1, 2.2.3, 2.3.0]","[2.2.0, 2.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12630095,12630095,2013-01-31,[2.3.0],"[2.1.1, 2.2.0, 2.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12628822,12628822,2013-01-22,"[2.0.2, 2.1.2, 2.2.2, 2.2.1.1, 2.3.0]",[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12628714,12628714,2013-01-22,[2.3.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12627027,12627027,2013-01-10,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12626461,12626461,2013-01-08,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12626144,12626144,2013-01-05,"[2.2.1.1, 2.2.3, 2.3.0]",[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12623454,12623454,2012-12-11,[],"[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12623452,12623452,2012-12-11,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12623450,12623450,2012-12-11,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12623423,12623423,2012-12-11,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]",[2.2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12617576,12617576,2012-11-26,[3.0.0],[2.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12616445,12616445,2012-11-16,"[2.2.2, 2.2.1.1, 2.3.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12614256,12614256,2012-10-31,"[2.0.2, 2.1.2, 2.2.2, 2.2.1.1, 2.3.0]","[2.0.1, 2.1.1, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12613904,12613904,2012-10-29,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]","[2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12613873,12613873,2012-10-29,[2.4.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12613632,12613632,2012-10-26,"[2.1.2, 2.2.1.1, 2.2.3, 2.4.0]",[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12613539,12613539,2012-10-25,"[2.0.2, 2.1.2, 2.2.2, 2.2.1.1, 2.3.0]","[2.0.1, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12613027,12613027,2012-10-22,[2.3.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12609885,12609885,2012-10-02,[2.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12609437,12609437,2012-09-27,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12609165,12609165,2012-09-26,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12606907,12606907,2012-09-10,"[2.1.2, 2.2.1, 2.3.0]","[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12606896,12606896,2012-09-10,"[2.1.2, 2.2.1, 2.3.0]","[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12605972,12605972,2012-09-03,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]",[2.1.2]
+https://issues.apache.org/jira/rest/api/2/issue/12605631,12605631,2012-08-31,[2.3.0],[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12604028,12604028,2012-08-20,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12601384,12601384,2012-08-03,"[2.0.2, 2.1.2, 2.2.1, 2.3.0]","[2.0.1, 2.1.2, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12601211,12601211,2012-08-02,"[2.2.3, 2.3.0, 2.4.2]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12601129,12601129,2012-08-01,"[2.0.2, 2.1.2, 2.2.2, 2.2.1.1, 2.3.0]","[2.0.1, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12600145,12600145,2012-07-25,"[2.2.2, 2.3.0]","[2.2.0, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12599852,12599852,2012-07-23,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12599542,12599542,2012-07-19,"[1.2.3, 2.2.1, 2.3.0]","[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12599487,12599487,2012-07-19,"[2.1.2, 2.2.2, 2.2.1.1, 2.3.0]","[2.1.1, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12599438,12599438,2012-07-19,[2.3.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12599130,12599130,2012-07-17,"[2.0.2, 2.1.2, 2.2.2, 2.2.1.1, 2.4.0]","[2.0.1, 2.1.0, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12598746,12598746,2012-07-13,"[2.2.1, 2.3.0]","[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12598564,12598564,2012-07-12,[2.3.0],"[2.2.0, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12598245,12598245,2012-07-10,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12598075,12598075,2012-07-09,"[2.1.2, 2.2.1, 2.3.0]","[2.0.0, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12596262,12596262,2012-06-28,"[2.1.1, 2.3.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12595074,12595074,2012-06-19,[],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12560527,12560527,2012-06-13,[],[1.0.3]
+https://issues.apache.org/jira/rest/api/2/issue/12558784,12558784,2012-05-31,[2.3.0],"[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12556252,12556252,2012-05-17,"[2.0.2, 2.1.2, 2.2.1, 2.3.0]","[2.0.0, 2.1.0, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12556135,12556135,2012-05-16,[2.3.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12555953,12555953,2012-05-16,"[2.2.2, 2.2.1.1, 2.3.0]",[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12555891,12555891,2012-05-15,[],"[2.0.0, 2.0.1, 2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12555011,12555011,2012-05-12,[2.3.0],"[2.0.0, 2.1.0, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12554482,12554482,2012-05-09,[2.3.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12553160,12553160,2012-04-27,[3.2.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12553120,12553120,2012-04-27,[2.3.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12552847,12552847,2012-04-26,[2.3.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12551298,12551298,2012-04-17,"[2.1.2, 2.2.1, 2.3.0]","[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12550858,12550858,2012-04-13,"[2.2.2, 2.3.0]","[2.2.0, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12550430,12550430,2012-04-10,[2.3.0],"[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12548387,12548387,2012-03-27,"[2.2.1, 2.3.0]","[2.0.1, 2.1.2, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12548006,12548006,2012-03-25,"[2.2.1, 2.3.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12547441,12547441,2012-03-21,"[2.2.1, 2.3.0]","[2.1.1, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12546817,12546817,2012-03-16,"[2.2.1, 2.3.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12546055,12546055,2012-03-12,"[2.2.1, 2.3.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12545916,12545916,2012-03-09,"[2.2.1, 2.3.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12545137,12545137,2012-03-05,"[2.0.2, 2.1.2, 2.2.1, 2.3.0]","[2.0.1, 2.0.2, 2.1.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12544327,12544327,2012-02-27,"[2.0.2, 2.1.2, 2.2.1, 2.3.0]","[2.0.0, 2.0.1, 2.0.2, 2.1.0, 2.1.1, 2.1.2, 2.2.0, 2.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12544299,12544299,2012-02-27,"[2.2.1, 2.3.0]","[2.2.0, 2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12544008,12544008,2012-02-24,"[2.2.1, 2.3.0]","[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12543759,12543759,2012-02-22,[2.3.0],[2.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12543556,12543556,2012-02-21,"[2.2.1, 2.3.0]","[2.0.0, 2.1.1, 2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12542708,12542708,2012-02-15,"[1.2.3, 2.0.2, 2.1.2, 2.2.1, 2.3.0]",[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12542594,12542594,2012-02-14,"[2.1.2, 2.2.1, 2.3.0]","[2.0.1, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12542592,12542592,2012-02-14,"[2.0.2, 2.1.2, 2.2.1.1, 2.2.3, 2.3.0]",[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12542018,12542018,2012-02-09,[2.2.0],"[2.0.0, 2.0.1, 2.1.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12541862,12541862,2012-02-08,"[2.2.1, 2.3.0]","[2.2.1, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12541722,12541722,2012-02-08,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12540917,12540917,2012-02-02,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12540446,12540446,2012-01-30,"[2.0.2, 2.1.2, 2.2.1, 2.3.0]","[2.0.0, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12539944,12539944,2012-01-26,"[1.2.3, 2.2.0]","[1.2.3, 2.0.2, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12538772,12538772,2012-01-18,[],[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12538690,12538690,2012-01-17,[2.3.0],"[1.2.2, 2.1.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12538078,12538078,2012-01-11,"[1.2.3, 2.0.2, 2.1.2, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12537336,12537336,2012-01-05,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12537245,12537245,2012-01-04,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12536471,12536471,2011-12-28,"[2.1.2, 2.3.0]","[2.0.1, 2.1.2, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12536421,12536421,2011-12-27,[2.2.0],"[2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12536413,12536413,2011-12-27,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12535862,12535862,2011-12-20,[],[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12535520,12535520,2011-12-16,"[1.2.3, 2.0.2, 2.1.2, 2.2.1, 2.3.0]","[1.2.3, 2.0.2, 2.1.2, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12535036,12535036,2011-12-13,"[2.2.0, 2.2.1, 2.2.2, 2.3.0, 2.4.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12534172,12534172,2011-12-07,[2.0.2],[2.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12533177,12533177,2011-11-29,[2.2.0],[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12532202,12532202,2011-11-21,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12531801,12531801,2011-11-17,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12531097,12531097,2011-11-11,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12530831,12530831,2011-11-09,"[1.2.3, 2.0.2, 2.1.2, 2.2.1, 2.3.0]","[1.2.1, 1.2.2, 1.2.3]"
+https://issues.apache.org/jira/rest/api/2/issue/12530781,12530781,2011-11-08,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12530585,12530585,2011-11-07,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12530384,12530384,2011-11-04,[2.2.0],"[2.1.2, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12529315,12529315,2011-10-28,"[1.2.3, 2.0.2, 2.1.2, 2.2.1, 2.3.0]","[1.2.3, 2.0.2, 2.1.2, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12528797,12528797,2011-10-26,"[1.2.0, 2.2.0]","[1.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12528728,12528728,2011-10-25,[2.2.0],"[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12527112,12527112,2011-10-13,"[2.1.2, 2.2.0]",[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12527104,12527104,2011-10-13,[2.2.0],"[2.1.2, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12525645,12525645,2011-10-04,[2.2.0],"[2.0.0, 2.0.1, 2.1.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12525346,12525346,2011-09-30,"[2.1.1, 2.2.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12525194,12525194,2011-09-29,[2.2.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12523252,12523252,2011-09-15,"[1.2.3, 2.0.2, 2.1.2, 2.2.0]","[2.0.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12521063,12521063,2011-09-01,[2.2.0],"[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12520095,12520095,2011-08-25,[2.2.0],"[2.0.1, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12518519,12518519,2011-08-10,[2.2.0],"[2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12518481,12518481,2011-08-10,[2.1.2],[2.1.1]
+https://issues.apache.org/jira/rest/api/2/issue/12515578,12515578,2011-07-27,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12514992,12514992,2011-07-22,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12513018,12513018,2011-07-06,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12512342,12512342,2011-06-30,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12511536,12511536,2011-06-25,[2.4.0],"[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12510474,12510474,2011-06-15,[2.3.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12509757,12509757,2011-06-09,[1.2.3],"[1.2.2, 1.2.3]"
+https://issues.apache.org/jira/rest/api/2/issue/12509670,12509670,2011-06-09,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12509650,12509650,2011-06-08,"[2.0.2, 2.1.2, 2.2.0]","[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12509634,12509634,2011-06-08,"[2.0.2, 2.1.2, 2.2.0]","[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12509605,12509605,2011-06-08,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12509380,12509380,2011-06-06,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12508346,12508346,2011-05-25,[2.2.0],"[2.0.0, 2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12508321,12508321,2011-05-25,"[1.2.3, 2.0.2, 2.1.2, 2.2.0]","[1.2.2, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12508229,12508229,2011-05-24,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12507216,12507216,2011-05-14,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12506760,12506760,2011-05-10,"[1.2.3, 2.0.2, 2.1.1, 2.2.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12506673,12506673,2011-05-10,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12506318,12506318,2011-05-05,[2.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12506220,12506220,2011-05-04,"[1.2.3, 2.0.2, 2.1.2, 2.2.0, 2.3.0, 2.4.4, 3.1.0]","[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.2.0, 1.2.1, 1.2.2, 2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12506151,12506151,2011-05-04,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12505434,12505434,2011-04-28,"[2.1.1, 2.2.0]","[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12505432,12505432,2011-04-28,"[2.2.1.1, 2.2.3, 2.4.0]","[2.2.0, 2.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12505419,12505419,2011-04-28,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12505332,12505332,2011-04-27,"[2.1.1, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12505188,12505188,2011-04-26,"[2.1.1, 2.2.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12505086,12505086,2011-04-24,[2.2.0],"[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12504706,12504706,2011-04-19,"[2.0.2, 2.1.2, 2.2.0]","[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12504273,12504273,2011-04-14,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12504246,12504246,2011-04-14,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12504099,12504099,2011-04-12,[2.3.0],"[2.0.0-M1, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12503677,12503677,2011-04-07,[2.2.0],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12503268,12503268,2011-04-04,[2.2.0],"[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12503044,12503044,2011-03-31,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12502905,12502905,2011-03-30,"[2.1.1, 2.2.0]","[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12502735,12502735,2011-03-29,"[2.1.1, 2.2.0]","[2.1.0, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12502386,12502386,2011-03-25,"[2.1.1, 2.2.0]","[2.0.0, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12501521,12501521,2011-03-15,[2.2.0],"[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12501261,12501261,2011-03-12,"[2.1.1, 2.2.0]","[1.2.2, 2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12501250,12501250,2011-03-12,"[2.1.1, 2.2.0]","[1.2.2, 2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12500828,12500828,2011-03-09,"[1.2.3, 2.0.2, 2.1.1, 2.2.0]","[1.2.2, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12500194,12500194,2011-03-02,"[2.1.2, 2.2.0]","[1.2.2, 2.0.0, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12499589,12499589,2011-02-24,"[2.0.2, 2.1.0, 2.2.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12499043,12499043,2011-02-18,"[2.1.1, 2.2.0]","[1.2.2, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12498950,12498950,2011-02-17,"[2.1.1, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12498801,12498801,2011-02-16,"[2.1.1, 2.2.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12498581,12498581,2011-02-14,"[2.1.1, 2.2.0]","[1.2.2, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12498188,12498188,2011-02-10,"[2.1.0, 2.2.0]","[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12497418,12497418,2011-02-02,"[2.1.0, 2.2.0]","[2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12497153,12497153,2011-01-30,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12496199,12496199,2011-01-20,[2.2.0],"[1.2.1, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12495627,12495627,2011-01-14,"[2.1.0, 2.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12494845,12494845,2011-01-06,"[2.1.0, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12494606,12494606,2011-01-04,[2.2.0],[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12494520,12494520,2011-01-03,[2.2.0],"[2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12494510,12494510,2011-01-03,"[1.2.3, 1.3.0, 2.0.2, 2.1.0, 2.2.0]","[1.0.4, 1.2.2, 2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12494449,12494449,2011-01-02,"[2.1.0, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12494363,12494363,2010-12-31,"[2.1.0, 2.2.0]","[2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12493125,12493125,2010-12-13,"[2.1.0, 2.2.0]",[2.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12492980,12492980,2010-12-10,"[1.2.3, 2.0.2, 2.1.0, 2.2.0]","[1.2.0, 1.2.1, 1.2.2, 2.0.0, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12492771,12492771,2010-12-08,"[2.1.0, 2.2.0]","[2.0.2, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12492529,12492529,2010-12-06,[2.2.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12491683,12491683,2010-11-30,"[2.1.0, 2.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12491654,12491654,2010-11-30,"[2.0.2, 2.1.2, 2.2.0, 2.3.0]","[2.0.0, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12491624,12491624,2010-11-30,"[2.1.0, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12491561,12491561,2010-11-29,[2.1.1],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12491555,12491555,2010-11-29,"[2.1.0, 2.2.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12480699,12480699,2010-11-23,[2.1.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12480685,12480685,2010-11-23,"[2.1.0, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12480601,12480601,2010-11-22,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12480591,12480591,2010-11-22,[2.1.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12480408,12480408,2010-11-19,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12480255,12480255,2010-11-17,"[2.0.2, 2.1.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12479974,12479974,2010-11-15,[2.1.0],"[2.0.2, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12479818,12479818,2010-11-12,[2.1.1],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12479608,12479608,2010-11-10,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12479591,12479591,2010-11-10,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12479394,12479394,2010-11-08,"[1.3.0, 2.0.2, 2.1.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12479325,12479325,2010-11-07,[2.2.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12479205,12479205,2010-11-05,"[1.2.3, 2.0.2, 2.1.0]","[1.2.2, 2.0.0, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12479138,12479138,2010-11-04,[2.2.0],"[2.0.0, 2.0.1, 2.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12479005,12479005,2010-11-03,[2.1.0],[2.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12478886,12478886,2010-11-02,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12478835,12478835,2010-11-01,[2.1.0],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12478474,12478474,2010-10-27,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12478387,12478387,2010-10-26,"[2.1.0, 2.2.0]","[2.0.0, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12478171,12478171,2010-10-24,[2.1.0],"[2.0.0, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12477846,12477846,2010-10-20,"[2.1.1, 2.2.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12477643,12477643,2010-10-18,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12477545,12477545,2010-10-16,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12477514,12477514,2010-10-15,[2.0.1],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12477478,12477478,2010-10-15,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12477366,12477366,2010-10-14,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12477175,12477175,2010-10-12,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12477048,12477048,2010-10-11,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12476792,12476792,2010-10-07,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12475495,12475495,2010-09-30,"[2.1.0, 2.3.0]","[2.0.1, 2.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12475398,12475398,2010-09-29,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12475061,12475061,2010-09-24,"[1.2.3, 1.3.0, 2.0.2, 2.1.0]","[1.2.2, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12474858,12474858,2010-09-22,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12474721,12474721,2010-09-21,[2.1.0],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12474715,12474715,2010-09-21,[2.1.0],"[2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12474682,12474682,2010-09-21,[],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12474490,12474490,2010-09-18,[2.1.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12474323,12474323,2010-09-16,[2.1.0],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12474312,12474312,2010-09-16,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12474154,12474154,2010-09-15,"[2.0.2, 2.1.2, 2.2.1.1, 2.2.3, 2.3.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12474032,12474032,2010-09-14,"[2.0.2, 2.1.0]","[2.0.2, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12473961,12473961,2010-09-13,"[2.0.2, 2.1.0]",[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12473829,12473829,2010-09-10,[2.1.0],"[2.0.0, 2.0.1, 2.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12473823,12473823,2010-09-10,"[2.1.1, 2.2.0]","[2.0.1, 2.1.0, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12473570,12473570,2010-09-08,[2.1.0],[2.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12472005,12472005,2010-08-19,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12471945,12471945,2010-08-18,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12471582,12471582,2010-08-13,[2.2.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12471448,12471448,2010-08-12,"[2.0.2, 2.1.0]","[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12471141,12471141,2010-08-09,[],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12470664,12470664,2010-08-02,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12470597,12470597,2010-08-01,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12470528,12470528,2010-07-30,"[2.0.1, 2.1.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12470490,12470490,2010-07-30,[2.1.0],"[2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12470453,12470453,2010-07-29,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12470345,12470345,2010-07-28,"[2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12470042,12470042,2010-07-23,"[2.1.2, 2.2.0]",[1.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12469879,12469879,2010-07-22,[2.1.0],"[1.2.2, 1.3.0, 2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12469865,12469865,2010-07-21,"[2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12469858,12469858,2010-07-21,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12469847,12469847,2010-07-21,[2.1.0],"[2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12469812,12469812,2010-07-21,"[1.3.0, 2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12469803,12469803,2010-07-21,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12469473,12469473,2010-07-16,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12469301,12469301,2010-07-14,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12469241,12469241,2010-07-14,"[2.1.1, 2.2.0]","[1.2.2, 1.3.0, 2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12469087,12469087,2010-07-12,"[2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12468724,12468724,2010-07-07,"[2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12468723,12468723,2010-07-07,[],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12468294,12468294,2010-06-30,[2.0.1],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12468262,12468262,2010-06-30,"[2.0.1, 2.1.0]","[1.1.0, 1.2.2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12468078,12468078,2010-06-28,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12467493,12467493,2010-06-21,"[1.2.3, 2.0.1, 2.1.0]","[1.2.2, 2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12467292,12467292,2010-06-18,[2.1.0],"[1.2.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12467032,12467032,2010-06-15,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466817,12466817,2010-06-12,[2.1.0],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466801,12466801,2010-06-12,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466780,12466780,2010-06-11,"[1.2.0, 2.1.0]","[1.1.0, 2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12466693,12466693,2010-06-10,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12466672,12466672,2010-06-10,"[1.2.3, 1.3.0, 2.0.2, 2.1.0]","[1.2.2, 2.0.0, 2.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12466570,12466570,2010-06-09,"[2.0.1, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466563,12466563,2010-06-09,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466413,12466413,2010-06-08,"[2.1.2, 2.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12466359,12466359,2010-06-07,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12466260,12466260,2010-06-05,[2.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12466193,12466193,2010-06-04,"[1.2.3, 2.0.2, 2.1.0]",[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12465997,12465997,2010-06-02,[2.0.1],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12465979,12465979,2010-06-02,"[1.0.4, 1.2.3, 1.3.0, 2.0.1, 2.1.0]","[1.0.3, 1.1.0, 1.2.2, 2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12465795,12465795,2010-05-31,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12464903,12464903,2010-05-19,[2.1.0],"[1.2.2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12464706,12464706,2010-05-17,"[1.2.3, 1.3.0, 2.0.1, 2.1.0]","[1.0.3, 1.2.2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12464618,12464618,2010-05-16,"[1.3.0, 2.1.0]","[1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12464360,12464360,2010-05-12,"[1.2.3, 1.3.0, 2.0.2, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12464287,12464287,2010-05-11,"[2.0.2, 2.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12464147,12464147,2010-05-10,"[2.1.1, 2.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12463784,12463784,2010-05-05,[2.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12463708,12463708,2010-05-04,"[2.1.2, 2.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12463706,12463706,2010-05-04,[2.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12463567,12463567,2010-05-03,[2.1.0],"[1.2.2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12463425,12463425,2010-04-30,"[1.2.3, 2.1.0]","[1.2.2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12463123,12463123,2010-04-27,"[1.2.3, 1.3.0, 2.0.1, 2.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12462443,12462443,2010-04-19,[2.1.0],"[2.0.0, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12461982,12461982,2010-04-13,[2.0.0],"[1.2.2, 2.0.0-beta3]"
+https://issues.apache.org/jira/rest/api/2/issue/12461981,12461981,2010-04-13,[2.0.0],"[1.2.2, 2.0.0-beta3, 2.0.0, 2.0.1, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12461804,12461804,2010-04-12,[2.1.0],[2.0.0-beta3]
+https://issues.apache.org/jira/rest/api/2/issue/12461787,12461787,2010-04-12,[2.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12461714,12461714,2010-04-10,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12461547,12461547,2010-04-08,[2.0.0],[2.0.0-beta3]
+https://issues.apache.org/jira/rest/api/2/issue/12461329,12461329,2010-04-06,[2.1.0],"[2.0.0-beta2, 2.0.0-beta3]"
+https://issues.apache.org/jira/rest/api/2/issue/12461098,12461098,2010-04-03,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12460975,12460975,2010-04-01,"[2.0.0, 2.1.0]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12460960,12460960,2010-04-01,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12460829,12460829,2010-03-31,[2.0.0],[2.0.0-beta3]
+https://issues.apache.org/jira/rest/api/2/issue/12460738,12460738,2010-03-30,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12460578,12460578,2010-03-29,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12460186,12460186,2010-03-25,[2.0.0],"[2.0.0-beta2, 2.0.0-beta3, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12460114,12460114,2010-03-24,"[1.3.0, 2.0.0]",[2.0.0-beta3]
+https://issues.apache.org/jira/rest/api/2/issue/12460029,12460029,2010-03-23,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459850,12459850,2010-03-22,[2.4.0],"[2.0.0-M3, 2.1.1, 2.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12459770,12459770,2010-03-20,[2.0.0-beta3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12459550,12459550,2010-03-18,[2.1.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12459537,12459537,2010-03-18,"[1.2.3, 2.0.0-beta3]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12459524,12459524,2010-03-18,[2.0.0-beta3],[]
+https://issues.apache.org/jira/rest/api/2/issue/12459395,12459395,2010-03-17,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459264,12459264,2010-03-16,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459253,12459253,2010-03-16,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459251,12459251,2010-03-16,[2.0.0-beta3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12459182,12459182,2010-03-15,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459149,12459149,2010-03-15,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459108,12459108,2010-03-15,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459020,12459020,2010-03-13,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12459006,12459006,2010-03-13,"[1.2.3, 2.0.0]","[1.2.2, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12458969,12458969,2010-03-12,[2.0.0-beta3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12458864,12458864,2010-03-11,[2.0.0-beta3],"[2.0.0-M1, 2.0.0-M2, 2.0.0-M3, 2.0.0-beta, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12458836,12458836,2010-03-11,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12458596,12458596,2010-03-09,[2.0.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12458577,12458577,2010-03-09,"[1.3.0, 2.0.0-beta3]","[1.2.3, 1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12458565,12458565,2010-03-09,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12458202,12458202,2010-03-05,"[1.2.3, 1.3.0, 2.0.0, 2.1.0]","[1.2.2, 1.3.0, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12457889,12457889,2010-03-02,[2.0.0-beta3],"[1.2.2, 2.0.0-beta2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12457858,12457858,2010-03-02,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12457751,12457751,2010-03-01,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12457492,12457492,2010-02-25,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12457487,12457487,2010-02-25,[2.0.0-beta3],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12457460,12457460,2010-02-25,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12457359,12457359,2010-02-24,[2.0.0-beta3],"[2.0.0-beta, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12457344,12457344,2010-02-24,"[1.3.0, 2.0.0-beta3]","[1.0.3, 1.1.0, 1.2.2, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12457255,12457255,2010-02-24,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12457126,12457126,2010-02-23,[2.0.0-beta],[2.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12456798,12456798,2010-02-19,[2.0.0-beta3],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12456593,12456593,2010-02-17,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12456460,12456460,2010-02-16,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12456225,12456225,2010-02-13,[2.0.0],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12456207,12456207,2010-02-13,[2.0.0-beta2],"[2.0.0-M3, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12456100,12456100,2010-02-12,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12456026,12456026,2010-02-11,[2.0.0-beta3],[2.0.0-beta2]
+https://issues.apache.org/jira/rest/api/2/issue/12455923,12455923,2010-02-10,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12455804,12455804,2010-02-09,[2.0.0-beta3],[]
+https://issues.apache.org/jira/rest/api/2/issue/12455695,12455695,2010-02-08,"[1.3.0, 2.0.2, 2.1.0]","[1.2.2, 1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12455690,12455690,2010-02-08,"[1.2.3, 1.3.0, 2.0.0-beta3]","[1.0.3, 1.2.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12455387,12455387,2010-02-05,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12455320,12455320,2010-02-04,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12455142,12455142,2010-02-03,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12454958,12454958,2010-02-01,[2.0.0-beta3],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12446928,12446928,2010-01-28,[2.0.0-beta3],"[2.0.0-beta, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12446828,12446828,2010-01-27,[2.0.0-beta2],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12446713,12446713,2010-01-26,"[1.2.3, 1.3.0, 2.0.0-beta2]",[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12446709,12446709,2010-01-26,"[1.2.3, 1.3.0, 2.0.0-beta3]","[1.2.2, 1.3.0, 2.0.0-M3, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12446308,12446308,2010-01-22,"[1.3.0, 2.0.0-beta]",[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12446255,12446255,2010-01-21,[2.0.0-beta3],[]
+https://issues.apache.org/jira/rest/api/2/issue/12445849,12445849,2010-01-18,[2.0.0-beta],"[2.0.0-M1, 2.0.0-M2, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12445657,12445657,2010-01-15,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12445648,12445648,2010-01-15,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12445588,12445588,2010-01-15,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12445570,12445570,2010-01-14,[2.0.0-beta2],"[2.0.0-M3, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12445430,12445430,2010-01-13,[2.0.0-beta3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12445426,12445426,2010-01-13,"[1.0.4, 1.2.2, 1.3.0]","[1.0.4, 1.2.2, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12444936,12444936,2010-01-07,[2.0.0-beta3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12444812,12444812,2010-01-06,[2.1.0],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12444508,12444508,2010-01-02,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12444086,12444086,2009-12-23,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12444071,12444071,2009-12-23,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12444057,12444057,2009-12-23,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12443939,12443939,2009-12-21,"[1.2.2, 1.3.0, 2.0.0-beta]","[1.2.2, 1.3.0, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12443865,12443865,2009-12-20,[2.0.0-beta],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12443825,12443825,2009-12-19,[2.0.0-beta3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12443551,12443551,2009-12-16,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12443492,12443492,2009-12-16,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12443432,12443432,2009-12-15,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12443051,12443051,2009-12-11,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12443011,12443011,2009-12-10,"[1.2.3, 1.3.0, 2.0.1, 2.1.0]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12442758,12442758,2009-12-08,"[1.2.2, 1.3.0]","[1.2.2, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12442739,12442739,2009-12-08,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12442403,12442403,2009-12-03,"[1.3.0, 2.0.0-beta]",[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12442243,12442243,2009-12-02,[2.0.0-beta3],"[2.0.0-M3, 2.0.0-beta, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12442150,12442150,2009-12-01,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12442119,12442119,2009-12-01,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12442107,12442107,2009-12-01,"[1.3.0, 2.0.0-beta3]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12441721,12441721,2009-11-25,"[1.3.0, 2.0.0-beta]",[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12441523,12441523,2009-11-23,"[1.2.2, 1.3.0, 2.0.0-beta]","[1.2.1, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12441180,12441180,2009-11-19,"[1.2.2, 1.3.0, 2.0.0-beta]","[1.2.1, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12441146,12441146,2009-11-19,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12441056,12441056,2009-11-18,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440994,12440994,2009-11-18,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440993,12440993,2009-11-18,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440971,12440971,2009-11-17,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440961,12440961,2009-11-17,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440838,12440838,2009-11-16,"[1.3.0, 2.0.0-beta]",[1.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12440619,12440619,2009-11-13,"[1.2.3, 2.0.0-beta]","[1.2.3, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12440584,12440584,2009-11-13,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440555,12440555,2009-11-12,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440529,12440529,2009-11-12,"[1.2.2, 1.3.0, 2.0.0-beta]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12440500,12440500,2009-11-12,[2.0.0-beta],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12440421,12440421,2009-11-11,[2.0.0-beta],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12440367,12440367,2009-11-11,"[1.3.0, 2.0.0-beta]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12440211,12440211,2009-11-09,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12440071,12440071,2009-11-06,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12439900,12439900,2009-11-04,"[1.2.3, 1.3.0, 2.0.2, 2.1.2, 2.2.0]","[1.2.1, 2.0.0-M3, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12439892,12439892,2009-11-04,"[1.3.0, 2.0.0-beta]","[1.3.0, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12439611,12439611,2009-10-31,"[2.0.2, 2.1.0]","[1.2.1, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12439580,12439580,2009-10-30,[2.0.0-M3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12439572,12439572,2009-10-30,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12439523,12439523,2009-10-30,"[1.3.0, 2.0.0-beta2]","[1.2.1, 2.0.0-M1, 2.0.0-M2, 2.0.0-M3, 2.0.0-beta]"
+https://issues.apache.org/jira/rest/api/2/issue/12438938,12438938,2009-10-23,"[1.3.0, 2.0.0-beta3]",[1.2.2]
+https://issues.apache.org/jira/rest/api/2/issue/12438580,12438580,2009-10-20,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12438475,12438475,2009-10-19,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12438171,12438171,2009-10-15,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12438142,12438142,2009-10-14,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12438100,12438100,2009-10-14,"[1.2.3, 1.3.0, 2.0.0-beta]","[1.0.3, 1.2.1, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12438038,12438038,2009-10-14,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12437821,12437821,2009-10-12,[2.0.0-beta],"[2.0.0-M2, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12437810,12437810,2009-10-11,[2.2.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12437651,12437651,2009-10-08,[2.0.0-beta],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12437409,12437409,2009-10-06,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12437130,12437130,2009-10-02,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12437036,12437036,2009-10-01,[2.0.0-M3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12436629,12436629,2009-09-25,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-beta]","[1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12436426,12436426,2009-09-23,"[1.2.2, 1.3.0, 2.0.0-beta]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12436419,12436419,2009-09-23,[2.0.0-M3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12436236,12436236,2009-09-21,"[1.3.0, 2.0.0-beta]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12436067,12436067,2009-09-18,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-beta]","[1.0.3, 1.2.1, 2.0.0-M2, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12435837,12435837,2009-09-16,[3.2.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12435743,12435743,2009-09-15,[2.0.0-M3],"[1.0.3, 1.1.0, 1.2.1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12435487,12435487,2009-09-11,[2.0.0-M3],"[1.0.3, 1.1.0, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12435480,12435480,2009-09-11,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12435457,12435457,2009-09-11,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12435247,12435247,2009-09-09,"[1.2.3, 1.3.0, 2.0.0-beta]","[1.2.2, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12434783,12434783,2009-09-03,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12434676,12434676,2009-09-02,"[1.3.0, 2.0.0-M3]","[1.0.3, 1.1.0, 1.2.1, 1.3.0, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12434675,12434675,2009-09-02,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12434574,12434574,2009-09-02,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12434547,12434547,2009-09-01,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12434240,12434240,2009-08-28,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12433905,12433905,2009-08-25,"[1.3.0, 2.0.0-beta]","[1.1.0, 1.2.0, 1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12433797,12433797,2009-08-23,"[1.2.0, 1.3.0, 2.0.0-M3]","[1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12433510,12433510,2009-08-19,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12433473,12433473,2009-08-19,[2.0.0-M3],"[2.0.0-M1, 2.0.0-M2, 2.0.0-M3]"
+https://issues.apache.org/jira/rest/api/2/issue/12433250,12433250,2009-08-17,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12433149,12433149,2009-08-15,"[1.3.0, 2.0.0-beta3]","[1.1.0, 1.2.0, 1.2.1, 1.2.2, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12432995,12432995,2009-08-13,[1.0.4],[1.0.3]
+https://issues.apache.org/jira/rest/api/2/issue/12432986,12432986,2009-08-13,[1.0.4],[1.0.4]
+https://issues.apache.org/jira/rest/api/2/issue/12432914,12432914,2009-08-12,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12432817,12432817,2009-08-11,[2.0.0-M3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12432636,12432636,2009-08-09,[2.0.0-beta3],[]
+https://issues.apache.org/jira/rest/api/2/issue/12432553,12432553,2009-08-07,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12432427,12432427,2009-08-06,[2.0.0-M3],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12432298,12432298,2009-08-05,"[1.3.0, 2.0.0-M3]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12432220,12432220,2009-08-05,"[1.2.3, 2.0.0-M3]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12432116,12432116,2009-08-04,"[1.3.0, 2.0.0-beta]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12432086,12432086,2009-08-03,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12431940,12431940,2009-07-31,[2.0.0-M3],"[2.0.0-M1, 2.0.0-M2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12431899,12431899,2009-07-31,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12431808,12431808,2009-07-30,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12431718,12431718,2009-07-29,[2.0.0-M3],"[2.0.0-M2, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12431715,12431715,2009-07-29,[2.0.0-M3],[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12431662,12431662,2009-07-29,[2.0.0-M3],[]
+https://issues.apache.org/jira/rest/api/2/issue/12431654,12431654,2009-07-29,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12431617,12431617,2009-07-28,"[1.3.0, 2.0.0-M3]","[1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12431612,12431612,2009-07-28,"[1.2.0, 2.0.0-M3]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12431515,12431515,2009-07-27,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-beta]","[1.0.3, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12431056,12431056,2009-07-21,[2.0.0-beta],[2.0.0-beta]
+https://issues.apache.org/jira/rest/api/2/issue/12430947,12430947,2009-07-20,"[1.3.0, 2.0.0-beta]",[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12430939,12430939,2009-07-20,"[1.3.0, 2.0.0-M3]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12430079,12430079,2009-07-10,"[1.2.0, 2.0.0-M3]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12429866,12429866,2009-07-08,"[1.3.0, 2.0.0-M3]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12429844,12429844,2009-07-08,[1.3.0],"[1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12429818,12429818,2009-07-08,"[1.2.0, 2.0.0-M3]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12429621,12429621,2009-07-06,[2.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12429521,12429521,2009-07-04,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12429508,12429508,2009-07-03,"[1.3.0, 2.0.0-M3]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12429404,12429404,2009-07-02,"[1.2.2, 1.3.0, 2.0.0-M3]","[1.2.2, 1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12429397,12429397,2009-07-02,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12428598,12428598,2009-06-22,[2.0.0-beta],[2.0.0-M3]
+https://issues.apache.org/jira/rest/api/2/issue/12428375,12428375,2009-06-19,"[1.2.2, 1.3.0, 2.0.0-beta]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12428151,12428151,2009-06-17,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427677,12427677,2009-06-11,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427606,12427606,2009-06-11,"[1.2.0, 2.0.0-M3]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427582,12427582,2009-06-10,[2.0.0-M3],"[1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12427388,12427388,2009-06-08,"[2.0.0-M2, 2.0.0-M3]",[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427276,12427276,2009-06-06,[2.0.0-M3],"[1.2.1, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12427229,12427229,2009-06-05,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427202,12427202,2009-06-05,"[1.3.0, 2.0.0-M3]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12427192,12427192,2009-06-05,"[1.3.0, 2.0.0-M3]","[1.0.3, 1.1.0, 1.2.1, 1.3.0, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12427147,12427147,2009-06-04,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427049,12427049,2009-06-03,[2.0.0-M3],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12427028,12427028,2009-06-03,"[1.3.0, 2.0.0-M3]","[1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12426109,12426109,2009-05-22,[2.0.0-M3],"[1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12426042,12426042,2009-05-21,[2.0.0-M2],"[1.1.0, 1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12426020,12426020,2009-05-21,"[1.3.0, 2.0.0-beta3]","[1.2.2, 1.3.0, 2.0.0-M1]"
+https://issues.apache.org/jira/rest/api/2/issue/12425610,12425610,2009-05-15,"[1.2.3, 1.3.0, 2.0.0]","[1.2.1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12425591,12425591,2009-05-15,"[1.3.0, 2.0.0-M2]","[1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12424940,12424940,2009-05-08,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12424829,12424829,2009-05-07,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12424800,12424800,2009-05-07,[2.0.0-M2],"[1.2.1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12424719,12424719,2009-05-06,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M2]","[1.0.3, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12424648,12424648,2009-05-05,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12424625,12424625,2009-05-05,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M3]","[1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12424543,12424543,2009-05-04,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12424186,12424186,2009-04-29,"[1.3.0, 2.0.0-M2]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12424125,12424125,2009-04-29,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12424056,12424056,2009-04-28,"[1.2.0, 2.0.0-M2]","[1.0.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12423531,12423531,2009-04-22,[2.0.0-M3],"[1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12423526,12423526,2009-04-22,[2.0.0-beta],[]
+https://issues.apache.org/jira/rest/api/2/issue/12423380,12423380,2009-04-21,[2.0.0-M3],"[1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12422962,12422962,2009-04-15,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12422851,12422851,2009-04-15,[2.0.0-M1],[]
+https://issues.apache.org/jira/rest/api/2/issue/12422506,12422506,2009-04-09,[2.0.0-M2],[]
+https://issues.apache.org/jira/rest/api/2/issue/12422393,12422393,2009-04-08,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M2]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12422304,12422304,2009-04-07,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12422203,12422203,2009-04-07,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-beta]","[1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12421989,12421989,2009-04-03,[2.0.0-beta],"[1.2.1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12421572,12421572,2009-03-30,"[1.2.0, 2.0.0-M2]","[1.2.1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12421561,12421561,2009-03-30,[2.0.0-M2],"[1.2.2, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12421534,12421534,2009-03-30,"[1.2.0, 2.0.0-M3]","[1.1.0, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12421510,12421510,2009-03-29,"[1.2.3, 1.3.0, 2.0.0-beta2]",[1.2.1]
+https://issues.apache.org/jira/rest/api/2/issue/12419407,12419407,2009-03-25,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12417380,12417380,2009-03-20,"[1.3.0, 2.0.0-beta]","[1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12417325,12417325,2009-03-19,[2.0.0-M2],"[1.2.2, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12416999,12416999,2009-03-16,[2.0.0-M2],[]
+https://issues.apache.org/jira/rest/api/2/issue/12416593,12416593,2009-03-10,"[1.3.0, 2.0.0-M3]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12416552,12416552,2009-03-10,"[1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12416339,12416339,2009-03-06,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12416213,12416213,2009-03-05,"[2.0.0-M1, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12416018,12416018,2009-03-03,"[1.0.4, 1.2.1, 1.3.0, 2.0.0-M2]","[1.0.4, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12415888,12415888,2009-03-01,"[1.3.0, 2.0.0-M2]","[1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12415697,12415697,2009-02-26,[2.0.0-beta],"[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12415537,12415537,2009-02-25,[2.1.1],"[1.2.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12415279,12415279,2009-02-21,"[1.2.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12415276,12415276,2009-02-21,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12415270,12415270,2009-02-21,"[1.3.0, 2.0.0-M2]","[1.2.0, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12415255,12415255,2009-02-20,"[1.3.0, 2.0.0-M3]","[1.2.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12415069,12415069,2009-02-18,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12415018,12415018,2009-02-18,"[1.2.1, 1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12414883,12414883,2009-02-16,[2.0.0-M3],"[1.2.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12414494,12414494,2009-02-10,"[1.0.4, 1.2.1, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12414419,12414419,2009-02-09,[2.0.0-M2],"[1.1.0, 1.2.0, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12414352,12414352,2009-02-09,"[1.2.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12414319,12414319,2009-02-08,"[1.2.1, 1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12414027,12414027,2009-02-04,"[1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12414006,12414006,2009-02-04,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M2]","[1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12413816,12413816,2009-02-02,[2.0.0-M3],"[1.0.3, 1.1.0, 1.2.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12413724,12413724,2009-02-01,"[1.3.0, 2.0.0-M2]","[1.3.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12413662,12413662,2009-01-30,"[2.0.0-M1, 2.0.0-M2]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12413623,12413623,2009-01-30,"[1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12413618,12413618,2009-01-30,"[1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M1, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12413299,12413299,2009-01-26,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12413221,12413221,2009-01-26,"[1.2.1, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12413100,12413100,2009-01-23,[2.2.0],"[1.2.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12413092,12413092,2009-01-23,"[1.3.0, 2.0.0-M2]","[1.2.0, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12412951,12412951,2009-01-21,"[1.0.4, 1.2.1, 1.3.0, 2.0.0-M2]","[1.0.3, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12412762,12412762,2009-01-19,"[1.3.0, 2.0.0-M2]","[1.2.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12412683,12412683,2009-01-17,[1.2.1],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12412498,12412498,2009-01-15,[1.3.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12412382,12412382,2009-01-14,[2.0.0-beta],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12411987,12411987,2009-01-09,"[1.2.1, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12411523,12411523,2008-12-31,"[1.3.0, 2.0.0-M2]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12411263,12411263,2008-12-23,[2.0.0-M1],[]
+https://issues.apache.org/jira/rest/api/2/issue/12411253,12411253,2008-12-23,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12411187,12411187,2008-12-22,"[1.2.1, 1.3.0, 2.0.0-M2]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12411068,12411068,2008-12-19,"[1.2.1, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12411045,12411045,2008-12-19,"[1.3.0, 2.0.0-M2]","[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12411017,12411017,2008-12-18,"[1.2.1, 1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12411004,12411004,2008-12-18,"[1.3.0, 2.0.0-M2]","[1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12410754,12410754,2008-12-16,"[1.2.3, 2.0.0-M1, 2.0.0-M2]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12410528,12410528,2008-12-11,[2.0.0-M1],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12410435,12410435,2008-12-11,[2.0.0-M1],[]
+https://issues.apache.org/jira/rest/api/2/issue/12410326,12410326,2008-12-10,[2.0.0-M1],[2.0.0-M1]
+https://issues.apache.org/jira/rest/api/2/issue/12410312,12410312,2008-12-09,[],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12410224,12410224,2008-12-08,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12410112,12410112,2008-12-05,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12410006,12410006,2008-12-04,"[1.3.0, 2.0.0-M2]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12409867,12409867,2008-12-04,[2.0.0-M1],[2.0.0-M1]
+https://issues.apache.org/jira/rest/api/2/issue/12409788,12409788,2008-12-03,"[1.2.1, 1.3.0, 2.0.0-M2]","[1.2.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12409567,12409567,2008-12-01,[2.0.0-M1],[2.0.0-M1]
+https://issues.apache.org/jira/rest/api/2/issue/12409520,12409520,2008-12-01,[2.0.0-M1],[2.0.0-M1]
+https://issues.apache.org/jira/rest/api/2/issue/12409470,12409470,2008-11-29,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12409467,12409467,2008-11-29,[],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12409401,12409401,2008-11-27,"[1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12409358,12409358,2008-11-27,[2.0.0-M1],[2.0.0-M1]
+https://issues.apache.org/jira/rest/api/2/issue/12409296,12409296,2008-11-26,"[1.3.0, 2.0.0-M2]",[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12409284,12409284,2008-11-26,[2.0.0-M3],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12409239,12409239,2008-11-26,[2.0.0-M2],[2.0.0-M2]
+https://issues.apache.org/jira/rest/api/2/issue/12408961,12408961,2008-11-21,"[1.2.1, 1.3.0, 2.0.0-M2]","[1.2.0, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12408793,12408793,2008-11-19,"[1.3.0, 2.0.0-beta3]","[1.1.0, 1.2.0, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12408184,12408184,2008-11-10,[2.0.0-M2],[]
+https://issues.apache.org/jira/rest/api/2/issue/12407809,12407809,2008-11-04,"[1.2.1, 1.3.0, 2.0.0-M2]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12407802,12407802,2008-11-04,"[1.3.0, 2.0.0-M2]","[1.0.4, 1.1.0, 1.2.1, 1.3.0, 2.0.0-M2]"
+https://issues.apache.org/jira/rest/api/2/issue/12407487,12407487,2008-10-30,"[1.2.1, 1.3.0, 2.0.0-M2]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12407285,12407285,2008-10-27,[],"[1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12407114,12407114,2008-10-23,"[1.3.0, 2.0.0-M2]",[1.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12406711,12406711,2008-10-17,[1.3.0],[1.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12406615,12406615,2008-10-16,[2.0.0-beta],"[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12406339,12406339,2008-10-13,"[1.2.1, 1.3.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12406176,12406176,2008-10-10,[],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12405967,12405967,2008-10-07,"[1.3.0, 2.0.0-beta3]","[1.2.0, 1.2.1, 1.2.2, 1.3.0, 2.0.0-M3, 2.0.0-beta, 2.0.0-beta2]"
+https://issues.apache.org/jira/rest/api/2/issue/12405163,12405163,2008-09-25,"[1.2.1, 1.3.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12405004,12405004,2008-09-23,"[1.2.2, 2.0.0-M2]","[1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12404757,12404757,2008-09-19,"[1.2.1, 1.3.0]","[1.2.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12404526,12404526,2008-09-17,"[1.0.4, 1.2.1, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12404303,12404303,2008-09-13,"[1.0.4, 1.2.1, 1.3.0]","[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12404089,12404089,2008-09-10,"[1.2.1, 1.3.0]","[1.0.3, 1.0.4, 1.1.0, 1.2.0, 1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403677,12403677,2008-09-04,"[1.0.4, 1.2.1, 1.3.0]","[1.0.0, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403675,12403675,2008-09-04,"[1.2.2, 1.3.0, 2.0.0-beta]","[1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403673,12403673,2008-09-04,"[1.0.4, 1.2.1, 1.3.0]","[1.0.3, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403621,12403621,2008-09-03,"[1.2.3, 1.3.0]","[1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403595,12403595,2008-09-03,"[1.0.4, 1.2.1, 1.3.0]","[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403562,12403562,2008-09-02,"[1.0.4, 1.2.0, 1.2.1, 1.3.0]","[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.1.0, 1.2.0, 1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12403029,12403029,2008-08-25,[1.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12402997,12402997,2008-08-25,"[1.2.1, 1.3.0]",[1.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12402892,12402892,2008-08-22,[1.3.0],[1.3.0]
+https://issues.apache.org/jira/rest/api/2/issue/12402891,12402891,2008-08-22,[2.0.0-M1],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12402882,12402882,2008-08-22,[1.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12402836,12402836,2008-08-22,[1.3.0],[2.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12402799,12402799,2008-08-21,[2.3.0],"[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12402649,12402649,2008-08-19,[1.3.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12402261,12402261,2008-08-13,[1.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12402066,12402066,2008-08-09,[1.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12402031,12402031,2008-08-08,"[1.0.4, 1.2.1, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12401950,12401950,2008-08-08,"[1.2.0, 1.2.2, 1.3.0, 2.0.0-M1]","[1.2.0, 1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12401930,12401930,2008-08-07,"[1.2.1, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12401913,12401913,2008-08-07,"[0.9.7, 1.2.0, 1.3.0]",[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12401800,12401800,2008-08-06,"[1.2.3, 1.3.0, 2.0.0-M1]","[1.1.0, 1.2.0, 1.2.1, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12401793,12401793,2008-08-06,[1.2.1],"[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12401748,12401748,2008-08-06,"[1.2.0, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12401267,12401267,2008-07-29,"[1.2.0, 1.3.0]","[1.2.0, 1.3.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12401190,12401190,2008-07-28,[1.2.0],"[0.9.6, 0.9.7, 1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12401185,12401185,2008-07-28,[1.2.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12400929,12400929,2008-07-24,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12400918,12400918,2008-07-24,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12400506,12400506,2008-07-17,[2.0.0-M1],[]
+https://issues.apache.org/jira/rest/api/2/issue/12400364,12400364,2008-07-16,[1.2.0],"[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12400230,12400230,2008-07-14,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12400074,12400074,2008-07-10,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12400050,12400050,2008-07-10,[1.2.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12399810,12399810,2008-07-08,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12399726,12399726,2008-07-07,[1.2.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12399467,12399467,2008-07-02,"[1.0.4, 1.2.1, 1.3.0]","[1.0.2, 1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12399304,12399304,2008-06-30,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12399184,12399184,2008-06-27,"[1.2.1, 1.3.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12399111,12399111,2008-06-26,"[1.0.4, 1.2.0, 1.3.0, 2.0.0-M1]","[1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12399110,12399110,2008-06-26,"[1.0.4, 1.2.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12398930,12398930,2008-06-24,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12398823,12398823,2008-06-23,[2.0.0-beta3],"[1.0.2, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12398364,12398364,2008-06-16,[1.2.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12398017,12398017,2008-06-11,[1.2.0],[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397984,12397984,2008-06-10,[1.0.3],"[1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12397845,12397845,2008-06-09,[1.2.0],"[1.0.2, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12397825,12397825,2008-06-09,"[1.0.4, 1.2.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397816,12397816,2008-06-09,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397581,12397581,2008-06-05,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397505,12397505,2008-06-04,"[1.0.4, 1.2.0]","[1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12397311,12397311,2008-06-02,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397095,12397095,2008-05-29,[],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12397037,12397037,2008-05-29,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12396945,12396945,2008-05-28,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12396785,12396785,2008-05-25,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12396602,12396602,2008-05-22,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12396467,12396467,2008-05-21,"[1.0.4, 1.2.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12396441,12396441,2008-05-20,"[1.0.4, 1.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12396006,12396006,2008-05-14,[1.2.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12395679,12395679,2008-05-09,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12395662,12395662,2008-05-08,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12395647,12395647,2008-05-08,"[1.1.0, 1.2.0]",[1.2.0]
+https://issues.apache.org/jira/rest/api/2/issue/12395643,12395643,2008-05-08,"[1.0.4, 1.1.0, 1.2.0]","[1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12395270,12395270,2008-05-04,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12395269,12395269,2008-05-04,"[1.1.0, 1.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12395219,12395219,2008-05-02,[1.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12395211,12395211,2008-05-02,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12395166,12395166,2008-05-01,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12395152,12395152,2008-05-01,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12394613,12394613,2008-04-23,[1.2.0],"[1.0.3, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12394586,12394586,2008-04-23,"[1.2.0, 1.3.0, 2.0.0-M2]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12394469,12394469,2008-04-21,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12394345,12394345,2008-04-18,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12394312,12394312,2008-04-18,[1.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12394163,12394163,2008-04-17,[1.2.0],"[1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12394155,12394155,2008-04-16,"[1.0.4, 1.1.0, 1.2.0]","[1.0.2, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12393768,12393768,2008-04-11,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12393637,12393637,2008-04-10,"[1.1.0, 1.2.0]",[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12393501,12393501,2008-04-09,[],[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12393479,12393479,2008-04-09,"[1.0.3, 1.1.0, 1.2.0]","[1.0.2, 1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12393460,12393460,2008-04-08,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12393154,12393154,2008-04-04,"[1.0.3, 1.1.0]","[1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12393093,12393093,2008-04-04,"[1.3.0, 2.0.0-M2]",[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12392967,12392967,2008-04-02,[1.0.3],[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12392960,12392960,2008-04-02,"[1.0.3, 1.1.0]","[1.0.2, 1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12392850,12392850,2008-04-01,[1.3.0],[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12392499,12392499,2008-03-27,"[1.0.3, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12392195,12392195,2008-03-24,"[1.0.3, 1.1.0]","[1.0.0, 1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12392192,12392192,2008-03-24,"[1.0.3, 1.1.0]","[1.0.0, 1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12391919,12391919,2008-03-19,"[1.0.3, 1.1.0]","[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12391913,12391913,2008-03-19,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12391600,12391600,2008-03-17,"[1.0.3, 1.1.0]","[1.0.0, 1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12390908,12390908,2008-03-13,"[0.9.7-r547073, 1.0.4, 1.1.0]","[1.0.2, 1.0.3]"
+https://issues.apache.org/jira/rest/api/2/issue/12390765,12390765,2008-03-11,"[1.0.3, 1.1.0]",[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12390340,12390340,2008-03-06,[1.2.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12390281,12390281,2008-03-05,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12390015,12390015,2008-03-03,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12389926,12389926,2008-02-29,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12389807,12389807,2008-02-28,[1.0.3],[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12389723,12389723,2008-02-27,[2.1.0],"[1.0.0, 1.0.2, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12389721,12389721,2008-02-27,"[1.2.0, 1.3.0, 2.0.0-M3]","[1.0.0, 1.0.2, 1.1.0, 1.2.1, 2.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12389607,12389607,2008-02-26,[],[1.0.2]
+https://issues.apache.org/jira/rest/api/2/issue/12388826,12388826,2008-02-15,"[1.0.3, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12388710,12388710,2008-02-14,[1.1.0],"[1.0.0, 1.0.1, 1.0.2]"
+https://issues.apache.org/jira/rest/api/2/issue/12388149,12388149,2008-02-08,"[1.0.3, 1.1.0]","[0.9.0, 0.9.6, 0.9.7, 1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12387935,12387935,2008-02-06,"[1.0.2, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12387914,12387914,2008-02-05,[1.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12387668,12387668,2008-02-01,"[1.0.2, 1.1.0]","[1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12387565,12387565,2008-01-31,"[1.0.2, 1.1.0]",[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12387408,12387408,2008-01-29,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12387171,12387171,2008-01-25,"[1.1.0, 1.2.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12386661,12386661,2008-01-19,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12386583,12386583,2008-01-18,[1.3.0],[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12386431,12386431,2008-01-16,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12386359,12386359,2008-01-16,[1.2.0],"[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12386357,12386357,2008-01-16,"[1.0.3, 1.2.0]","[1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12386336,12386336,2008-01-16,[1.1.0],"[1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12386206,12386206,2008-01-14,"[1.2.0, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12386057,12386057,2008-01-11,[1.1.0],"[1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12385941,12385941,2008-01-10,[],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12385784,12385784,2008-01-08,[2.2.0],"[1.2.2, 2.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12384986,12384986,2007-12-19,"[1.0.2, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12384980,12384980,2007-12-19,"[1.0.2, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12384952,12384952,2007-12-19,[1.2.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12384540,12384540,2007-12-13,"[1.0.4, 1.2.2, 1.3.0, 2.0.0-M3]","[1.0.0, 1.0.1, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12384438,12384438,2007-12-11,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12384082,12384082,2007-12-06,[1.2.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12384032,12384032,2007-12-05,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12383999,12383999,2007-12-05,[2.0.0-beta],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12383824,12383824,2007-12-03,[1.2.0],[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12383754,12383754,2007-12-02,[1.3.0],"[0.9.7, 1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12383584,12383584,2007-11-30,"[1.1.0, 1.2.0]",[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12383365,12383365,2007-11-27,[1.1.0],"[1.0.0, 1.0.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12383213,12383213,2007-11-26,"[1.0.2, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12382839,12382839,2007-11-20,"[1.0.2, 1.1.0]",[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12382814,12382814,2007-11-19,"[1.0.2, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12382601,12382601,2007-11-15,[],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12382539,12382539,2007-11-14,[1.2.0],"[1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12382247,12382247,2007-11-10,[1.1.0],"[1.0.0, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12382245,12382245,2007-11-10,[1.1.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0, 1.0.1, 1.0.2, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12382161,12382161,2007-11-09,[1.3.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12382100,12382100,2007-11-08,"[1.0.2, 1.1.0]","[1.0.0, 1.0.1, 1.0.2, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381890,12381890,2007-11-06,[1.3.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381666,12381666,2007-11-02,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381637,12381637,2007-11-01,[],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381620,12381620,2007-11-01,[1.1.0],"[1.0.0, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381492,12381492,2007-10-30,[1.3.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381369,12381369,2007-10-29,[],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381324,12381324,2007-10-28,"[1.0.1, 1.1.0]","[0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381307,12381307,2007-10-27,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381285,12381285,2007-10-27,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381222,12381222,2007-10-26,"[1.0.2, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12381214,12381214,2007-10-26,"[1.0.2, 1.1.0]","[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381084,12381084,2007-10-24,"[1.0.1, 1.1.0]","[0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12381075,12381075,2007-10-24,"[1.0.1, 1.1.0]","[1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12380988,12380988,2007-10-23,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12380777,12380777,2007-10-19,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12380652,12380652,2007-10-18,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12380561,12380561,2007-10-16,"[1.0.1, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12380475,12380475,2007-10-15,"[1.0.1, 1.1.0]","[1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12380369,12380369,2007-10-13,"[1.0.1, 1.1.0]","[1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12380246,12380246,2007-10-12,"[1.0.1, 1.0.2, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12380120,12380120,2007-10-10,"[1.0.1, 1.1.0]",[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12379875,12379875,2007-10-08,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12379870,12379870,2007-10-08,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12379868,12379868,2007-10-08,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12379819,12379819,2007-10-07,[1.0.1],[1.0.1]
+https://issues.apache.org/jira/rest/api/2/issue/12379817,12379817,2007-10-06,[1.2.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12379672,12379672,2007-10-04,[1.1.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12379432,12379432,2007-10-01,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12379307,12379307,2007-09-28,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12379251,12379251,2007-09-28,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12379198,12379198,2007-09-27,"[1.2.0, 1.3.0, 2.0.0-M3]","[0.9.7, 1.0.0, 1.0.2, 1.1.0, 1.2.1]"
+https://issues.apache.org/jira/rest/api/2/issue/12379111,12379111,2007-09-26,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378997,12378997,2007-09-24,"[1.0.1, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12378883,12378883,2007-09-21,"[1.0.1, 1.1.0]","[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378834,12378834,2007-09-21,[1.1.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378786,12378786,2007-09-20,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378578,12378578,2007-09-18,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378298,12378298,2007-09-14,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12378162,12378162,2007-09-13,"[1.0.1, 1.1.0]","[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12378065,12378065,2007-09-12,"[1.0.1, 1.0.2, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12378057,12378057,2007-09-12,"[1.0.2, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12378020,12378020,2007-09-12,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12377993,12377993,2007-09-11,[1.1.0],[1.1.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377850,12377850,2007-09-09,[],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377845,12377845,2007-09-09,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377828,12377828,2007-09-08,"[1.0.1, 1.1.0]","[1.0.0, 1.0.1, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377801,12377801,2007-09-08,[1.1.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377792,12377792,2007-09-07,"[1.0.1, 1.1.0]","[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377791,12377791,2007-09-07,"[1.0.1, 1.1.0]","[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377780,12377780,2007-09-07,"[1.0.1, 1.1.0]","[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377735,12377735,2007-09-07,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377707,12377707,2007-09-06,[1.1.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377703,12377703,2007-09-06,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377533,12377533,2007-09-05,[1.2.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377191,12377191,2007-08-30,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377181,12377181,2007-08-30,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12377170,12377170,2007-08-30,[],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377093,12377093,2007-08-29,"[1.0.1, 1.1.0]","[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12377008,12377008,2007-08-28,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12376942,12376942,2007-08-27,"[1.0.1, 1.1.0]",[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12376846,12376846,2007-08-24,"[1.0.1, 1.1.0]",[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12376745,12376745,2007-08-23,"[1.0.2, 1.1.0]","[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12376639,12376639,2007-08-22,"[1.0.2, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12376633,12376633,2007-08-22,[],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12376559,12376559,2007-08-22,"[1.0.1, 1.1.0]",[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12376553,12376553,2007-08-22,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12376423,12376423,2007-08-20,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12376279,12376279,2007-08-17,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12376197,12376197,2007-08-16,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12375994,12375994,2007-08-14,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12375989,12375989,2007-08-14,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12375808,12375808,2007-08-10,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12375716,12375716,2007-08-10,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12375701,12375701,2007-08-09,[1.0.0],"[0.9.0, 0.9.6, 0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12375463,12375463,2007-08-07,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12375048,12375048,2007-07-31,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12374998,12374998,2007-07-30,[],"[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12374571,12374571,2007-07-25,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12374560,12374560,2007-07-25,"[1.0.1, 1.1.0]",[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12374259,12374259,2007-07-20,[],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12374203,12374203,2007-07-19,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12374144,12374144,2007-07-19,[1.2.0],"[0.9.7, 1.0.0, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12373956,12373956,2007-07-17,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12373898,12373898,2007-07-16,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12373559,12373559,2007-07-11,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12373321,12373321,2007-07-09,"[1.0.1, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12373309,12373309,2007-07-09,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12373206,12373206,2007-07-06,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12373103,12373103,2007-07-05,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12372784,12372784,2007-07-01,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12372712,12372712,2007-06-29,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12372693,12372693,2007-06-29,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12372533,12372533,2007-06-27,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12371987,12371987,2007-06-19,[],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12371491,12371491,2007-06-12,"[1.0.2, 1.1.0]",[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12371488,12371488,2007-06-12,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12371316,12371316,2007-06-09,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12371293,12371293,2007-06-08,[1.1.0],"[0.9.7, 1.0.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12371051,12371051,2007-06-06,"[1.0.2, 1.1.0]",[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12370634,12370634,2007-05-31,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12370345,12370345,2007-05-27,"[1.0.3, 1.1.0]","[0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12370109,12370109,2007-05-24,[1.0.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12369742,12369742,2007-05-19,[1.2.0],[1.0.0]
+https://issues.apache.org/jira/rest/api/2/issue/12368804,12368804,2007-05-07,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12368469,12368469,2007-05-02,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12368352,12368352,2007-05-01,[1.1.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12368224,12368224,2007-04-27,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12368016,12368016,2007-04-25,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12368005,12368005,2007-04-25,[],"[0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12367509,12367509,2007-04-18,[],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12367411,12367411,2007-04-17,[1.2.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12367409,12367409,2007-04-17,[1.0.0],"[0.9.0, 0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12367383,12367383,2007-04-17,[2.0.0-M2],"[0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12366995,12366995,2007-04-11,[0.9.7],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12366751,12366751,2007-04-06,"[1.0.4, 1.2.0]",[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12366750,12366750,2007-04-06,[1.2.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12366747,12366747,2007-04-06,[0.9.7],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12366739,12366739,2007-04-06,[2.0.0-M2],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12366626,12366626,2007-04-05,[1.0.0],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12366611,12366611,2007-04-05,[0.9.7],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12366607,12366607,2007-04-05,[],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12366605,12366605,2007-04-04,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12365984,12365984,2007-03-28,[0.9.7],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12365962,12365962,2007-03-28,[0.9.7],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12365816,12365816,2007-03-26,[0.9.7],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12365700,12365700,2007-03-23,[],"[0.9.0, 0.9.6, 0.9.7, 1.0.0, 1.1.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12365607,12365607,2007-03-22,[0.9.7],"[0.9.6, 0.9.7]"
+https://issues.apache.org/jira/rest/api/2/issue/12365447,12365447,2007-03-21,[1.0.0],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12365310,12365310,2007-03-19,[0.9.7],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12365277,12365277,2007-03-19,[0.9.7],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12364867,12364867,2007-03-14,[],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12364581,12364581,2007-03-09,[1.0.0],[0.9.7]
+https://issues.apache.org/jira/rest/api/2/issue/12364095,12364095,2007-03-05,[0.9.7],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12363281,12363281,2007-02-21,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12363190,12363190,2007-02-20,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12363186,12363186,2007-02-20,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362925,12362925,2007-02-15,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362833,12362833,2007-02-14,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362779,12362779,2007-02-14,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362708,12362708,2007-02-13,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362705,12362705,2007-02-13,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362662,12362662,2007-02-13,[0.9.7],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12362454,12362454,2007-02-09,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362387,12362387,2007-02-09,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362266,12362266,2007-02-08,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362260,12362260,2007-02-07,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12362259,12362259,2007-02-07,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361715,12361715,2007-02-01,"[2.0.0-M1, 2.0.0-M2, 2.0.0-M3, 2.0.0-beta]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12361713,12361713,2007-02-01,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361710,12361710,2007-02-01,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361701,12361701,2007-01-31,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361655,12361655,2007-01-31,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361513,12361513,2007-01-29,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361497,12361497,2007-01-29,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361229,12361229,2007-01-25,"[1.0.1, 1.1.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12361228,12361228,2007-01-25,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361226,12361226,2007-01-25,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361225,12361225,2007-01-25,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12361222,12361222,2007-01-25,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12360697,12360697,2007-01-17,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12360675,12360675,2007-01-17,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12360647,12360647,2007-01-17,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12360237,12360237,2007-01-10,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12360119,12360119,2007-01-09,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12359284,12359284,2006-12-22,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12358746,12358746,2006-12-15,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12356226,12356226,2006-11-21,[1.0.0],[0.9.6]
+https://issues.apache.org/jira/rest/api/2/issue/12355776,12355776,2006-11-15,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12355510,12355510,2006-11-13,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12355182,12355182,2006-11-09,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354902,12354902,2006-11-07,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354865,12354865,2006-11-06,[1.3.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354515,12354515,2006-11-02,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354404,12354404,2006-10-31,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354330,12354330,2006-10-31,[0.9.7],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12354323,12354323,2006-10-30,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12354098,12354098,2006-10-27,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12353882,12353882,2006-10-24,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12352341,12352341,2006-10-04,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12351985,12351985,2006-09-28,[1.0.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12351917,12351917,2006-09-27,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350944,12350944,2006-09-25,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350572,12350572,2006-09-23,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350360,12350360,2006-09-20,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350215,12350215,2006-09-19,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350214,12350214,2006-09-19,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350212,12350212,2006-09-19,"[1.0.3, 1.2.0]","[1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.1.0, 1.2.0]"
+https://issues.apache.org/jira/rest/api/2/issue/12350211,12350211,2006-09-19,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350208,12350208,2006-09-19,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12350202,12350202,2006-09-18,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12349669,12349669,2006-09-11,[1.2.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12349437,12349437,2006-09-07,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12349362,12349362,2006-09-07,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348773,12348773,2006-08-28,[0.9.7],"[0.9.0, 0.9.6]"
+https://issues.apache.org/jira/rest/api/2/issue/12348645,12348645,2006-08-25,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348518,12348518,2006-08-23,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348515,12348515,2006-08-23,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348353,12348353,2006-08-21,"[1.2.0, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12348347,12348347,2006-08-21,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348334,12348334,2006-08-21,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348117,12348117,2006-08-16,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348116,12348116,2006-08-16,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348112,12348112,2006-08-16,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348111,12348111,2006-08-16,"[1.2.0, 1.3.0]",[]
+https://issues.apache.org/jira/rest/api/2/issue/12348107,12348107,2006-08-16,[0.9.7],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348106,12348106,2006-08-16,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12348082,12348082,2006-08-16,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12347935,12347935,2006-08-14,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12347611,12347611,2006-08-09,[1.1.0],[]
+https://issues.apache.org/jira/rest/api/2/issue/12347347,12347347,2006-08-05,[],[]
+https://issues.apache.org/jira/rest/api/2/issue/12347016,12347016,2006-08-01,[],[]

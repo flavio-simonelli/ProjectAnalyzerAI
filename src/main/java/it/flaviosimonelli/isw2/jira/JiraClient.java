@@ -3,6 +3,7 @@ package it.flaviosimonelli.isw2.jira;
 import it.flaviosimonelli.isw2.util.Config;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,8 +23,33 @@ public class JiraClient {
     }
 
     public JSONArray getprojectIssues(String projectKey) throws IOException, URISyntaxException {
-        String url = Config.JIRA_BASE_URL + "rest/api/2/search?jql=project%20%3D%20" + projectKey + "%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20(Resolved%2C%20Closed)%20AND%20resolution%20%3D%20Fixed";
-        return readJsonArrayFromUrl(url);
+        JSONArray allIssues = new JSONArray();
+
+        int startAt = 0;
+        int maxResults = 100;
+        int total = Integer.MAX_VALUE;
+
+        while (startAt < total) {
+            String url = Config.JIRA_BASE_URL
+                    + "rest/api/2/search?jql=project%20%3D%20"
+                    + projectKey
+                    + "%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20(Resolved%2C%20Closed)%20AND%20resolution%20%3D%20Fixed"
+                    + "&startAt=" + startAt + "&maxResults=" + maxResults;
+
+            JSONObject json = readJsonObjectFromUrl(url);
+
+            // read the results
+            total = json.getInt("total");
+            int currentMax = json.getInt("maxResults");
+            JSONArray issues = json.getJSONArray("issues");
+            for (int i = 0; i < issues.length(); i++) {
+                allIssues.put(issues.getJSONObject(i));
+            }
+            System.out.printf("Scaricati %d issue (startAt=%d, total=%d)%n", issues.length(), startAt, total);
+            // next page
+            startAt += currentMax;
+        }
+        return  allIssues;
     }
     //https://issues.apache.org/jira/rest/api/2/search?jql=project%20%3D%20BOOKKEEPER%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20(Resolved%2C%20Closed)%20AND%20resolution%20%3D%20Fixed
 
@@ -41,6 +67,22 @@ public class JiraClient {
                 sb.append((char) cp);
             }
             return new JSONArray(sb.toString());
+        }
+    }
+
+    private JSONObject readJsonObjectFromUrl(String urlStr) throws IOException, JSONException, URISyntaxException {
+        URI uri = new URI(urlStr);
+        URL url = uri.toURL();
+        URLConnection conn = url.openConnection();
+        try (InputStream is = conn.getInputStream();
+             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+
+            StringBuilder sb = new StringBuilder();
+            int cp;
+            while ((cp = rd.read()) != -1) {
+                sb.append((char) cp);
+            }
+            return new JSONObject(sb.toString());
         }
     }
 }

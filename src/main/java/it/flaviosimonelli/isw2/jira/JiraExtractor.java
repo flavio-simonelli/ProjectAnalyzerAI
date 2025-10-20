@@ -1,6 +1,7 @@
 package it.flaviosimonelli.isw2.jira;
 
 import it.flaviosimonelli.isw2.model.JiraRelease;
+import it.flaviosimonelli.isw2.model.JiraTicket;
 import it.flaviosimonelli.isw2.util.VersionUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -77,5 +79,64 @@ public class JiraExtractor {
         releases.sort(Comparator.comparing(JiraRelease::getName, VersionUtils.comparator()));
 
         return releases;
+    }
+
+    private static final DateTimeFormatter JIRA_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // es. 2016-03-31T20:28:05.679+0000
+
+
+    public List<JiraTicket> extractJiraTickets(String projectKey) throws IOException, URISyntaxException {
+        // get json array from JiraClient
+        JiraClient jiraClient = new JiraClient();
+        JSONArray jsontickets = jiraClient.getprojectIssues(projectKey);
+        // parse json array to list of JiraTickets
+        List<JiraTicket> tickets = new ArrayList<>();
+        for (int i = 0; i < jsontickets.length(); i++) {
+            JSONObject ticket = jsontickets.getJSONObject(i);
+            JSONObject fields = ticket.getJSONObject("fields");
+
+            // extract information from object json
+            String selfUrl = ticket.optString("self", null);
+            String id = ticket.optString("id", null);
+            LocalDate createdDate = null;
+            if (fields.has("created") && !fields.isNull("created")) {
+                try {
+                    createdDate = LocalDate.parse(fields.getString("created"), JIRA_DATE_FORMAT);
+                } catch (Exception e) {
+                    // fallback se Jira restituisce formato semplificato
+                    createdDate = LocalDate.parse(fields.getString("created").substring(0, 10));
+                }
+            }
+
+            List<String> fixVersions = new ArrayList<>();
+            if (fields.has("fixVersions")) {
+                JSONArray fixArray = fields.getJSONArray("fixVersions");
+                for (int j = 0; j < fixArray.length(); j++) {
+                    JSONObject fix = fixArray.getJSONObject(j);
+                    fixVersions.add(fix.optString("name"));
+                }
+            }
+
+            List<String> affectedVersions = new ArrayList<>();
+            if (fields.has("versions")) {
+                JSONArray affectedArray = fields.getJSONArray("versions");
+                for (int j = 0; j < affectedArray.length(); j++) {
+                    JSONObject ver = affectedArray.getJSONObject(j);
+                    affectedVersions.add(ver.optString("name"));
+                }
+            }
+
+            JiraTicket jiraTicket = new JiraTicket(
+                    selfUrl,
+                    id,
+                    createdDate,
+                    fixVersions,
+                    affectedVersions
+            );
+
+            tickets.add(jiraTicket);
+
+        }
+        return tickets;
     }
 }

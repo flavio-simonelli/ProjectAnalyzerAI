@@ -1,0 +1,52 @@
+selfUrl,id,description,name,archived,released,startDate,releaseDate,overdue
+https://issues.apache.org/jira/rest/api/2/version/12312343,12312343,NULL,0.9.0,true,true,NULL,2006-08-26,false
+https://issues.apache.org/jira/rest/api/2/version/12312342,12312342,NULL,0.9.6,true,true,NULL,2006-11-29,false
+https://issues.apache.org/jira/rest/api/2/version/12312340,12312340,NULL,0.9.7,true,true,NULL,2007-04-27,false
+https://issues.apache.org/jira/rest/api/2/version/12313627,12313627,NULL,0.9.7-r547073,true,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12312341,12312341,NULL,1.0.0,false,true,NULL,2007-08-28,false
+https://issues.apache.org/jira/rest/api/2/version/12312687,12312687,NULL,1.0.1,false,true,NULL,2007-11-09,false
+https://issues.apache.org/jira/rest/api/2/version/12312846,12312846,NULL,1.0.2,false,true,NULL,2008-02-18,false
+https://issues.apache.org/jira/rest/api/2/version/12312969,12312969,NULL,1.0.3,false,true,NULL,2008-07-23,false
+https://issues.apache.org/jira/rest/api/2/version/12313301,12313301,NULL,1.0.4,false,true,NULL,2010-09-03,false
+https://issues.apache.org/jira/rest/api/2/version/12312344,12312344,NULL,1.1.0,false,true,NULL,2008-05-22,false
+https://issues.apache.org/jira/rest/api/2/version/12313102,12313102,NULL,1.2.0,false,true,NULL,2008-08-12,false
+https://issues.apache.org/jira/rest/api/2/version/12313328,12313328,NULL,1.2.1,false,true,NULL,2009-03-18,false
+https://issues.apache.org/jira/rest/api/2/version/12313681,12313681,NULL,1.2.2,false,true,NULL,2010-01-18,false
+https://issues.apache.org/jira/rest/api/2/version/12314517,12314517,OpenJPA 1.2.3 Release,1.2.3,false,true,NULL,2013-04-17,false
+https://issues.apache.org/jira/rest/api/2/version/12313326,12313326,NULL,1.3.0,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12314149,12314149,2.0.0 Beta,2.0.0-beta,false,true,NULL,2010-01-28,false
+https://issues.apache.org/jira/rest/api/2/version/12314019,12314019,JPA2 release,2.0.0,false,true,NULL,2010-04-22,false
+https://issues.apache.org/jira/rest/api/2/version/12313624,12313624,OpenJPA 2.0.0 Milestone 1,2.0.0-M1,false,true,NULL,2009-01-29,false
+https://issues.apache.org/jira/rest/api/2/version/12313483,12313483,Early Access 2,2.0.0-M2,false,true,NULL,2009-06-03,false
+https://issues.apache.org/jira/rest/api/2/version/12314802,12314802,2.0.0 Beta 2,2.0.0-beta2,false,true,NULL,2010-02-27,false
+https://issues.apache.org/jira/rest/api/2/version/12314148,12314148,Early Access 3,2.0.0-M3,false,true,NULL,2009-10-12,false
+https://issues.apache.org/jira/rest/api/2/version/12314857,12314857,2.0.0 Beta 3,2.0.0-beta3,false,true,NULL,2010-03-29,false
+https://issues.apache.org/jira/rest/api/2/version/12314532,12314532,2.0.1 Release,2.0.1,false,true,NULL,2010-08-30,false
+https://issues.apache.org/jira/rest/api/2/version/12315257,12315257,OpenJPA 2.0.x Maintenance Release,2.0.2,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12314542,12314542,NULL,2.1.0,false,true,NULL,2011-02-21,false
+https://issues.apache.org/jira/rest/api/2/version/12316191,12316191,OpenJPA 2.1.x maintenance release,2.1.1,false,true,NULL,2011-07-25,false
+https://issues.apache.org/jira/rest/api/2/version/12317142,12317142,NULL,2.1.2,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12315910,12315910,OpenJPA 2.2.0 Release,2.2.0,false,true,NULL,2012-02-20,false
+https://issues.apache.org/jira/rest/api/2/version/12319943,12319943,OpenJPA 2.2.1 Release,2.2.1,false,true,NULL,2012-11-01,false
+https://issues.apache.org/jira/rest/api/2/version/12323484,12323484,OpenJPA 2.2.1.x Maintenance Release,2.2.1.1,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12323356,12323356,OpenJPA 2.2.2 Release,2.2.2,false,true,NULL,2013-04-22,false
+https://issues.apache.org/jira/rest/api/2/version/12324305,12324305,OpenJPA 2.2.x Maintenance Release,2.2.3,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12319463,12319463,OpenJPA 2.3.0,2.3.0,false,true,NULL,2013-11-24,false
+https://issues.apache.org/jira/rest/api/2/version/12325298,12325298,OpenJPA 2.4.0,2.4.0,false,true,NULL,2015-04-22,false
+https://issues.apache.org/jira/rest/api/2/version/12332295,12332295,OpenJPA 2.4.1,2.4.1,false,true,NULL,2016-02-21,false
+https://issues.apache.org/jira/rest/api/2/version/12334871,12334871,OpenJPA-2.4.2,2.4.2,false,true,NULL,2017-01-03,false
+https://issues.apache.org/jira/rest/api/2/version/12338939,12338939,OpenJPA 2.4.3,2.4.3,false,true,NULL,2018-06-12,false
+https://issues.apache.org/jira/rest/api/2/version/12343403,12343403,NULL,2.4.4,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12338127,12338127,OpenJPA-3.0.0 (first JPA-2.1 spec release),3.0.0,false,true,NULL,2018-06-12,false
+https://issues.apache.org/jira/rest/api/2/version/12343421,12343421,NULL,3.1.0,false,true,NULL,2019-04-14,false
+https://issues.apache.org/jira/rest/api/2/version/12345232,12345232,NULL,3.1.1,false,true,NULL,2020-02-03,false
+https://issues.apache.org/jira/rest/api/2/version/12346990,12346990,NULL,3.1.2,false,true,NULL,2020-07-13,false
+https://issues.apache.org/jira/rest/api/2/version/12348547,12348547,NULL,3.2.0,false,true,NULL,2021-05-14,false
+https://issues.apache.org/jira/rest/api/2/version/12350116,12350116,NULL,3.2.1,false,true,NULL,2022-02-03,false
+https://issues.apache.org/jira/rest/api/2/version/12351466,12351466,NULL,3.2.2,false,true,NULL,2022-03-16,false
+https://issues.apache.org/jira/rest/api/2/version/12351467,12351467,NULL,3.2.3,false,false,NULL,NULL,false
+https://issues.apache.org/jira/rest/api/2/version/12353166,12353166,NULL,4.0.0,false,true,NULL,2024-02-02,false
+https://issues.apache.org/jira/rest/api/2/version/12354768,12354768,NULL,4.0.1,false,true,NULL,2024-09-19,false
+https://issues.apache.org/jira/rest/api/2/version/12355113,12355113,NULL,4.1.0,false,true,NULL,2025-03-24,false
+https://issues.apache.org/jira/rest/api/2/version/12355805,12355805,NULL,4.1.1,false,true,NULL,2025-05-15,false
+https://issues.apache.org/jira/rest/api/2/version/12355951,12355951,NULL,4.1.2,false,false,NULL,NULL,false
