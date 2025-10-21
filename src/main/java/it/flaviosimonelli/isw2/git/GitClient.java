@@ -11,7 +11,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GitClient {
@@ -46,7 +49,7 @@ public class GitClient {
      * @param owner    proprietario del progetto su GitHub
      * @param repo     nome del repository GitHub
      * @return lista di GitRelease (tag + commitId)
-     */
+     **/
     public List<GitRelease> getAllTagsWithCommits(Path basePath, String owner, String repo) throws IOException, GitAPIException {
         List<GitRelease> tags = new ArrayList<>();
 
@@ -70,5 +73,41 @@ public class GitClient {
 
         System.out.printf("✅ Trovati %d tag per %s/%s%n", tags.size(), owner, repo);
         return tags;
+    }
+
+    /**
+     * Restituisce l'ID dell'ultimo commit (SHA) con data <= releaseDate (secondo Jira).
+     * Se nessun commit rispetta la condizione, restituisce null.
+     */
+    public String getLatestCommitIdBeforeDate(Path basePath, String owner, String repo, LocalDate releaseDate) {
+
+        try (Git git = getRepository(basePath, owner, repo)) {
+
+            Date targetDate = Date.from(releaseDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String commitId = null;
+
+            Iterable<RevCommit> commits = git.log().call();
+            for (RevCommit commit : commits) {
+                Date commitDate = new Date(commit.getCommitTime() * 1000L);
+                if (!commitDate.after(targetDate)) {
+                    commitId = commit.getName();
+                    break; // i commit sono ordinati dal più recente al più vecchio
+                }
+            }
+
+            if (commitId != null) {
+                System.out.printf("✅ Commit trovato per %s/%s prima del %s → %s%n",
+                        owner, repo, releaseDate, commitId);
+            } else {
+                System.out.printf("⚠️ Nessun commit trovato per %s/%s prima del %s%n",
+                        owner, repo, releaseDate);
+            }
+
+            return commitId;
+
+        } catch (Exception e) {
+            System.err.printf("❌ Errore lettura commit per %s/%s: %s%n", owner, repo, e.getMessage());
+            return null;
+        }
     }
 }

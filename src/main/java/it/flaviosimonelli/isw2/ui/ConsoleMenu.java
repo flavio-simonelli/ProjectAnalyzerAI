@@ -73,7 +73,7 @@ public class ConsoleMenu {
                     System.getProperty("user.home"), "isw2_repos");
 
             // esegue l’estrazione Git (incluso matching con le release Jira)
-            controller.extractFromGit(basePath, owner, repo, projectKey, prefix);
+            controller.extractFromGitByDates(basePath, owner, repo, projectKey);
 
             System.out.println("✅ Estrazione GitHub completata con successo!");
             System.out.println("File generato: data/git_releases_" + projectKey + ".csv");

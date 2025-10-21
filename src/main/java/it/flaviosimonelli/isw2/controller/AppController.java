@@ -35,7 +35,7 @@ public class AppController {
      * @param repo       nome del repository (es. "commons-lang")
      * @param projectKey chiave del progetto Jira (es. "LANG")
      */
-    public void extractFromGit(Path basePath, String owner, String repo, String projectKey, String prefix) {
+    public void extractFromGitByTags(Path basePath, String owner, String repo, String projectKey, String prefix) {
         try {
             // lettura delle versioni di jira salvate
             List<JiraRelease> jiraReleases = null;
@@ -50,7 +50,7 @@ public class AppController {
 
             // estrazione dei tag corrispondenti
             GitExtractor gitExtractor = new GitExtractor();
-            List<GitRelease> gitReleases = gitExtractor.extractGitReleaseTag(
+            List<GitRelease> gitReleases = gitExtractor.extractGitReleaseByTag(
                     basePath,
                     owner,
                     repo,
@@ -62,6 +62,40 @@ public class AppController {
             CsvWriter.write(gitReleases, "data/git_releases_" + projectKey.toLowerCase() + ".csv");
 
             System.out.printf("✅ Completata estrazione Git per %s/%s (%d tag trovati)%n",
+                    owner, repo, gitReleases.size());
+
+        } catch (IOException e) {
+            System.err.println("❌ Errore durante l’estrazione da GitHub: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("❌ Errore imprevisto: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void extractFromGitByDates(Path repoPath, String owner, String repo, String projectKey) {
+        try {
+            // lettura delle versioni di jira salvate
+            List<JiraRelease> jiraReleases = null;
+            try {
+                jiraReleases = CsvReader.read(JiraRelease.class, "data/jira_releases_" + projectKey.toLowerCase() + ".csv");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // estrazione dei tag corrispondenti
+            GitExtractor gitExtractor = new GitExtractor();
+            List<GitRelease> gitReleases = gitExtractor.extractGitReleasesByDate(
+                    repoPath,
+                    owner,
+                    repo,
+                    jiraReleases
+            );
+
+            // Esporta in CSV
+            CsvWriter.write(gitReleases, "data/git_releases_" + projectKey.toLowerCase() + ".csv");
+
+            System.out.printf("✅ Completata estrazione Git per %s/%s (%d release trovate)%n",
                     owner, repo, gitReleases.size());
 
         } catch (IOException e) {
