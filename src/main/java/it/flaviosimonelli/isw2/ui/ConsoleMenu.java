@@ -1,10 +1,6 @@
 package it.flaviosimonelli.isw2.ui;
 
 import it.flaviosimonelli.isw2.controller.AppController;
-import it.flaviosimonelli.isw2.github.GitHubClient;
-import it.flaviosimonelli.isw2.github.GitHubExtractor;
-import it.flaviosimonelli.isw2.jira.JiraClient;
-import it.flaviosimonelli.isw2.jira.JiraExtractor;
 import it.flaviosimonelli.isw2.model.JiraRelease;
 import it.flaviosimonelli.isw2.util.Config;
 import it.flaviosimonelli.isw2.util.CsvReader;
@@ -45,8 +41,47 @@ public class ConsoleMenu {
     }
 
     private void extractGitHub() {
-        //TODO: Placeholder per l'estrazione da GitHub
-        System.out.println("Funzionalità di estrazione GitHub non ancora implementata.");
+        try {
+            System.out.println("=== Estrazione informazioni da GitHub ===");
+            System.out.print("Inserisci il nome dell'owner (default: apache): ");
+            String owner = scanner.nextLine().trim();
+            if (owner.isEmpty()) {
+                owner = "apache";
+            }
+
+            System.out.print("Inserisci il nome del repository (es: openjpa): ");
+            String repo = scanner.nextLine().trim();
+            if (repo.isEmpty()) {
+                System.err.println("Inserisci il nome del repository (es: openjpa)");
+                return;
+            }
+
+            System.out.print("Inserisci la chiave del progetto Jira associato (es. LANG): ");
+            String projectKey = scanner.nextLine().trim();
+            if (projectKey.isEmpty()) {
+                System.err.println("Inserisci il nome del progetto Jira associato");
+                return;
+            }
+
+            System.out.print("Inserisci il prefisso nei tag associati alle release: ");
+            String prefix = scanner.nextLine().trim();
+
+            AppController controller = new AppController();
+
+            // percorso dove salvare/clonare le repo locali
+            java.nio.file.Path basePath = java.nio.file.Path.of(
+                    System.getProperty("user.home"), "isw2_repos");
+
+            // esegue l’estrazione Git (incluso matching con le release Jira)
+            controller.extractFromGit(basePath, owner, repo, projectKey, prefix);
+
+            System.out.println("✅ Estrazione GitHub completata con successo!");
+            System.out.println("File generato: data/git_releases_" + projectKey + ".csv");
+
+        } catch (Exception e) {
+            System.err.println("❌ Errore durante l'estrazione da GitHub:");
+            e.printStackTrace();
+        }
     }
 
     private void extractJira() {
