@@ -1,9 +1,12 @@
 package it.flaviosimonelli.isw2.jira;
 
+import it.flaviosimonelli.isw2.controller.AppController;
 import it.flaviosimonelli.isw2.util.Config;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +19,7 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
 public class JiraClient {
+    private static final Logger logger = LoggerFactory.getLogger(JiraClient.class);
 
     public JSONArray getProjectVersions(String projectKey) throws IOException, URISyntaxException {
         String url = Config.JIRA_BASE_URL + "rest/api/2/project/" + projectKey + "/versions";
@@ -45,7 +49,7 @@ public class JiraClient {
             for (int i = 0; i < issues.length(); i++) {
                 allIssues.put(issues.getJSONObject(i));
             }
-            System.out.printf("Scaricati %d issue (startAt=%d, total=%d)%n", issues.length(), startAt, total);
+            logger.debug("Scaricati {} issue (startAt={}, total={})", issues.length(), startAt, total);
             // next page
             startAt += currentMax;
         }

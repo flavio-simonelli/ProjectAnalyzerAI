@@ -1,43 +1,100 @@
 package it.flaviosimonelli.isw2.ui;
 
 import it.flaviosimonelli.isw2.controller.AppController;
+import it.flaviosimonelli.isw2.exception.ConfigException;
 import it.flaviosimonelli.isw2.model.JiraRelease;
 import it.flaviosimonelli.isw2.util.Config;
+import it.flaviosimonelli.isw2.util.ConfigLoader;
 import it.flaviosimonelli.isw2.util.CsvReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenu {
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleMenu.class);
 
     private final Scanner scanner = new Scanner(System.in);
 
     public void start() {
+        Config appConfig = null;
+        try {
+            appConfig = ConfigLoader.loadConfig();
+            logger.info("Configurazione caricata con successo: {}", appConfig);
+        } catch (ConfigException e) {
+            logger.error("Errore critico durante il caricamento della configurazione. Uscita.", e);
+
+            System.err.println("--- ERRORE NEL CARICAMENTO DELLA CONFIGURAZIONE ---");
+            System.err.println(e.getMessage());
+
+            System.exit(1);
+        }
         while (true) {
-            System.out.println("\n===== ML Data Extractor =====");
-            System.out.println("1. Estrai informazioni da GitHub");
-            System.out.println("2. Estrai informazioni da Jira");
-            System.out.println("3. Crea CSV finale");
-            System.out.println("4. Usa Weka");
+            System.out.println("\n===== ISW2 Project: ML Analyzer =====");
+            System.out.println("1. Estrai Jira Releases");
+            System.out.println("2. Estrai Jira Tickets");
+            System.out.println("3. Estrai Github Releases");
+            System.out.println("4. Combina Release da Jira e GitHub");
             System.out.println("0. Esci");
             System.out.print("Seleziona un'opzione: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // pulisci buffer
 
+            logger.debug("Opzione selezionata dall'utente: {}", choice);
+
             switch (choice) {
-                case 1 -> extractGitHub();
-                case 2 -> extractJira();
-                case 3 -> createCSV();
-                case 4 -> useWeka();
+                case 1 -> extractJiraReleases(appConfig);
+                case 2 -> extractJiraTickets(appConfig);
+                case 3 -> extractGitHubReleases(appConfig);
+                case 4 -> combineReleases(appConfig);
                 case 0 -> {
+                    logger.info("Programma terminato su richiesta utente.");
                     System.out.println("Uscita...");
                     return;
                 }
-                default -> System.out.println("Opzione non valida.");
+                default -> {
+                    logger.warn("Opzione non gestita selezionata: {}", choice);
+                    System.out.println("Opzione non valida.");
+                }
             }
         }
+    }
+
+    /* Placeholder per future funzionalità */
+    private void notImplemented(Config appConfig) {
+        System.out.println("Funzionalità non ancora implementata.");
+    }
+
+    /* Funzione per estrarre le versioni del progetto da Jira */
+    private void extractJiraReleases(Config appConfig) {
+        System.out.println("\nestrazione Jira Releases...");
+        AppController controller = new AppController();
+        controller.extractReleasesFromJira(appConfig);
+    }
+
+    /* Funzione per estrarre i Tickets da Jira */
+    private void extractJiraTickets(Config appConfig) {
+        System.out.println("\nestrazione Jira Tickets...");
+        AppController controller = new AppController();
+        controller.extractTicketsFromJira(appConfig);
+    }
+
+    /* Funzione per estrarre le versioni del progetto da GitHub */
+    private void extractGitHubReleases(Config appConfig) {
+        System.out.println("\nestrazione GitHub Releases...");
+        AppController controller = new AppController();
+        controller.extractTagsFromGit(appConfig);
+    }
+
+    /* Funzione per combinare le release da Jira e GitHub */
+    private void combineReleases(Config appConfig) {
+        System.out.println("\ncombinazione release da Jira e GitHub...");
+        AppController controller = new AppController();
+        controller.filterReleases(appConfig);
     }
 
     private void extractGitHub() {
@@ -69,7 +126,7 @@ public class ConsoleMenu {
             AppController controller = new AppController();
 
             // percorso dove salvare/clonare le repo locali
-            java.nio.file.Path basePath = java.nio.file.Path.of(
+            Path basePath = Path.of(
                     System.getProperty("user.home"), "isw2_repos");
 
             // esegue l’estrazione Git (incluso matching con le release Jira)
@@ -80,31 +137,6 @@ public class ConsoleMenu {
 
         } catch (Exception e) {
             System.err.println("❌ Errore durante l'estrazione da GitHub:");
-            e.printStackTrace();
-        }
-    }
-
-    private void extractJira() {
-        try {
-            System.out.println("Estrazione informazioni da Apache Jira");
-            System.out.println("Endpoint: " + Config.JIRA_BASE_URL);
-            System.out.print("Inserisci chiave progetto (es. OPENJPA, BOOKKEEPER...): ");
-            String projectKey = scanner.nextLine().trim();
-
-            if (projectKey.isEmpty()) {
-                System.out.println("Nessun progetto inserito. Operazione annullata.");
-                return;
-            }
-
-            AppController controller = new AppController();
-            controller.extractFromJira(projectKey);
-
-            System.out.println("File generati:");
-            System.out.println(" - " + Config.JIRA_RELEASES_CSV);
-            System.out.println(" - " + Config.JIRA_ISSUES_CSV);
-
-        } catch (Exception e) {
-            System.err.println("Errore durante l'estrazione da Jira:");
             e.printStackTrace();
         }
     }

@@ -11,6 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GitExtractor {
+
+    /*  Extract all Git releases (tags) along with their associated commit IDs. */
+    public List<GitRelease> extractGitReleases(Path basePath, String owner, String repo) throws GitAPIException, IOException {
+        GitClient client = new GitClient();
+        List<GitRelease> allTags = client.getAllTagsWithCommits(basePath, owner, repo);
+
+        System.out.printf("✅ Estratti %d tag totali per %s/%s%n", allTags.size(), owner, repo);
+
+        return allTags;
+    }
+
     /**
      * Filtra la lista dei tag in base a:
      *  - prefisso dei nomi dei tag
@@ -33,7 +44,7 @@ public class GitExtractor {
             }
         }
 
-        System.out.printf("✅ Filtrati %d tag su %d per %s/%s%n",
+        System.out.printf("Filtrati %d tag su %d per %s/%s%n",
                 filtered.size(), allTags.size(), owner, repo);
 
         return filtered;
