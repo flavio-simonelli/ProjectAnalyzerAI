@@ -1,0 +1,6 @@
+2025-11-14 19:47:15.277 [main] INFO  i.f.isw2.ui.ConsoleMenu - Configurazione caricata con successo: Config {
+  jira=JiraConfig {projectKey='BOOKKEEPER'},
+  github=GithubConfig {repository='bookkeeper', owner='apache', branch='main', localClonePath='/tmp'},
+  output=OutputConfig {directory='reports'}
+}
+2025-11-14 19:47:58.413 [main] INFO  i.f.isw2.ui.ConsoleMenu - Programma terminato su richiesta utente.

@@ -6,7 +6,6 @@ import it.flaviosimonelli.isw2.model.GitRelease;
 import it.flaviosimonelli.isw2.model.JiraRelease;
 import it.flaviosimonelli.isw2.model.JiraTicket;
 import it.flaviosimonelli.isw2.model.Release;
-import it.flaviosimonelli.isw2.ui.ConsoleMenu;
 import it.flaviosimonelli.isw2.util.Config;
 import it.flaviosimonelli.isw2.util.CsvReader;
 import it.flaviosimonelli.isw2.util.CsvWriter;
@@ -21,8 +20,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AppController {
-    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+public class CsvController {
+    private static final Logger logger = LoggerFactory.getLogger(CsvController.class);
+
+    public void
 
 
     public void extractReleasesFromJira(Config config) {

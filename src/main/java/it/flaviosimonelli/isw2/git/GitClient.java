@@ -76,6 +76,22 @@ public class GitClient {
     }
 
     /**
+     * Restituisce il commit dato un commitId.
+     */
+    public RevCommit getCommitById(Path basePath, String owner, String repo, String commitId) {
+        try (Git git = getRepository(basePath, owner, repo);
+             RevWalk revWalk = new RevWalk(git.getRepository())) {
+
+            ObjectId objectId = git.getRepository().resolve(commitId);
+            return revWalk.parseCommit(objectId);
+
+        } catch (Exception e) {
+            System.err.printf("Errore lettura commit %s per %s/%s: %s%n", commitId, owner, repo, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Restituisce l'ID dell'ultimo commit (SHA) con data <= releaseDate (secondo Jira).
      * Se nessun commit rispetta la condizione, restituisce null.
      */

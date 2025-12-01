@@ -1,6 +1,5 @@
 package it.flaviosimonelli.isw2.jira;
 
-import it.flaviosimonelli.isw2.controller.AppController;
 import it.flaviosimonelli.isw2.util.Config;
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -62,6 +62,13 @@
             <version>1.5.21</version>
             <scope>compile</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core -->
+        <!-- usato per l'analisi del codice sorgente Java -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.27.1</version>
+        </dependency>
     </dependencies>
 
 </project>

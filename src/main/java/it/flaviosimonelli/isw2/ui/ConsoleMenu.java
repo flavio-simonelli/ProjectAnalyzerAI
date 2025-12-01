@@ -1,6 +1,6 @@
 package it.flaviosimonelli.isw2.ui;
 
-import it.flaviosimonelli.isw2.controller.AppController;
+import it.flaviosimonelli.isw2.controller.CsvController;
 import it.flaviosimonelli.isw2.exception.ConfigException;
 import it.flaviosimonelli.isw2.model.JiraRelease;
 import it.flaviosimonelli.isw2.util.Config;
@@ -72,28 +72,28 @@ public class ConsoleMenu {
     /* Funzione per estrarre le versioni del progetto da Jira */
     private void extractJiraReleases(Config appConfig) {
         System.out.println("\nestrazione Jira Releases...");
-        AppController controller = new AppController();
+        CsvController controller = new CsvController();
         controller.extractReleasesFromJira(appConfig);
     }
 
     /* Funzione per estrarre i Tickets da Jira */
     private void extractJiraTickets(Config appConfig) {
         System.out.println("\nestrazione Jira Tickets...");
-        AppController controller = new AppController();
+        CsvController controller = new CsvController();
         controller.extractTicketsFromJira(appConfig);
     }
 
     /* Funzione per estrarre le versioni del progetto da GitHub */
     private void extractGitHubReleases(Config appConfig) {
         System.out.println("\nestrazione GitHub Releases...");
-        AppController controller = new AppController();
+        CsvController controller = new CsvController();
         controller.extractTagsFromGit(appConfig);
     }
 
     /* Funzione per combinare le release da Jira e GitHub */
     private void combineReleases(Config appConfig) {
         System.out.println("\ncombinazione release da Jira e GitHub...");
-        AppController controller = new AppController();
+        CsvController controller = new CsvController();
         controller.filterReleases(appConfig);
     }
 
@@ -123,7 +123,7 @@ public class ConsoleMenu {
             System.out.print("Inserisci il prefisso nei tag associati alle release: ");
             String prefix = scanner.nextLine().trim();
 
-            AppController controller = new AppController();
+            CsvController controller = new CsvController();
 
             // percorso dove salvare/clonare le repo locali
             Path basePath = Path.of(

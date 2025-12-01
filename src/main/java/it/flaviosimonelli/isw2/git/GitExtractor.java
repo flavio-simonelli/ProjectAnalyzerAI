@@ -2,6 +2,7 @@ package it.flaviosimonelli.isw2.git;
 
 import it.flaviosimonelli.isw2.model.GitRelease;
 import it.flaviosimonelli.isw2.model.JiraRelease;
+import it.flaviosimonelli.isw2.model.Method;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -17,9 +18,28 @@ public class GitExtractor {
         GitClient client = new GitClient();
         List<GitRelease> allTags = client.getAllTagsWithCommits(basePath, owner, repo);
 
-        System.out.printf("✅ Estratti %d tag totali per %s/%s%n", allTags.size(), owner, repo);
+        System.out.printf("Estratti %d tag totali per %s/%s%n", allTags.size(), owner, repo);
 
         return allTags;
+    }
+
+    /**
+     * Estrae i model Method con le sue metriche da uno specifico commitID.
+     */
+    public List<Method> extractMetricsMethodsAtCommit(Path basePath, String owner, String repo, String commitId) {
+        GitClient client = new GitClient();
+        RevCommit commit = client.getCommitById(basePath, owner, repo, commitId);
+        if (commit == null) {
+            System.out.printf("❌ Commit %s non trovato in %s/%s%n", commitId, owner, repo);
+            return new ArrayList<>();
+        }
+        CodeAnalyzer analyzer = new CodeAnalyzer();
+        List<Method> methods = analyzer.analyzeMethodsAtCommit(basePath, owner, repo
+
+        System.out.printf("Estratti %d metodi per il commit %s di %s/%s%n",
+                methods.size(), commitId, owner, repo);
+
+        return methods;
     }
 
     /**
