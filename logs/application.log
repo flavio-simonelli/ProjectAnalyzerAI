@@ -1,6 +1,35 @@
-2025-11-14 19:47:15.277 [main] INFO  i.f.isw2.ui.ConsoleMenu - Configurazione caricata con successo: Config {
-  jira=JiraConfig {projectKey='BOOKKEEPER'},
-  github=GithubConfig {repository='bookkeeper', owner='apache', branch='main', localClonePath='/tmp'},
-  output=OutputConfig {directory='reports'}
-}
-2025-11-14 19:47:58.413 [main] INFO  i.f.isw2.ui.ConsoleMenu - Programma terminato su richiesta utente.
+2026-01-21 13:31:34.505 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Mining...
+2026-01-21 13:31:34.836 [main] INFO  i.f.isw2.git.client.JGitClient - Repository Git aperto correttamente: C:/Users/flavi/Projects/ProgettiDaAnalizzare/bookkeeper
+2026-01-21 13:31:34.849 [main] INFO  it.flaviosimonelli.isw2.Main - Inizio analisi per il progetto: BOOKKEEPER
+2026-01-21 13:31:34.849 [main] INFO  it.flaviosimonelli.isw2.Main - Lettura da Git: C:/Users/flavi/Projects/ProgettiDaAnalizzare/bookkeeper
+2026-01-21 13:31:34.849 [main] INFO  i.f.i.c.DatasetGeneratorController - Inizio generazione dataset per BOOKKEEPER
+2026-01-21 13:31:35.446 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.0.0
+2026-01-21 13:31:35.588 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 176 file Java nella release 4.0.0
+2026-01-21 13:31:36.814 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.1.0
+2026-01-21 13:31:36.816 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 227 file Java nella release 4.1.0
+2026-01-21 13:31:37.729 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.1.1
+2026-01-21 13:31:37.731 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 311 file Java nella release 4.1.1
+2026-01-21 13:31:39.239 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.2.0
+2026-01-21 13:31:39.241 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 311 file Java nella release 4.2.0
+2026-01-21 13:31:40.597 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.2.1
+2026-01-21 13:31:40.599 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 357 file Java nella release 4.2.1
+2026-01-21 13:31:42.040 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.2.2
+2026-01-21 13:31:42.041 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 377 file Java nella release 4.2.2
+2026-01-21 13:31:43.393 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.3.0
+2026-01-21 13:31:43.395 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 411 file Java nella release 4.3.0
+2026-01-21 13:31:44.856 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.2.3
+2026-01-21 13:31:44.858 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 426 file Java nella release 4.2.3
+2026-01-21 13:31:46.530 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.3.1
+2026-01-21 13:31:46.532 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 442 file Java nella release 4.3.1
+2026-01-21 13:31:48.243 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.3.2
+2026-01-21 13:31:48.245 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 445 file Java nella release 4.3.2
+2026-01-21 13:31:49.880 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.4.0
+2026-01-21 13:31:49.881 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 210 file Java nella release 4.4.0
+2026-01-21 13:31:50.531 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.5.0
+2026-01-21 13:31:50.533 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 322 file Java nella release 4.5.0
+2026-01-21 13:31:51.930 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.5.1
+2026-01-21 13:31:51.931 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 346 file Java nella release 4.5.1
+2026-01-21 13:31:52.849 [main] INFO  i.f.i.c.DatasetGeneratorController - Analisi release: 4.6.0
+2026-01-21 13:31:52.853 [main] DEBUG i.f.i.c.DatasetGeneratorController - Trovati 433 file Java nella release 4.6.0
+2026-01-21 13:31:53.836 [main] INFO  i.f.i.c.DatasetGeneratorController - Dataset creato con successo: ./dataset_bookkeeper.csv
+2026-01-21 13:31:53.836 [main] INFO  it.flaviosimonelli.isw2.Main - COMPLETATO! File salvato in: ./dataset_bookkeeper.csv
