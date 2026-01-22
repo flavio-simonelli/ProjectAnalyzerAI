@@ -5,7 +5,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.service.GitService;
-import it.flaviosimonelli.isw2.metrics.process.impl.MethodHistoriesMetric;
+import it.flaviosimonelli.isw2.metrics.process.impl.*;
 import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.model.MethodProcessMetrics;
 import it.flaviosimonelli.isw2.util.JavaParserUtils;
@@ -13,10 +13,7 @@ import org.eclipse.jgit.diff.Edit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProcessMetricAnalyzer {
@@ -33,7 +30,10 @@ public class ProcessMetricAnalyzer {
 
     private void registerMetrics() {
         register(new MethodHistoriesMetric());
-        // register(new ChurnMetric());
+        register(new NumberOfAuthorsMetric());
+        register(new ChurnMetric());
+        register(new StmtAddedMetric());
+        register(new StmtDeletedMetric());
     }
 
     public void register(IProcessMetric metric) {
@@ -139,8 +139,7 @@ public class ProcessMetricAnalyzer {
      * @param globalRegistry La mappa che mantiene la storia dall'inizio dei tempi.
      * @param currentInterval La mappa appena calcolata per la release corrente.
      */
-    public void mergeToGlobal(Map<MethodIdentity, MethodProcessMetrics> globalRegistry,
-                              Map<MethodIdentity, MethodProcessMetrics> currentInterval) {
+    public void mergeToGlobal(Map<MethodIdentity, MethodProcessMetrics> globalRegistry, Map<MethodIdentity, MethodProcessMetrics> currentInterval) {
 
         for (Map.Entry<MethodIdentity, MethodProcessMetrics> entry : currentInterval.entrySet()) {
             MethodIdentity id = entry.getKey();
@@ -150,18 +149,34 @@ public class ProcessMetricAnalyzer {
             globalRegistry.putIfAbsent(id, new MethodProcessMetrics());
             MethodProcessMetrics globalMetrics = globalRegistry.get(id);
 
-            // 2. Somma ogni singola metrica
-            // (Assumiamo che le metriche di processo siano sommabili: Revisioni, Churn, ecc.)
-            Map<String, Double> intervalValues = intervalMetrics.getMetrics(); // Usa getter che espone mappa
+            // 2. MERGE NUMERICO (Somma semplice per Revisioni, Churn, etc.)
+            // Iteriamo sulle metriche numeriche che NON hanno un backing set complesso
+            // (Per semplicità, qui sommiamo tutto, poi sovrascriviamo i complessi)
+            Map<String, Double> intervalValues = intervalMetrics.getMetrics();
 
             for (Map.Entry<String, Double> metricEntry : intervalValues.entrySet()) {
                 String metricName = metricEntry.getKey();
-                Double addedValue = metricEntry.getValue();
 
-                Double oldValue = globalMetrics.getMetric(metricName);
-                if (oldValue == null) oldValue = 0.0;
+                // Se è una metrica basata su Set (come N-Authors), gestiamo il merge complesso
+                Set<String> intervalSet = intervalMetrics.getSet(metricName);
 
-                globalMetrics.addMetric(metricName, oldValue + addedValue);
+                if (!intervalSet.isEmpty()) {
+                    // LOGICA DISTINCT: Aggiungiamo tutti gli autori dell'intervallo al set globale
+                    for (String item : intervalSet) {
+                        globalMetrics.addToSet(metricName, item);
+                    }
+                } else {
+                    // LOGICA SOMMATIVA (History, Churn): Somma aritmetica
+                    Double addedValue = metricEntry.getValue();
+                    Double oldValue = globalMetrics.getMetric(metricName);
+                    if (oldValue == null) oldValue = 0.0;
+
+                    // Evitiamo di sommare N-Authors due volte (è già gestito sopra dall'addToSet)
+                    // Usiamo un check semplice: se il DTO globale ha un set per questa chiave, non sommare i double.
+                    if (globalMetrics.getSet(metricName).isEmpty()) {
+                        globalMetrics.addMetric(metricName, oldValue + addedValue);
+                    }
+                }
             }
         }
     }
