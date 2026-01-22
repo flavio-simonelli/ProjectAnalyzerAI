@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
 public class JavaParserUtils {
 
@@ -14,7 +15,7 @@ public class JavaParserUtils {
      */
     public static String getFullyQualifiedSignature(MethodDeclaration method, CompilationUnit cu) {
         String packageName = cu.getPackageDeclaration()
-                .map(pd -> pd.getNameAsString())
+                .map(NodeWithName::getNameAsString)
                 .orElse("");
 
         String classPrefix = getParentClassPrefix(method);

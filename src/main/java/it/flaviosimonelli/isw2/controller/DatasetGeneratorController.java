@@ -4,7 +4,6 @@ import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
 import it.flaviosimonelli.isw2.jira.service.JiraService;
-import it.flaviosimonelli.isw2.metrics.MetricsCalculator;
 import it.flaviosimonelli.isw2.metrics.StaticAnalysisService;
 import it.flaviosimonelli.isw2.metrics.process.ProcessMetricAnalyzer;
 import it.flaviosimonelli.isw2.model.MethodIdentity;
@@ -130,25 +129,22 @@ public class DatasetGeneratorController {
                     String isBuggy = "No";
 
                     // Costruzione Riga
-                    StringBuilder sb = new StringBuilder();
+                    String sb = release.getName() + "," +
+                            entry.getKey().getClassName() + ".java" + "," + // File name approssimato o passato nei metadata
+                            id.getClassName() + "," +
+                            "\"" + id.getFullSignature() + "\"," +
 
-                    // Metadata
-                    sb.append(release.getName()).append(",");
-                    sb.append(entry.getKey().getClassName()).append(".java").append(","); // File name approssimato o passato nei metadata
-                    sb.append(id.getClassName()).append(",");
-                    sb.append("\"").append(id.getFullSignature()).append("\",");
+                            // Valori Statici (Delegati al service per formattazione e ordine)
+                            staticService.getCsvValues(staticData) + "," +
 
-                    // Valori Statici (Delegati al service per formattazione e ordine)
-                    sb.append(staticService.getCsvValues(staticData)).append(",");
+                            // Valori Processo Intervallo (L'analyzer gestisce i null ritornando default values)
+                            processAnalyzer.getCsvValues(intervalData) + "," +
 
-                    // Valori Processo Intervallo (L'analyzer gestisce i null ritornando default values)
-                    sb.append(processAnalyzer.getCsvValues(intervalData)).append(",");
+                            // Valori Processo Globali (L'analyzer gestisce i null)
+                            processAnalyzer.getCsvValues(globalData) + "," +
 
-                    // Valori Processo Globali (L'analyzer gestisce i null)
-                    sb.append(processAnalyzer.getCsvValues(globalData)).append(",");
-
-                    // Label
-                    sb.append(isBuggy);
+                            // Label
+                            isBuggy;
 
                     writer.println(sb);
                 }

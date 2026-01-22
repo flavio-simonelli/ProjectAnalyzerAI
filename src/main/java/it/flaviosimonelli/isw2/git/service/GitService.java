@@ -3,7 +3,6 @@ package it.flaviosimonelli.isw2.git.service;
 import it.flaviosimonelli.isw2.git.client.IGitClient;
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.bean.GitDiffEntry;
-import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
 import it.flaviosimonelli.isw2.jira.bean.JiraTicket;
 import org.eclipse.jgit.diff.Edit;
 import org.slf4j.Logger;

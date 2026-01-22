@@ -29,7 +29,7 @@ public class MethodProcessMetrics {
 
     // --- Gestione Dati Complessi (Per Autori Distinti) ---
     public void addToSet(String metricName, String value) {
-        complexData.computeIfAbsent(metricName, k -> new HashSet<>()).add(value);
+        complexData.computeIfAbsent(metricName, _ -> new HashSet<>()).add(value);
         // Aggiorniamo subito il contatore numerico
         metrics.put(metricName, (double) complexData.get(metricName).size());
     }
