@@ -3,12 +3,14 @@ package it.flaviosimonelli.isw2.controller;
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
+import it.flaviosimonelli.isw2.jira.bean.JiraTicket;
 import it.flaviosimonelli.isw2.jira.service.JiraService;
 import it.flaviosimonelli.isw2.metrics.StaticAnalysisService;
 import it.flaviosimonelli.isw2.metrics.process.ProcessMetricAnalyzer;
 import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.model.MethodProcessMetrics;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
+import it.flaviosimonelli.isw2.szz.SZZService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DatasetGeneratorController {
 
@@ -39,10 +42,22 @@ public class DatasetGeneratorController {
     public void createDataset(String projectKey, String outputCsvPath) {
         logger.info("Inizio generazione dataset per {}", projectKey);
 
-        // 1. Recupero informazioni release da Jira
+        // Recupero informazioni release da Jira
         List<JiraRelease> releases = jiraService.getReleases(projectKey);
-        // DEBUG 1: Controllo Release
-        logger.debug("Trovate {} release", releases.size());
+        logger.info("Trovate {} release in Jira", releases.size());
+        // Recupero informazioni ticket da Jira
+        List<JiraTicket> tickets = jiraService.getTickets(projectKey);
+        logger.info("Trovati {} ticket fixed in Jira", tickets.size());
+
+        // 2. ESECUZIONE SZZ (Labeling)
+        // Calcoliamo ORA quali metodi sono buggati in quali versioni.
+        // Lo facciamo fuori dal loop principale per performance (lo calcoliamo una volta sola).
+        logger.info("Avvio algoritmo SZZ su {} ticket...", tickets.size());
+        SZZService szzService = new SZZService(gitService, releases);
+        // Nota: usa di default IncrementalProportionStrategy.
+        // Se volessi cambiarla: szzService.setEstimationStrategy(new AltraStrategy());
+        Map<String, Set<MethodIdentity>> buggyRegistry = szzService.getBuggyMethodsPerRelease(tickets);
+        logger.info("SZZ completato. Mappa buggy costruita.");
 
         // REGISTRO GLOBALE (Accumulatore per Total Revisions, Total Churn, ecc.)
         // Sopravvive attraverso le iterazioni del loop releases
@@ -113,6 +128,9 @@ public class DatasetGeneratorController {
                     logger.error("ERRORE GRAVE: L'analisi statica non ha prodotto risultati. Controllare StaticAnalysisService o il parsing.");
                 }
 
+                // Recuperiamo il Set dei metodi buggati per QUESTA release specifica
+                Set<MethodIdentity> buggyInThisRelease = buggyRegistry.get(release.getName());
+
                 // --- FASE C: UNIONE (JOIN) E SCRITTURA ---
                 // Iteriamo sulla mappa STATICA perché il dataset deve contenere le righe dei metodi ESISTENTI nello snapshot.
                 for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : projectStaticMap.entrySet()) {
@@ -125,8 +143,11 @@ public class DatasetGeneratorController {
                     MethodProcessMetrics intervalData = intervalProcessMap.get(id); // Può essere null
                     MethodProcessMetrics globalData = globalProcessMap.get(id);     // Può essere null
 
-                    // TODO: Integrazione SZZ
+                    // *** LOGICA LABELING ***
                     String isBuggy = "No";
+                    if (buggyInThisRelease != null && buggyInThisRelease.contains(id)) {
+                        isBuggy = "Yes";
+                    }
 
                     // Costruzione Riga
                     String sb = release.getName() + "," +

@@ -7,7 +7,7 @@ public class JiraRelease {
     private String name;
     private boolean archived;
     private boolean released;
-    private LocalDate releaseDate; // Può essere null se non ancora rilasciata o non valida
+    private LocalDate releaseDate;
 
     public JiraRelease(String id, String name, LocalDate releaseDate) {
         this.id = id;
@@ -32,5 +32,10 @@ public class JiraRelease {
     @Override
     public String toString() {
         return "JiraRelease{name='" + name + "', date=" + releaseDate + ", released=" + released + "}";
+    }
+
+    public boolean isBeforeOrEqual(JiraRelease other) {
+        // Una data è "<= altra" se NON è dopo l'altra
+        return !this.releaseDate.isAfter(other.getReleaseDate());
     }
 }
