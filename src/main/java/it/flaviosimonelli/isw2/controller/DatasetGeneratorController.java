@@ -5,14 +5,21 @@ import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
 import it.flaviosimonelli.isw2.jira.service.JiraService;
 import it.flaviosimonelli.isw2.metrics.MetricsCalculator;
-import it.flaviosimonelli.isw2.model.Method;
+import it.flaviosimonelli.isw2.metrics.StaticAnalysisService;
+import it.flaviosimonelli.isw2.metrics.process.ProcessMetricAnalyzer;
+import it.flaviosimonelli.isw2.model.MethodIdentity;
+import it.flaviosimonelli.isw2.model.MethodProcessMetrics;
+import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatasetGeneratorController {
 
@@ -20,64 +27,149 @@ public class DatasetGeneratorController {
 
     private final JiraService jiraService;
     private final GitService gitService;
-    private final MetricsCalculator metricsCalculator;
+    private final StaticAnalysisService staticService;
+    private final ProcessMetricAnalyzer processAnalyzer;
 
     public DatasetGeneratorController(JiraService jiraService, GitService gitService) {
         this.jiraService = jiraService;
         this.gitService = gitService;
-        // Il calculator istanzia internamente la catena di metriche (LOC, Complexity, etc.)
-        this.metricsCalculator = new MetricsCalculator();
+        this.staticService = new StaticAnalysisService(gitService);
+        this.processAnalyzer = new ProcessMetricAnalyzer(gitService);
     }
 
     public void createDataset(String projectKey, String outputCsvPath) {
         logger.info("Inizio generazione dataset per {}", projectKey);
-        // 1. Recupero informazioni da Jira
+
+        // 1. Recupero informazioni release da Jira
         List<JiraRelease> releases = jiraService.getReleases(projectKey);
+        // DEBUG 1: Controllo Release
+        logger.debug("Trovate {} release", releases.size());
+
+        // REGISTRO GLOBALE (Accumulatore per Total Revisions, Total Churn, ecc.)
+        // Sopravvive attraverso le iterazioni del loop releases
+        Map<MethodIdentity, MethodProcessMetrics> globalProcessMap = new HashMap<>();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(outputCsvPath))) {
-            // 1. Scriviamo l'header del file csv in base alle metriche descritte nel metricsCalculator
-            writer.println(metricsCalculator.getCsvHeader());
-            // 2. Loop sulle Release
+
+            // 1. HEADER CSV
+            String fixedHeader = "Version,File,Class,Signature";
+            String staticHeader = staticService.getCsvHeader();
+            String processIntervalHeader = processAnalyzer.getCsvHeader();
+            String processGlobalHeader = processAnalyzer.getGlobalCsvHeader();
+            String labelHeader = "Buggy";
+
+            writer.println(fixedHeader + "," +
+                    staticHeader + "," +
+                    processIntervalHeader + "," +
+                    processGlobalHeader + "," +
+                    labelHeader);
+
+            // Variabile per tracciare l'inizio della finestra temporale
+            JiraRelease prevRelease = null;
+
+            // 2. LOOP SULLE RELEASE
             for (JiraRelease release : releases) {
-                logger.info("Analisi release: {}", release.getName());
-                // 3. Otteniamo lo snapshot (Ultimo commit della release)
-                GitCommit snapshot = gitService.getLastCommitOnOrBeforeDate(release.getReleaseDate());
+                logger.info("Processing Release: {} ({})", release.getName(), release.getReleaseDate());
+
+                // --- FASE A: ANALISI STORICA (Process Metrics) ---
+                // Calcoliamo cosa è successo TRA la release precedente e questa
+                LocalDate startDate = (prevRelease != null) ? prevRelease.getReleaseDate() : null;
+                LocalDate endDate = release.getReleaseDate();
+
+                // DEBUG 2: Controllo Date
+                logger.debug("Finestra temporale {} -> {}", startDate, endDate);
+
+                // Recuperiamo i commit dell'intervallo
+                List<GitCommit> historyCommits = gitService.getCommitsBetweenDates(startDate, endDate);
+                // DEBUG 3: Controllo Commit
+                logger.debug("Trovati {} commit storici per la release {}", historyCommits.size(), release.getName());
+
+                // 1. Calcolo Metriche Locali (Intervallo)
+                Map<MethodIdentity, MethodProcessMetrics> intervalProcessMap = processAnalyzer.extractProcessMetrics(historyCommits);
+
+                // 2. Aggiornamento Metriche Globali (Merge)
+                processAnalyzer.mergeToGlobal(globalProcessMap, intervalProcessMap);
+
+
+                // --- FASE B: Recupero Snapshot (Static Metrics) ---
+                // OTTIMIZZAZIONE: Se ho dei commit, l'ultimo è lo snapshot. Altrimenti interrogo Git.
+                GitCommit snapshot;
+                if (!historyCommits.isEmpty()) {
+                    snapshot = historyCommits.getFirst();
+                } else {
+                    snapshot = gitService.getLastCommitOnOrBeforeDate(endDate);
+                }
+
                 if (snapshot == null) {
-                    logger.warn("Nessun commit trovato per la release {}. Skipping.", release.getName());
+                    logger.warn("Skipping release {}: nessun commit valido trovato.", release.getName());
                     continue;
                 }
-                // 4. Otteniamo TUTTI i file Java presenti in quel momento storico
-                List<String> javaFiles = gitService.getAllJavaFiles(snapshot);
-                logger.debug("Trovati {} file Java nella release {}", javaFiles.size(), release.getName());
-                // 5. Loop sui File (Classi)
-                for (String filePath : javaFiles) {
-                    // Scarica il contenuto del file al momento della release
-                    String sourceCode = gitService.getRawFileContent(snapshot, filePath);
-                    if (sourceCode == null || sourceCode.isEmpty()) continue;
-                    // 6. Estrazione Metriche (Statiche) tramite JavaParser
-                    // Restituisce una lista di Method (contenitore dinamico map-based)
-                    List<Method> methods = metricsCalculator.extractMetrics(sourceCode, filePath);
-                    // 7. Loop sui Metodi e Scrittura
-                    for (Method method : methods) {
-                        // TODO: Implementare logica "Buggy" (Labeling SZZ)
-                        // Questo sarà il prossimo step. Per ora placeholder "No".
-                        String isBuggy = "No";
 
-                        // SCRITTURA RIGA CSV
-                        // method.toCSV() restituisce la stringa formattata: "NomeClasse,"Signature",Metric1,Metric2..."
-                        // Noi aggiungiamo il contesto (Versione) all'inizio e il label (Buggy) alla fine.
-                        writer.println(
-                                release.getName() + "," +
-                                        method.toCSV() + "," +
-                                        isBuggy
-                        );
-                    }
+                // 3. Analisi Statica dell'intero progetto
+                // Questa chiamata singola sostituisce tutto il loop manuale sui file.
+                // Ritorna una mappa completa di TUTTI i metodi esistenti nel progetto in quel momento.
+                Map<MethodIdentity, MethodStaticMetrics> projectStaticMap = staticService.analyzeRelease(snapshot);
+
+                if (projectStaticMap.isEmpty()) {
+                    logger.error("ERRORE GRAVE: L'analisi statica non ha prodotto risultati. Controllare StaticAnalysisService o il parsing.");
                 }
+
+                // --- FASE C: UNIONE (JOIN) E SCRITTURA ---
+                // Iteriamo sulla mappa STATICA perché il dataset deve contenere le righe dei metodi ESISTENTI nello snapshot.
+                for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : projectStaticMap.entrySet()) {
+
+                    MethodIdentity id = entry.getKey();
+                    MethodStaticMetrics staticData = entry.getValue();
+
+                    // LOOKUP EFFICIENTE O(1)
+                    // Grazie a MethodIdentity, peschiamo i dati storici corrispondenti
+                    MethodProcessMetrics intervalData = intervalProcessMap.get(id); // Può essere null
+                    MethodProcessMetrics globalData = globalProcessMap.get(id);     // Può essere null
+
+                    // TODO: Integrazione SZZ
+                    String isBuggy = "No";
+
+                    // Costruzione Riga
+                    StringBuilder sb = new StringBuilder();
+
+                    // Metadata
+                    sb.append(release.getName()).append(",");
+                    sb.append(entry.getKey().getClassName()).append(".java").append(","); // File name approssimato o passato nei metadata
+                    sb.append(id.getClassName()).append(",");
+                    sb.append("\"").append(id.getFullSignature()).append("\",");
+
+                    // Valori Statici (Delegati al service per formattazione e ordine)
+                    sb.append(staticService.getCsvValues(staticData)).append(",");
+
+                    // Valori Processo Intervallo (L'analyzer gestisce i null ritornando default values)
+                    sb.append(processAnalyzer.getCsvValues(intervalData)).append(",");
+
+                    // Valori Processo Globali (L'analyzer gestisce i null)
+                    sb.append(processAnalyzer.getCsvValues(globalData)).append(",");
+
+                    // Label
+                    sb.append(isBuggy);
+
+                    writer.println(sb);
+                }
+
+                // DEBUG 6: Flush per sicurezza
+                writer.flush();
+
+                // Setup per la prossima iterazione
+                prevRelease = release;
+
             }
-            logger.info("Dataset creato con successo: {}", outputCsvPath);
+
+            // DEBUG 6: Flush per sicurezza
+            writer.flush();
+
+            logger.info("Dataset generato con successo: {}", outputCsvPath);
 
         } catch (IOException e) {
-            logger.error("Errore critico durante la scrittura del CSV", e);
+            logger.error("Errore critico durante la scrittura del dataset", e);
+            throw new RuntimeException("Creazione dataset fallita", e);
         }
     }
+
 }

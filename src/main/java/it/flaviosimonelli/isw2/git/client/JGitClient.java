@@ -6,15 +6,18 @@ import it.flaviosimonelli.isw2.git.exceptions.GitClientException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +29,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JGitClient implements IGitClient {
     private static final Logger logger = LoggerFactory.getLogger(JGitClient.class);
@@ -136,6 +141,117 @@ public class JGitClient implements IGitClient {
             throw new GitClientException("Errore calcolando i diff per il commit " + commitHash, e);
         }
         return diffs;
+    }
+
+    @Override
+    public Map<String, String> getJavaFilesContent(String commitHash) {
+        Map<String, String> contents = new HashMap<>();
+
+        try (RevWalk revWalk = new RevWalk(repository);
+             TreeWalk treeWalk = new TreeWalk(repository)) {
+
+            ObjectId commitId = ObjectId.fromString(commitHash);
+            RevCommit commit = revWalk.parseCommit(commitId);
+
+            treeWalk.addTree(commit.getTree());
+            treeWalk.setRecursive(true);
+
+            // Filtriamo subito per .java
+            treeWalk.setFilter(PathSuffixFilter.create(".java"));
+
+            while (treeWalk.next()) {
+                String path = treeWalk.getPathString();
+
+                // FILTRO EXTRA: Se vuoi escludere i test direttamente qui
+                if (path.contains("/test/")) continue;
+
+                // Leggiamo il contenuto "al volo"
+                ObjectId blobId = treeWalk.getObjectId(0);
+                ObjectLoader loader = repository.open(blobId);
+
+                // JGit limita la lettura in memoria per sicurezza, ma i sorgenti sono piccoli
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                loader.copyTo(stream);
+
+                String content = stream.toString(StandardCharsets.UTF_8);
+                contents.put(path, content);
+            }
+
+        } catch (Exception e) {
+            throw new GitClientException("Errore lettura bulk file Java per commit " + commitHash, e);
+        }
+
+        return contents;
+    }
+
+    @Override
+    public List<String> getAllJavaFiles(String commitHash) {
+        List<String> filePaths = new ArrayList<>();
+        try (RevWalk revWalk = new RevWalk(repository);
+             TreeWalk treeWalk = new TreeWalk(repository)) {
+
+            ObjectId commitId = ObjectId.fromString(commitHash);
+            RevCommit commit = revWalk.parseCommit(commitId);
+
+            treeWalk.addTree(commit.getTree());
+            treeWalk.setRecursive(true);
+
+            // FILTRO CRUCIALE: Prende solo i file che finiscono con .java
+            treeWalk.setFilter(PathSuffixFilter.create(".java"));
+
+            while (treeWalk.next()) {
+                filePaths.add(treeWalk.getPathString());
+            }
+        } catch (Exception e) {
+            throw new GitClientException("Errore durante il recupero dei file Java al commit " + commitHash, e);
+        }
+        return filePaths;
+    }
+
+    @Override
+    public Map<String, List<Edit>> getDiffsWithEdits(String commitHash) {
+        Map<String, List<Edit>> diffMap = new HashMap<>();
+
+        // Usiamo il try-with-resources per chiudere automaticamente formatter e walk
+        try (DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+             RevWalk revWalk = new RevWalk(repository)) {
+
+            diffFormatter.setRepository(repository);
+            diffFormatter.setDiffComparator(RawTextComparator.DEFAULT);
+            diffFormatter.setDetectRenames(true);
+
+            // 1. Risolviamo il commit corrente dall'hash
+            ObjectId commitId = ObjectId.fromString(commitHash);
+            RevCommit currentCommit = revWalk.parseCommit(commitId);
+
+            // 2. Risolviamo il commit genitore
+            RevCommit parentCommit = null;
+            if (currentCommit.getParentCount() > 0) {
+                parentCommit = revWalk.parseCommit(currentCommit.getParent(0).getId());
+            }
+
+            // 3. Calcoliamo i Diff (Parent vs Current)
+            // Se parent è null, scan gestisce automaticamente il confronto con "albero vuoto"
+            List<DiffEntry> entries = diffFormatter.scan(parentCommit, currentCommit);
+
+            for (DiffEntry entry : entries) {
+                // Ignoriamo le cancellazioni pure (non possiamo analizzare metodi su file che non esistono più)
+                if (entry.getChangeType() == DiffEntry.ChangeType.DELETE) {
+                    continue;
+                }
+
+                // Estraiamo la lista degli Edit (Range di righe)
+                FileHeader fileHeader = diffFormatter.toFileHeader(entry);
+                diffMap.put(entry.getNewPath(), fileHeader.toEditList());
+            }
+
+        } catch (Exception e) {
+            // Nota: Se usi la tua eccezione custom, usala qui
+            logger.error("Errore estrazione edits per commit " + commitHash, e);
+            throw new GitClientException("Errore estrazione edits per " + commitHash, e);
+        }
+
+        return diffMap;
     }
 
     @Override

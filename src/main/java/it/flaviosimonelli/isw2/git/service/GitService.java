@@ -5,6 +5,7 @@ import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.bean.GitDiffEntry;
 import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
 import it.flaviosimonelli.isw2.jira.bean.JiraTicket;
+import org.eclipse.jgit.diff.Edit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +31,8 @@ public class GitService {
     public List<GitCommit> getAllCommits() {
         if (allCommitsCache == null) {
             allCommitsCache = gitClient.getAllCommits();
-            // Ordiniamo per data (dal più vecchio al più recente) per facilitare i filtri
-            allCommitsCache.sort(Comparator.comparing(GitCommit::getDate));
+            // Il Controller si aspetta: Indice 0 = Più Recente, Indice N = Più Vecchio.
+            allCommitsCache.sort(Comparator.comparing(GitCommit::getDate).reversed());
         }
         return allCommitsCache;
     }
@@ -52,27 +53,22 @@ public class GitService {
         // Impostiamo la deadline alla fine della giornata indicata
         LocalDateTime deadline = date.atTime(23, 59, 59);
 
-        GitCommit lastMatch = null;
+        // Poiché la lista va dal PIÙ RECENTE al PIÙ VECCHIO:
+        // Il primo che incontriamo che è <= deadline è quello che cerchiamo (lo Snapshot).
         for (GitCommit commit : commits) {
-            // Poiché la lista è ordinata cronologicamente (dal vecchio al nuovo),
-            // continuiamo ad aggiornare lastMatch finché siamo dentro la data.
-            if (commit.getDate().isAfter(deadline)) {
-                break; // Abbiamo superato il limite, fermiamoci.
+            if (!commit.getDate().isAfter(deadline)) {
+                return commit; // Trovato! È il più recente entro la data.
             }
-            lastMatch = commit;
         }
-
-        if (lastMatch == null) {
-            logger.debug("Nessun commit trovato prima del {}", date);
-        }
-        return lastMatch;
+        return null;
     }
 
     /**
      * Trova tutti i commit in un intervallo temporale specifico.
      * Ovvero: (Data Release Precedente) < Commit Date <= (Data Release Corrente)
-     * @param startDate Data inizio (esclusa/inclusa a seconda della logica, qui gestiamo next second).
+     * @param startDate Data di rilascio della precedente release (o null se vogliamo l'intera storia).
      * @param endDate Data fine (inclusa).
+     * @return List<GitCommit> lista dei commit dal più recente al meno recedente
      */
     public List<GitCommit> getCommitsBetweenDates(LocalDate startDate, LocalDate endDate) {
         if (endDate == null) {
@@ -88,18 +84,18 @@ public class GitService {
             startLimit = LocalDateTime.MIN;
         } else {
             // Prendiamo i commit fatti DOPO la fine della release precedente
-            startLimit = startDate.atTime(23, 59, 59);
+            startLimit = startDate.plusDays(1).atStartOfDay();
         }
 
         LocalDateTime endLimit = endDate.atTime(23, 59, 59);
 
         for (GitCommit c : commits) {
             // Logica: startLimit < commitDate <= endLimit
-            if (c.getDate().isAfter(startLimit) && !c.getDate().isAfter(endLimit)) {
+            if (!c.getDate().isBefore(startLimit) && !c.getDate().isAfter(endLimit)) {
                 filteredCommits.add(c);
             }
         }
-        return filteredCommits;
+        return filteredCommits; // Mantiene ordine Newest -> Oldest
     }
 
     /**
@@ -157,11 +153,25 @@ public class GitService {
      * Recupera la lista di tutti i path dei file Java esistenti in quel commit.
      */
     public List<String> getAllJavaFiles(GitCommit commit) {
-        List<String> allFiles = gitClient.listAllFiles(commit.getHash());
-        return allFiles.stream()
-                .filter(path -> path.endsWith(".java"))
-                .filter(path -> !path.contains("/test/")) // Opzionale: escludi test
+        // 1. Chiamiamo il metodo ottimizzato (JGit filtra .java nativamente)
+        List<String> javaFiles = gitClient.getAllJavaFiles(commit.getHash());
+
+        // 2. Applichiamo solo i filtri di business (es. no test)
+        return javaFiles.stream()
+                .filter(path -> !path.contains("/test/")) // Filtro business
                 .collect(Collectors.toList());
+    }
+
+    public Map<String, String> getJavaFilesContent(GitCommit commit) {
+        return gitClient.getJavaFilesContent(commit.getHash());
+    }
+
+    /**
+     * Recupera le modifiche riga per riga (Edit List) delegando al client.
+     */
+    public Map<String, List<Edit>> getDiffsWithEdits(GitCommit commit) {
+        // Delega semplice: passa l'hash al client
+        return gitClient.getDiffsWithEdits(commit.getHash());
     }
 
     public String getRawFileContent(GitCommit commit, String path) {

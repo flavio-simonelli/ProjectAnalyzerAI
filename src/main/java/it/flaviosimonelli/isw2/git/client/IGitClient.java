@@ -2,7 +2,10 @@ package it.flaviosimonelli.isw2.git.client;
 
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.bean.GitDiffEntry;
+import org.eclipse.jgit.diff.Edit;
+
 import java.util.List;
+import java.util.Map;
 
 public interface IGitClient {
 
@@ -23,5 +26,16 @@ public interface IGitClient {
      */
     List<GitDiffEntry> getDiffEntries(String commitHash);
 
+    List<String> getAllJavaFiles(String commitHash);
+
+    /**
+     * Recupera la lista dettagliata delle modifiche (Edit) per ogni file modificato in un commit.
+     * * @param commitHash il commit da analizzare.
+     * @return Una Mappa: FilePath -> Lista di Edit (Range di righe modificate).
+     */
+    Map<String, List<Edit>> getDiffsWithEdits(String commitHash);
+
     List<String> listAllFiles(String commitHash);
+
+    Map<String, String> getJavaFilesContent(String commitHash);
 }
