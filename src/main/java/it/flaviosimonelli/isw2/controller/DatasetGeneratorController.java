@@ -11,6 +11,7 @@ import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.model.MethodProcessMetrics;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import it.flaviosimonelli.isw2.szz.SZZService;
+import it.flaviosimonelli.isw2.util.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DatasetGeneratorController {
 
@@ -44,10 +42,25 @@ public class DatasetGeneratorController {
 
         // Recupero informazioni release da Jira
         List<JiraRelease> releases = jiraService.getReleases(projectKey);
-        logger.info("Trovate {} release in Jira", releases.size());
+        releases.sort(Comparator.comparing(JiraRelease::getReleaseDate));
+        int totalReleases = releases.size();
+        logger.info("Trovate {} release in Jira", totalReleases);
         // Recupero informazioni ticket da Jira
         List<JiraTicket> tickets = jiraService.getTickets(projectKey);
         logger.info("Trovati {} ticket fixed in Jira", tickets.size());
+
+        // 2. CONFIGURAZIONE SNORING (Da properties)
+        double discardRatio = AppConfig.getDouble("dataset.generation.snoring_discard_ratio", 0.50);
+        boolean keepBuggyInSnoring = AppConfig.getBoolean("dataset.generation.snoring.keep_only_buggy", false);
+
+        // Calcolo Indice di Taglio
+        int stopIndex = (int) (totalReleases * (1.0 - discardRatio));
+        if (stopIndex < 1 && totalReleases > 0) stopIndex = 1;
+
+        logger.info("=== SNORING STRATEGY ===");
+        logger.info("Ratio: {} -> Stop Index: {} (Zona Snoring inizia dalla release #{})",
+                discardRatio, stopIndex, stopIndex + 1);
+        logger.info("Strategy: {}", keepBuggyInSnoring ? "KEEP BUGGY (Filter 'No')" : "CUTOFF (Discard All)");
 
         // 2. ESECUZIONE SZZ (Labeling)
         // Calcoliamo ORA quali metodi sono buggati in quali versioni.
@@ -81,8 +94,21 @@ public class DatasetGeneratorController {
             JiraRelease prevRelease = null;
 
             // 2. LOOP SULLE RELEASE
-            for (JiraRelease release : releases) {
-                logger.info("Processing Release: {} ({})", release.getName(), release.getReleaseDate());
+            for (int i = 0; i < totalReleases; i++) {
+                JiraRelease release = releases.get(i);
+                boolean isSnoringZone = (i >= stopIndex);
+
+                // CASO A: CUTOFF TOTALE (Consigliato)
+                // Se siamo nella zona a rischio e NON vogliamo tenere i buggy -> STOP.
+                // Interrompiamo tutto per risparmiare tempo e non sporcare il dataset.
+                if (isSnoringZone && !keepBuggyInSnoring) {
+                    logger.info("Raggiunto limite Snoring alla release {} ({}). Stop generazione.", (i+1), release.getName());
+                    break;
+                }
+
+                logger.info("Processing Release {}/{} : {} {}",
+                        (i + 1), totalReleases, release.getName(),
+                        (isSnoringZone ? "[SNORING ZONE - Filtering Clean Instances]" : "[SAFE ZONE]"));
 
                 // --- FASE A: ANALISI STORICA (Process Metrics) ---
                 // Calcoliamo cosa è successo TRA la release precedente e questa
@@ -135,18 +161,22 @@ public class DatasetGeneratorController {
                 for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : projectStaticMap.entrySet()) {
 
                     MethodIdentity id = entry.getKey();
-                    MethodStaticMetrics staticData = entry.getValue();
 
-                    // LOOKUP EFFICIENTE O(1)
-                    // Grazie a MethodIdentity, peschiamo i dati storici corrispondenti
-                    MethodProcessMetrics intervalData = intervalProcessMap.get(id); // Può essere null
-                    MethodProcessMetrics globalData = globalProcessMap.get(id);     // Può essere null
+                    boolean isBuggyBoolean = (buggyInThisRelease != null && buggyInThisRelease.contains(id));
+                    String isBuggyLabel = isBuggyBoolean ? "Yes" : "No";
 
-                    // *** LOGICA LABELING ***
-                    String isBuggy = "No";
-                    if (buggyInThisRelease != null && buggyInThisRelease.contains(id)) {
-                        isBuggy = "Yes";
+                    // --- CONTROLLO SNORING (Livello Riga/Metodo) ---
+
+                    // CASO B: FILTRO SELETTIVO (Sperimentale)
+                    // Se siamo nella zona snoring, teniamo SOLO i buggy.
+                    // Se la label è "No", scartiamo la riga.
+                    if (isSnoringZone && !isBuggyBoolean) {
+                        continue;
                     }
+                    // Recupero Dati
+                    MethodStaticMetrics staticData = entry.getValue();
+                    MethodProcessMetrics intervalData = intervalProcessMap.get(id);
+                    MethodProcessMetrics globalData = globalProcessMap.get(id);
 
                     // Costruzione Riga
                     String sb = release.getName() + "," +
@@ -164,12 +194,10 @@ public class DatasetGeneratorController {
                             processAnalyzer.getCsvValues(globalData) + "," +
 
                             // Label
-                            isBuggy;
+                            isBuggyLabel;
 
                     writer.println(sb);
                 }
-
-                // DEBUG 6: Flush per sicurezza
                 writer.flush();
 
                 // Setup per la prossima iterazione
@@ -177,9 +205,7 @@ public class DatasetGeneratorController {
 
             }
 
-            // DEBUG 6: Flush per sicurezza
             writer.flush();
-
             logger.info("Dataset generato con successo: {}", outputCsvPath);
 
         } catch (IOException e) {

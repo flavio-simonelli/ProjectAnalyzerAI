@@ -246,7 +246,7 @@ public class SZZService {
     }
 
     private boolean isIntersection(MethodDeclaration method, List<Edit> edits) {
-        if (!method.getBegin().isPresent() || !method.getEnd().isPresent()) return false;
+        if (method.getBegin().isEmpty() || method.getEnd().isEmpty()) return false;
         int start = method.getBegin().get().line;
         int end = method.getEnd().get().line;
         for (Edit edit : edits) {

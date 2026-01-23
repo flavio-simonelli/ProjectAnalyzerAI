@@ -54,4 +54,11 @@ public class AppConfig {
             return defaultValue;
         }
     }
+    public static boolean getBoolean(String key, boolean defaultValue) {
+        if (properties == null) load();
+        String val = properties.getProperty(key);
+        if (val == null) return defaultValue;
+        return Boolean.parseBoolean(val.trim());
+    }
+
 }
