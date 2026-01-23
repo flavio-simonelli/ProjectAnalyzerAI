@@ -36,6 +36,7 @@ public class AppConfig {
     }
 
     public static int getInt(String key, int defaultValue) {
+        if (properties == null) load();
         String val = properties.getProperty(key);
         if (val == null) return defaultValue;
         try {
@@ -46,6 +47,7 @@ public class AppConfig {
     }
 
     public static double getDouble(String key, double defaultValue) {
+        if (properties == null) load();
         String val = properties.getProperty(key);
         if (val == null) return defaultValue;
         try {
@@ -59,6 +61,16 @@ public class AppConfig {
         String val = properties.getProperty(key);
         if (val == null) return defaultValue;
         return Boolean.parseBoolean(val.trim());
+    }
+
+    /**
+     * Recupera una stringa con un valore di default se la chiave non esiste.
+     * Utile per parametri opzionali (es. path di output).
+     */
+    public static String getProperty(String key, String defaultValue) {
+        if (properties == null) load();
+        String val = properties.getProperty(key);
+        return (val == null) ? defaultValue : val;
     }
 
 }

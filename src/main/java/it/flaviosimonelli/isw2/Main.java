@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2;
 
+import it.flaviosimonelli.isw2.controller.CorrelationReportController;
 import it.flaviosimonelli.isw2.controller.DatasetGeneratorController;
 import it.flaviosimonelli.isw2.git.client.IGitClient;
 import it.flaviosimonelli.isw2.git.client.JGitClient;
@@ -13,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -21,35 +25,63 @@ public class Main {
         logger.info("Avvio applicazione ISW2 Mining...");
 
         try {
-            // 1. Caricamento Configurazioni
+            // =================================================================
+            // 1. CARICAMENTO CONFIGURAZIONI & SETUP PATH
+            // =================================================================
             String projectKey = AppConfig.get("jira.projectKey");
             String gitRepoPath = AppConfig.get("git.repoPath");
-            String csvOutputPath = AppConfig.get("output.csvPath");
 
-            // Verifica veloce esistenza repo
+            // Verifica Repo Git
             if (!new File(gitRepoPath).exists()) {
                 logger.error("La cartella Git specificata non esiste: {}", gitRepoPath);
                 return;
             }
 
-            // 2. Setup Layer Basso (Clients)
+            // Gestione Output Directory (Nuova logica dinamica)
+            String basePathString = AppConfig.getProperty("output.base.path", "./results");
+            Path datasetDir = Paths.get(basePathString, "dataset");
+            Path correlationDir = Paths.get(basePathString, "correlation");
+
+            // Creazione cartelle se non esistono
+            Files.createDirectories(datasetDir);
+            Files.createDirectories(correlationDir);
+
+            // Definizione nomi file finali
+            String datasetFilePath = datasetDir.resolve(projectKey + "_dataset.csv").toString();
+            String correlationFilePath = correlationDir.resolve(projectKey + "_correlation.csv").toString();
+
+            logger.info("Output configurato in: {}", Paths.get(basePathString).toAbsolutePath().normalize());
+
+
+            // =================================================================
+            // 2. SETUP DIPENDENZE (Dependency Injection Manuale)
+            // =================================================================
             IJiraClient jiraClient = new RestJiraClient();
             IGitClient gitClient = new JGitClient(gitRepoPath);
 
-            // 3. Setup Layer Logico (Services)
             JiraService jiraService = new JiraService(jiraClient);
             GitService gitService = new GitService(gitClient);
 
-            // 4. Setup Controller
-            DatasetGeneratorController generator = new DatasetGeneratorController(jiraService, gitService);
 
-            // 5. Esecuzione
-            logger.info("Inizio analisi per il progetto: {}", projectKey);
-            logger.info("Lettura da Git: {}", gitRepoPath);
+            // =================================================================
+            // 3. ESECUZIONE PIPELINE
+            // =================================================================
 
-            generator.createDataset(projectKey, csvOutputPath);
+            // --- STEP 1: Generazione Dataset ---
+            logger.info(">>> STEP 1: Generazione Dataset per {}", projectKey);
+            DatasetGeneratorController datasetController = new DatasetGeneratorController(jiraService, gitService);
+            datasetController.createDataset(projectKey, datasetFilePath);
+            logger.info("Dataset salvato: {}", datasetFilePath);
 
-            logger.info("COMPLETATO! File salvato in: {}", csvOutputPath);
+
+            // --- STEP 2: Analisi Correlazione ---
+            logger.info(">>> STEP 2: Analisi Correlazione");
+            CorrelationReportController correlationController = new CorrelationReportController();
+            correlationController.createCorrelationReport(datasetFilePath, correlationFilePath);
+            logger.info("Report Correlazione salvato: {}", correlationFilePath);
+
+
+            logger.info("=== ESECUZIONE COMPLETATA CON SUCCESSO ===");
 
         } catch (Exception e) {
             logger.error("Errore irreversibile durante l'esecuzione", e);
