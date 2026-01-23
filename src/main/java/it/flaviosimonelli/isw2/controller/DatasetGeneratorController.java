@@ -13,6 +13,8 @@ import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import it.flaviosimonelli.isw2.snoring.SnoringControlService;
 import it.flaviosimonelli.isw2.szz.SZZService;
 import it.flaviosimonelli.isw2.util.AppConfig;
+import it.flaviosimonelli.isw2.util.CsvUtils;
+import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,10 +51,10 @@ public class DatasetGeneratorController {
         List<JiraTicket> tickets = jiraService.getTickets(projectKey);
         logger.info("Trovati {} ticket fixed in Jira", tickets.size());
 
-        // 2. INIZIALIZZAZIONE LOGICA SNORIN
+        // INIZIALIZZAZIONE LOGICA SNORIN
         SnoringControlService snoringService = new SnoringControlService(releases);
 
-        // 2. ESECUZIONE SZZ (Labeling)
+        // ESECUZIONE SZZ (Labeling)
         // Calcoliamo ORA quali metodi sono buggati in quali versioni.
         // Lo facciamo fuori dal loop principale per performance (lo calcoliamo una volta sola).
         SZZService szzService = new SZZService(gitService, releases);
@@ -63,20 +65,19 @@ public class DatasetGeneratorController {
         // Sopravvive attraverso le iterazioni del loop releases
         Map<MethodIdentity, MethodProcessMetrics> globalProcessMap = new HashMap<>();
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(outputCsvPath))) {
+        // 2. PREPARAZIONE HEADER
+        // Costruiamo una lista ordinata di intestazioni
+        List<String> headers = new ArrayList<>();
+        headers.add("Version");
+        headers.add("File");
+        headers.add("Class");
+        headers.add("Signature");
+        headers.addAll(staticService.getHeaderList());       // Es: ["LOC", "NAuth", ...]
+        headers.addAll(processAnalyzer.getHeaderList());     // Es: ["Churn", "Revision", ...]
+        headers.addAll(processAnalyzer.getGlobalHeaderList());
+        headers.add("Buggy");
 
-            // 1. HEADER CSV
-            String fixedHeader = "Version,File,Class,Signature";
-            String staticHeader = staticService.getCsvHeader();
-            String processIntervalHeader = processAnalyzer.getCsvHeader();
-            String processGlobalHeader = processAnalyzer.getGlobalCsvHeader();
-            String labelHeader = "Buggy";
-
-            writer.println(fixedHeader + "," +
-                    staticHeader + "," +
-                    processIntervalHeader + "," +
-                    processGlobalHeader + "," +
-                    labelHeader);
+        try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, headers.toArray(new String[0]))) {
 
             // Variabile per tracciare l'inizio della finestra temporale
             JiraRelease prevRelease = null;
@@ -117,16 +118,11 @@ public class DatasetGeneratorController {
 
 
                 // --- FASE B: Recupero Snapshot (Static Metrics) ---
-                // OTTIMIZZAZIONE: Se ho dei commit, l'ultimo è lo snapshot. Altrimenti interrogo Git.
-                GitCommit snapshot;
-                if (!historyCommits.isEmpty()) {
-                    snapshot = historyCommits.getFirst();
-                } else {
-                    snapshot = gitService.getLastCommitOnOrBeforeDate(endDate);
-                }
+                GitCommit snapshot = (!historyCommits.isEmpty()) ? historyCommits.getFirst() : gitService.getLastCommitOnOrBeforeDate(endDate);
 
                 if (snapshot == null) {
                     logger.warn("Skipping release {}: nessun commit valido trovato.", release.getName());
+                    prevRelease = release; // QUESTO SIAMO SICURI CHE CI VA?
                     continue;
                 }
 
@@ -150,47 +146,39 @@ public class DatasetGeneratorController {
 
                     boolean isBuggyBoolean = (buggyInThisRelease != null && buggyInThisRelease.contains(id));
 
-                    // CHECK 2: Deleghiamo al Service la decisione se tenere la riga
+                    // Controllo snoring (filtro righe)
                     if (!snoringService.shouldKeepRow(i, isBuggyBoolean)) {
                         continue; // Il service ha detto di scartarla
                     }
 
-                    // Se arriviamo qui, la riga è valida. Costruiamo e Scriviamo.
-                    String isBuggyLabel = isBuggyBoolean ? "Yes" : "No";
+                    // Costruzione Riga (Lista di Oggetti)
+                    // CSVPrinter gestirà automaticamente la conversione in stringa e l'escape
+                    List<Object> record = new ArrayList<>();
 
-                    // Recupero Dati
-                    MethodStaticMetrics staticData = entry.getValue();
-                    MethodProcessMetrics intervalData = intervalProcessMap.get(id);
-                    MethodProcessMetrics globalData = globalProcessMap.get(id);
+                    // 1. Identificatori
+                    record.add(release.getName());
+                    record.add(id.getClassName() + ".java");
+                    record.add(id.getClassName());
+                    record.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
 
-                    // Costruzione Riga
-                    String sb = release.getName() + "," +
-                            entry.getKey().getClassName() + ".java" + "," + // File name approssimato o passato nei metadata
-                            id.getClassName() + "," +
-                            "\"" + id.getFullSignature() + "\"," +
+                    // 2. Metriche
+                    record.addAll(staticService.getValuesAsList(entry.getValue()));
+                    record.addAll(processAnalyzer.getValuesAsList(intervalProcessMap.get(id)));
+                    record.addAll(processAnalyzer.getValuesAsList(globalProcessMap.get(id)));
 
-                            // Valori Statici (Delegati al service per formattazione e ordine)
-                            staticService.getCsvValues(staticData) + "," +
+                    // 3. Label
+                    record.add(isBuggyBoolean ? "Yes" : "No");
 
-                            // Valori Processo Intervallo (L'analyzer gestisce i null ritornando default values)
-                            processAnalyzer.getCsvValues(intervalData) + "," +
-
-                            // Valori Processo Globali (L'analyzer gestisce i null)
-                            processAnalyzer.getCsvValues(globalData) + "," +
-
-                            // Label
-                            isBuggyLabel;
-
-                    writer.println(sb);
+                    // Scrittura fisica
+                    printer.printRecord(record);
                 }
-                writer.flush();
 
+                printer.flush();
                 // Setup per la prossima iterazione
                 prevRelease = release;
-
             }
 
-            writer.flush();
+            snoringService.printFinalReport(outputCsvPath);
             logger.info("Dataset generato con successo: {}", outputCsvPath);
 
         } catch (IOException e) {

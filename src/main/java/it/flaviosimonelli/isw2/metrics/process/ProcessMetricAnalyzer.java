@@ -182,49 +182,66 @@ public class ProcessMetricAnalyzer {
     }
 
     /**
-     * Restituisce la stringa CSV dell'header per le metriche di processo.
-     * Es: "MethodHistories,Churn,Authors"
-     * L'ordine dipende dall'ordine di registrazione nel costruttore.
+     * Header per le metriche di processo LOCALI (Intervallo).
      */
-    public String getCsvHeader() {
+    public List<String> getHeaderList() {
         return metricsChain.stream()
                 .map(IProcessMetric::getName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 
     /**
-     * Genera i valori CSV gestendo i casi null e i default.
-     * @param metricsData Può essere NULL se il metodo non è mai stato toccato.
+     * Header per le metriche di processo GLOBALI (Totali).
+     * Aggiunge il prefisso "Total_" per distinguerle.
      */
-    public String getCsvValues(MethodProcessMetrics metricsData) {
-        return metricsChain.stream()
-                .map(metric -> {
-                    // CASO 1: Nessuna storia per questo metodo -> Default Assoluto (es. "0")
-                    if (metricsData == null) {
-                        return metric.getDefaultValue();
-                    }
-
-                    // CASO 2: Metodo toccato, cerchiamo questa specifica metrica
-                    Double val = metricsData.getMetric(metric.getName());
-
-                    // CASO 3: Metrica specifica mancante (es. bug logico) -> Default
-                    if (val == null) {
-                        return metric.getDefaultValue();
-                    }
-
-                    // Formattazione pulita
-                    if (val % 1 == 0) return String.valueOf(val.intValue());
-                    return String.valueOf(val);
-                })
-                .collect(Collectors.joining(","));
-    }
-
-    /**
-     * Genera un header CSV con prefisso (es. "Total_N-Revisions,Total_Churn").
-     */
-    public String getGlobalCsvHeader() {
+    public List<String> getGlobalHeaderList() {
         return metricsChain.stream()
                 .map(m -> "Total_" + m.getName())
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Restituisce i valori (Raw Objects) per un dato metodo.
+     * Funziona sia per dati Locali che Globali (basta passare il DTO giusto).
+     * @param metricsData Il DTO delle metriche (può essere null).
+     */
+    public List<Object> getValuesAsList(MethodProcessMetrics metricsData) {
+        // Se il metodo non ha storia (null), restituiamo una lista di zeri/default
+        // per mantenere l'allineamento delle colonne nel CSV.
+        if (metricsData == null) {
+            return metricsChain.stream()
+                    .map(m -> parseDefault(m.getDefaultValue()))
+                    .collect(Collectors.toList());
+        }
+
+        return metricsChain.stream()
+                .map(metric -> {
+                    Double val = metricsData.getMetric(metric.getName());
+
+                    // Se manca il valore specifico, usiamo il default della metrica
+                    if (val == null) {
+                        return parseDefault(metric.getDefaultValue());
+                    }
+
+                    // Formattazione: Interi come Integer, Decimali come Double
+                    if (val % 1 == 0) {
+                        return val.intValue();
+                    } else {
+                        return val;
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Helper interno per convertire il valore di default (spesso "0") in numero.
+     */
+    private Object parseDefault(String def) {
+        try {
+            if (def.contains(".")) return Double.parseDouble(def);
+            return Integer.parseInt(def);
+        } catch (NumberFormatException e) {
+            return 0; // Fallback sicuro
+        }
     }
 }

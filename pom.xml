@@ -69,6 +69,14 @@
             <artifactId>javaparser-core</artifactId>
             <version>3.27.1</version>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
+        <!-- usato per la scrittura e la lettura di csv -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

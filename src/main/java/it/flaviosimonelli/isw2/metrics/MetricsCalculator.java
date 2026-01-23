@@ -104,34 +104,45 @@ public class MetricsCalculator {
     }
 
     /**
-     * Restituisce l'header CSV per la sezione statica.
-     * Ordine garantito dall'ordine di registrazione nel costruttore.
+     * Restituisce la lista delle intestazioni (Header) per le metriche statiche.
+     * Usato da CsvUtils/CSVPrinter per definire le colonne.
      */
-    public String getCsvHeader() {
+    public List<String> getHeaderList() {
         return metricsChain.stream()
                 .map(IMetric::getName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 
     /**
-     * Converte l'oggetto Metriche in una stringa CSV formattata.
-     * Si occupa della formattazione numerica (Interi vs Double).
+     * Restituisce la lista dei valori raw (Object) per un dato metodo.
+     * Usato da CsvUtils/CSVPrinter per scrivere la riga.
+     * Gestisce automaticamente la conversione Double -> Integer se il numero è intero.
      */
-    public String getCsvValues(MethodStaticMetrics metrics) {
+    public List<Object> getValuesAsList(MethodStaticMetrics metrics) {
+        // Caso limite: se non ci sono metriche (metodo nullo), restituiamo una lista di zeri
+        // della lunghezza corretta per non far slittare le colonne del CSV.
+        if (metrics == null) {
+            return metricsChain.stream()
+                    .map(m -> 0)
+                    .collect(Collectors.toList());
+        }
+
         return metricsChain.stream()
                 .map(metric -> {
                     Double val = metrics.getMetric(metric.getName());
 
-                    // Safety check: se per qualche motivo la metrica manca, mettiamo 0
-                    if (val == null) return "0";
+                    // Safety check: se manca il valore, default a 0
+                    if (val == null) return 0;
 
-                    // Formattazione pulita: 5.0 -> "5", 5.12 -> "5.12"
+                    // Formattazione per pulizia CSV:
+                    // Se è un numero intero (es. 5.0), restituiscilo come Integer (5).
+                    // Altrimenti tienilo come Double (5.12).
                     if (val % 1 == 0) {
-                        return String.valueOf(val.intValue());
+                        return val.intValue();
                     } else {
-                        return String.valueOf(val);
+                        return val;
                     }
                 })
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 }

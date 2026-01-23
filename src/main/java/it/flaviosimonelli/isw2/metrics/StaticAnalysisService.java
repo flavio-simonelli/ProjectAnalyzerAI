@@ -71,14 +71,20 @@ public class StaticAnalysisService {
         return projectMap;
     }
 
-    // Espone l'header delegando al calculator interno
-    public String getCsvHeader() {
-        return metricsCalculator.getCsvHeader();
+    /**
+     * Restituisce la lista delle intestazioni delle colonne per le metriche statiche.
+     * Usato dal CSVPrinter per generare l'header.
+     */
+    public java.util.List<String> getHeaderList() {
+        return metricsCalculator.getHeaderList();
     }
 
-    // Espone i valori delegando al calculator interno
-    public String getCsvValues(MethodStaticMetrics metrics) {
-        return metricsCalculator.getCsvValues(metrics);
+    /**
+     * Restituisce la lista dei valori delle metriche per un dato metodo.
+     * Restituisce una lista di Object (Integer/Double) che CSVPrinter formatterà.
+     */
+    public java.util.List<Object> getValuesAsList(MethodStaticMetrics metrics) {
+        return metricsCalculator.getValuesAsList(metrics);
     }
 
     /**
