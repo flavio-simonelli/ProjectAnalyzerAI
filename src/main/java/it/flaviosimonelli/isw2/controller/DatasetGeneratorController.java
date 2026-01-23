@@ -52,7 +52,6 @@ public class DatasetGeneratorController {
         // 2. ESECUZIONE SZZ (Labeling)
         // Calcoliamo ORA quali metodi sono buggati in quali versioni.
         // Lo facciamo fuori dal loop principale per performance (lo calcoliamo una volta sola).
-        logger.info("Avvio algoritmo SZZ su {} ticket...", tickets.size());
         SZZService szzService = new SZZService(gitService, releases);
         // Nota: usa di default IncrementalProportionStrategy.
         // Se volessi cambiarla: szzService.setEstimationStrategy(new AltraStrategy());

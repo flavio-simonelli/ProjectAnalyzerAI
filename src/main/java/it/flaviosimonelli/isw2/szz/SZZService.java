@@ -15,6 +15,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SZZService {
@@ -41,49 +42,84 @@ public class SZZService {
     }
 
     public Map<String, Set<MethodIdentity>> getBuggyMethodsPerRelease(List<JiraTicket> tickets) {
+        // creiamo una mappa di <nomirelease, metodi Buggy in quella Release>
         Map<String, Set<MethodIdentity>> buggyMap = new HashMap<>();
         for (JiraRelease r : releases) buggyMap.put(r.getName(), new HashSet<>());
 
-        // Sorting necessario per Incremental Proportion (ma male non fa alle altre strategie)
-        tickets.sort(Comparator.comparing(JiraTicket::getResolution));
+        // Sorting per data resolution (serve per la strategia Proportion)
+        tickets.sort(Comparator.comparing(JiraTicket::getResolution)); // visto che la strategia di propotion si basa sulla fixversion e non sull data, qui dobbiamo ordinare rispetto alla fix verison e non la data
 
         int processed = 0;
         logger.info("Avvio SZZ su {} ticket. Strategia: {}", tickets.size(), estimationStrategy.getClass().getSimpleName());
 
         for (JiraTicket ticket : tickets) {
 
-            // --- FASE 1: STIMA DATE (Delegata alla Strategia) ---
-            JiraRelease fv = getReleaseByDate(ticket.getResolution());
+            // --- FASE 1: DETERMINAZIONE VERSIONI (FV, OV, IV) ---
+            JiraRelease fv = getLatestReleaseFromList(ticket.getFixVersions());
+            // FALLBACK: Se Jira non ha fixVersions, usiamo la Resolution Date
+            if (fv == null) {
+                logger.warn("Nessuna fix version trovata per il ticket {}. fallback utilizzando la data di risoluzione", ticket.getKey());
+                fv = getReleaseByDate(ticket.getResolution());
+            }
             JiraRelease ov = getReleaseByDate(ticket.getCreated());
+            if (fv == null || ov == null) {
+                logger.warn("SZZ SKIP Ticket {}: Impossibile determinare FV o OV (FV found? {}, OV found? {})",
+                        ticket.getKey(), (fv != null), (ov != null));
+                continue;
+            }
             JiraRelease iv = null;
 
-            if (fv == null || ov == null) continue;
-
-            // 1. Dati noti? Addestriamo la strategia
+            // Injected Version (IV) - GROUND TRUTH
+            // Cerchiamo la Affected Version più vecchia tra quelle dichiarate
             if (!ticket.getAffectedVersions().isEmpty()) {
-                iv = getReleaseByName(ticket.getAffectedVersions().get(0));
+                iv = getEarliestReleaseFromList(ticket.getAffectedVersions());
+                // Se l'abbiamo trovata, addestriamo Proportion
                 if (iv != null) {
-                    estimationStrategy.learn(iv, fv, ov); // <--- DELEGA
+                    estimationStrategy.learn(iv, fv, ov);
                 }
             }
 
-            // 2. Dato mancante? Chiediamo stima alla strategia
+            // Injected Version (IV) - STIMA
             if (iv == null) {
-                iv = estimationStrategy.estimate(fv, ov); // <--- DELEGA
+                iv = estimationStrategy.estimate(fv, ov);
             }
 
-            // Sanity Check
-            if (iv == null || iv.getReleaseDate().isAfter(fv.getReleaseDate())) iv = fv;
-
+            // SANITY CHECK FINALE
+            // Se per errore di dati o stima IV è dopo FV, tronchiamo a FV
+            if (iv.getReleaseDate().isAfter(fv.getReleaseDate())) {
+                logger.warn("SZZ ADJUST Ticket {}: IV stimata/trovata ({}) successiva a FV ({}). Imposto IV=FV (il ticket diventa essenzialmente inutile).",
+                        ticket.getKey(), iv.getName(), fv.getName());
+                iv = fv;
+            }
 
             // --- FASE 2: ANALISI GIT ---
-            List<GitCommit> fixCommits = gitService.findFixCommits(ticket);
-            if (fixCommits.isEmpty()) continue;
-
+            List<GitCommit> fixCommits = gitService.findFixCommits(ticket); // trova tutti i commit che sono precedenti alla data di risoluzione del ticket e possiedono come descrizione il nome del ticket
+            if (fixCommits.isEmpty()) {
+                logger.warn("SZZ SKIP Ticket {}: Nessun commit di fix trovato in Git.", ticket.getKey());
+                continue;
+            }
+            // LOGICA CORRETTA (Aggregazione):
+            // Un bug può essere risolto in più step. Consideriamo TUTTI i commit validi
+            // che fanno riferimento al ticket. Se un metodo è stato toccato in uno
+            // qualsiasi di questi commit, era parte del problema.
             Set<MethodIdentity> buggyMethods = new HashSet<>();
+            // Lower Bound: Data Creazione Ticket (con 60 giorni di buffer per sicurezza)
+            LocalDateTime creationLowerBound = ticket.getCreated().atStartOfDay().minusDays(60);
             for (GitCommit commit : fixCommits) {
+                // identifyModifiedMethods restituisce i metodi toccati in QUEL commit.
+                // addAll fa l'unione dei set, gestendo i duplicati automaticamente.
+                // CHECK TEMPORALE INFERIORE (Anti-Noise)
+                if (commit.getDate().isBefore(creationLowerBound)) {
+                    logger.debug("SZZ SKIP Commit {}: Data commit ({}) antecedente creazione ticket ({})",
+                            commit.getHash(), commit.getDate().toLocalDate(), ticket.getCreated());
+                    continue;
+                }
+                // Se passa il filtro, uniamo i metodi
                 buggyMethods.addAll(identifyModifiedMethods(commit));
             }
+
+            // DEBUG: Vediamo quanti metodi abbiamo trovato per questo ticket
+            logger.debug("Ticket {} -> {} metodi buggati identificati da {} commit.", ticket.getKey(), buggyMethods.size(), fixCommits.size());
 
             // --- FASE 3: LABELING ---
             markBuggyInReleases(buggyMap, buggyMethods, iv, fv);
@@ -94,8 +130,49 @@ public class SZZService {
         return buggyMap;
     }
 
+    // ==================================================================================
+    //                           HELPERS DI RICERCA RELEASE
+    // ==================================================================================
+
+    /**
+     * Data una lista di nomi versione (stringhe), trova la JiraRelease corrispondente più RECENTE.
+     * Usato per trovare la Fix Version definitiva.
+     */
+    private JiraRelease getLatestReleaseFromList(List<String> versionNames) {
+        if (versionNames == null || versionNames.isEmpty()) return null;
+
+        JiraRelease latest = null;
+        for (String name : versionNames) {
+            JiraRelease candidate = getReleaseByName(name);
+            if (candidate != null) {
+                if (latest == null || candidate.getReleaseDate().isAfter(latest.getReleaseDate())) {
+                    latest = candidate;
+                }
+            }
+        }
+        return latest;
+    }
+
+    /**
+     * Data una lista di nomi versione (stringhe), trova la JiraRelease corrispondente più VECCHIA.
+     * Usato per trovare la Injected Version originale tra le Affected Versions.
+     */
+    private JiraRelease getEarliestReleaseFromList(List<String> versionNames) {
+        if (versionNames == null || versionNames.isEmpty()) return null;
+
+        JiraRelease earliest = null;
+        for (String name : versionNames) {
+            JiraRelease candidate = getReleaseByName(name);
+            if (candidate != null) {
+                if (earliest == null || candidate.getReleaseDate().isBefore(earliest.getReleaseDate())) {
+                    earliest = candidate;
+                }
+            }
+        }
+        return earliest;
+    }
+
     private Set<MethodIdentity> identifyModifiedMethods(GitCommit commit) {
-        // ... (Logica identica a prima: Diff -> JavaParser -> Intersezione) ...
         Set<MethodIdentity> modifiedMethods = new HashSet<>();
         Map<String, List<Edit>> diffs = gitService.getDiffsWithEdits(commit);
 
@@ -135,22 +212,50 @@ public class SZZService {
     }
 
     private void markBuggyInReleases(Map<String, Set<MethodIdentity>> map, Set<MethodIdentity> methods, JiraRelease iv, JiraRelease fv) {
+        // Cerchiamo gli indici nella lista ordinata 'releases'
         int start = releases.indexOf(iv);
         int end = releases.indexOf(fv);
-        if (start == -1 || end == -1) return;
+        // 1. CHECK VALIDITÀ
+        if (start == -1 || end == -1) {
+            logger.warn("SZZ MARKING ERROR: Impossibile mappare le release sugli indici. IV o FV non trovate nella lista releases. " +
+                            "IV='{}' (idx={}), FV='{}' (idx={})",
+                    (iv != null ? iv.getName() : "null"), start,
+                    (fv != null ? fv.getName() : "null"), end);
+            return;
+        }
+        // 2. CHECK COERENZA TEMPORALE
+        if (start > end) {
+            logger.warn("SZZ MARKING ERROR: Injected Version successiva alla Fixed Version! Skip. " +
+                    "IV='{}' (idx={}), FV='{}' (idx={})", iv.getName(), start, fv.getName(), end);
+            return;
+        }
+        // 3. LOOP DI LABELING
+        // Da start (incluso) a end (escluso).
+        // Esempio: IV=4.0.0 (idx 0), FV=4.2.0 (idx 2).
+        // Loop: i=0 (4.0.0 Buggy), i=1 (4.1.0 Buggy). Stop. (4.2.0 Pulita).
         for (int i = start; i < end; i++) {
             String name = releases.get(i).getName();
-            if (map.containsKey(name)) map.get(name).addAll(methods);
+            // Controllo difensivo sulla mappa (dovrebbe sempre esserci)
+            if (map.containsKey(name)) {
+                map.get(name).addAll(methods);
+            } else {
+                logger.error("SZZ CRITICAL: La mappa buggy non contiene la release '{}'", name);
+            }
         }
+    }
+
+    private JiraRelease getReleaseByName(String name) {
+        return releases.stream()
+                .filter(r -> r.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
 
     private JiraRelease getReleaseByDate(LocalDate date) {
         if (date == null) return null;
-        for (JiraRelease r : releases) { if (!r.getReleaseDate().isBefore(date)) return r; }
+        for (JiraRelease r : releases) {
+            if (!r.getReleaseDate().isBefore(date)) return r;
+        }
         return null;
-    }
-
-    private JiraRelease getReleaseByName(String name) {
-        return releases.stream().filter(r -> r.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 }

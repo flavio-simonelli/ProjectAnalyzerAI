@@ -106,9 +106,9 @@ public class GitService {
         String ticketKey = ticket.getKey(); // es. BOOKKEEPER-1105
 
         // Validazione data: Il commit non può essere avvenuto dopo la data di risoluzione su Jira
-        // (Aggiungiamo un buffer di qualche giorno per fusi orari o ritardi di sync)
+        // (Aggiungiamo un buffer di 7 giorni per fusi orari o ritardi di sync)
         LocalDateTime resolutionDeadline = ticket.getResolution() != null
-                ? ticket.getResolution().atTime(23, 59, 59).plusDays(1)
+                ? ticket.getResolution().atTime(23, 59, 59).plusDays(60)
                 : LocalDateTime.MAX;
 
         for (GitCommit c : getAllCommits()) {
@@ -118,7 +118,15 @@ public class GitService {
                 if (c.getDate().isBefore(resolutionDeadline)) {
                     matches.add(c);
                 } else {
-                    logger.debug("Scartato commit {} per ticket {} (Data incongruente)", c.getHash(), ticketKey);
+                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
+                            ticket.getResolution().atStartOfDay(), // Data Ticket (inizio giornata)
+                            c.getDate()                            // Data Commit
+                    );
+
+                    if (daysDiff < 200) {
+                        logger.debug("Scartato commit {} per ticket {} (Ritardo: {} gg). Forse il buffer è stretto?",
+                                c.getHash().substring(0, 7), ticketKey, daysDiff);
+                    }
                 }
             }
         }
