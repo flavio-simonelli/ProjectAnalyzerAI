@@ -34,4 +34,24 @@ public class AppConfig {
         if (val == null) throw new RuntimeException("Chiave mancante nel config: " + key);
         return val;
     }
+
+    public static int getInt(String key, int defaultValue) {
+        String val = properties.getProperty(key);
+        if (val == null) return defaultValue;
+        try {
+            return Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public static double getDouble(String key, double defaultValue) {
+        String val = properties.getProperty(key);
+        if (val == null) return defaultValue;
+        try {
+            return Double.parseDouble(val);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 }

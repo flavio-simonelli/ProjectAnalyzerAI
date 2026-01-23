@@ -49,10 +49,29 @@ public class SZZService {
         // Sorting per data resolution (serve per la strategia Proportion)
         tickets.sort(Comparator.comparing(JiraTicket::getResolution)); // visto che la strategia di propotion si basa sulla fixversion e non sull data, qui dobbiamo ordinare rispetto alla fix verison e non la data
 
-        int processed = 0;
+        // --- CONTATORI STATISTICI ---
+        int totalTickets = 0;
+
+        // Statistiche Input (Jira)
+        int inputWithFV = 0;   // Ticket che hanno il campo FixVersion compilato
+        int inputWithoutFV = 0;
+        int inputWithAV = 0;   // Ticket che hanno il campo AffectedVersion compilato
+        int inputWithoutAV = 0;
+
+        // Statistiche Output (Processati / Utilizzati)
+        int processedTotal = 0;
+        int processedWithAV = 0;      // Utilizzati che avevano AV
+        int processedWithFV = 0;      // Utilizzati che avevano FV
+        int processedWithBoth = 0;    // Utilizzati che avevano SIA AV CHE FV
         logger.info("Avvio SZZ su {} ticket. Strategia: {}", tickets.size(), estimationStrategy.getClass().getSimpleName());
 
         for (JiraTicket ticket : tickets) {
+            totalTickets ++;
+            boolean hasJiraFixVersion = !ticket.getFixVersions().isEmpty();
+            boolean hasJiraAffectedVersion = !ticket.getAffectedVersions().isEmpty();
+
+            if (hasJiraFixVersion) inputWithFV++; else inputWithoutFV++;
+            if (hasJiraAffectedVersion) inputWithAV++; else inputWithoutAV++;
 
             // --- FASE 1: DETERMINAZIONE VERSIONI (FV, OV, IV) ---
             JiraRelease fv = getLatestReleaseFromList(ticket.getFixVersions());
@@ -71,7 +90,7 @@ public class SZZService {
 
             // Injected Version (IV) - GROUND TRUTH
             // Cerchiamo la Affected Version più vecchia tra quelle dichiarate
-            if (!ticket.getAffectedVersions().isEmpty()) {
+            if (hasJiraAffectedVersion) {
                 iv = getEarliestReleaseFromList(ticket.getAffectedVersions());
                 // Se l'abbiamo trovata, addestriamo Proportion
                 if (iv != null) {
@@ -105,17 +124,41 @@ public class SZZService {
             Set<MethodIdentity> buggyMethods = new HashSet<>();
             // Lower Bound: Data Creazione Ticket (con 60 giorni di buffer per sicurezza)
             LocalDateTime creationLowerBound = ticket.getCreated().atStartOfDay().minusDays(60);
+            boolean validCommitsFound = false;
             for (GitCommit commit : fixCommits) {
                 // identifyModifiedMethods restituisce i metodi toccati in QUEL commit.
                 // addAll fa l'unione dei set, gestendo i duplicati automaticamente.
                 // CHECK TEMPORALE INFERIORE (Anti-Noise)
                 if (commit.getDate().isBefore(creationLowerBound)) {
-                    logger.debug("SZZ SKIP Commit {}: Data commit ({}) antecedente creazione ticket ({})",
-                            commit.getHash(), commit.getDate().toLocalDate(), ticket.getCreated());
+                    // Calcolo giorni di anticipo per il log
+                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
+                            commit.getDate(),
+                            ticket.getCreated().atStartOfDay()
+                    );
+
+                    // Logghiamo se scartiamo qualcosa (evitiamo log inutili per date di anni prima)
+                    if (daysDiff < 365) {
+                        logger.debug("SZZ SKIP Commit {} per ticket {}: Commit del {} (Created: {}). Anticipo sospetto: {} giorni.",
+                                commit.getHash().substring(0, 7),
+                                ticket.getKey(),
+                                commit.getDate().toLocalDate(),
+                                ticket.getCreated(),
+                                daysDiff);
+                    }
                     continue;
                 }
                 // Se passa il filtro, uniamo i metodi
-                buggyMethods.addAll(identifyModifiedMethods(commit));
+                Set<MethodIdentity> methods = identifyModifiedMethods(commit);
+                if (!methods.isEmpty()) {
+                    buggyMethods.addAll(methods);
+                    validCommitsFound = true;
+                }
+            }
+
+            // Se alla fine del filtro temporale non abbiamo metodi validi, il ticket è scartato
+            if (buggyMethods.isEmpty()) {
+                logger.debug("SZZ SKIP Ticket {}: I commit trovati non modificavano file .java o erano fuori tempo.", ticket.getKey());
+                continue;
             }
 
             // DEBUG: Vediamo quanti metodi abbiamo trovato per questo ticket
@@ -123,10 +166,14 @@ public class SZZService {
 
             // --- FASE 3: LABELING ---
             markBuggyInReleases(buggyMap, buggyMethods, iv, fv);
-            processed++;
+            processedTotal++;
+            if (hasJiraAffectedVersion) processedWithAV++;
+            if (hasJiraFixVersion) processedWithFV++;
+            if (hasJiraAffectedVersion && hasJiraFixVersion) processedWithBoth++;
         }
 
-        logger.info("SZZ Terminato. Ticket processati: {}", processed);
+        printDetailedReport(totalTickets, inputWithFV, inputWithoutFV, inputWithAV, inputWithoutAV,
+                processedTotal, processedWithAV, processedWithFV, processedWithBoth);
         return buggyMap;
     }
 
@@ -257,5 +304,42 @@ public class SZZService {
             if (!r.getReleaseDate().isBefore(date)) return r;
         }
         return null;
+    }
+
+    private void printDetailedReport(int total, int inFV, int inNoFV, int inAV, int inNoAV,
+                                     int proc, int procAV, int procFV, int procBoth) {
+
+        // Calcolo percentuale totale processati
+        double percProc = (total > 0) ? ((double)proc / total) * 100 : 0;
+
+        logger.info("===============================================================");
+        logger.info("                   SZZ DETAILED REPORT                         ");
+        logger.info("===============================================================");
+        logger.info("1. ANALISI INPUT (Ticket Jira scaricati: {})", total);
+        logger.info("   - Con Fix Version dichiarata:      {} (Senza: {})", inFV, inNoFV);
+        logger.info("   - Con Affected Version dichiarata: {} (Senza: {})", inAV, inNoAV);
+        logger.info("---------------------------------------------------------------");
+        // CORREZIONE QUI: Uso String.format per la percentuale
+        logger.info("2. RISULTATO SZZ (Ticket Utilizzati/Processati: {} -> {}%)",
+                proc, String.format("%.2f", percProc));
+
+        logger.info("   Di questi {} ticket utilizzati:", proc);
+
+        // Calcoli e formattazione per i dettagli
+        double percAV = (proc > 0) ? ((double)procAV / proc) * 100 : 0;
+        double percFV = (proc > 0) ? ((double)procFV / proc) * 100 : 0;
+        double percBoth = (proc > 0) ? ((double)procBoth / proc) * 100 : 0;
+
+        // CORREZIONE QUI: String.format per ogni percentuale
+        logger.info("   - Avevano Affected Version (Ground Truth): {} ({}%)",
+                procAV, String.format("%.2f", percAV));
+
+        logger.info("   - Avevano Fix Version (Esplicita):         {} ({}%)",
+                procFV, String.format("%.2f", percFV));
+
+        logger.info("   - Avevano ENTRAMBE (AV + FV):              {} ({}%)",
+                procBoth, String.format("%.2f", percBoth));
+
+        logger.info("===============================================================");
     }
 }
