@@ -85,6 +85,22 @@
             <version>3.6.1</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
+        <!-- usato per addestrare modelli di machine learning in Java -->
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.8.6</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/SMOTE -->
+        <!-- usato per la fase di sampling dei dati per weka -->
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>SMOTE</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,6 +1,6 @@
 colonne del CSV finale:
 1. Name of the project: AVRO
-2. Name of the method: /ddd/sss/dddd/ccc/caption.java/aaa()
+2. Name of the methodStaticMetrics: /ddd/sss/dddd/ccc/caption.java/aaa()
 3. Release ID
 4. About 10 features with at least one actionable feature
 5. Bugginess (yes/no)
@@ -19,20 +19,20 @@ queste sono le metriche actionable
 10. Duplication
 
 queste sono quelle non actionable
-1. methodHistories: number of times a method was changed.
-2. authors: number of distinct authors that changed a method.
-3. stmtAdded: sum of all source code statements added to a method body over all method histories.
-4. maxStmtAdded: maximum number of source code statements added to a method body throughout the method’s change history.
-5. avgStmtAdded: average number of source code statements added to a method body per change to the method.
-6. stmtDeleted: sum of all source code statements deleted from a method body over all method histories.
-7. maxStmtDeleted: maximum number of source code statements deleted from a method body for all method histories.
-8. avgStmtDeleted: Average number of source code statements deleted from a method body per method history
-9. churn: sum of stmtAdded plus stmtDeleted over all method histories.
-10. maxChurn: maximum churn for all method histories.
-11. avgChurn: average churn per method history
-12. cond: number of condition expression changes in a method body over all revisions.
-13. elseAdded: number of added else-parts in a method body over all revisions.
-14. elseDeleted: number of deleted else-parts from a method body over all revisions
+1. methodHistories: number of times a methodStaticMetrics was changed.
+2. authors: number of distinct authors that changed a methodStaticMetrics.
+3. stmtAdded: sum of all source code statements added to a methodStaticMetrics body over all methodStaticMetrics histories.
+4. maxStmtAdded: maximum number of source code statements added to a methodStaticMetrics body throughout the methodStaticMetrics’s change history.
+5. avgStmtAdded: average number of source code statements added to a methodStaticMetrics body per change to the methodStaticMetrics.
+6. stmtDeleted: sum of all source code statements deleted from a methodStaticMetrics body over all methodStaticMetrics histories.
+7. maxStmtDeleted: maximum number of source code statements deleted from a methodStaticMetrics body for all methodStaticMetrics histories.
+8. avgStmtDeleted: Average number of source code statements deleted from a methodStaticMetrics body per methodStaticMetrics history
+9. churn: sum of stmtAdded plus stmtDeleted over all methodStaticMetrics histories.
+10. maxChurn: maximum churn for all methodStaticMetrics histories.
+11. avgChurn: average churn per methodStaticMetrics history
+12. cond: number of condition expression changes in a methodStaticMetrics body over all revisions.
+13. elseAdded: number of added else-parts in a methodStaticMetrics body over all revisions.
+14. elseDeleted: number of deleted else-parts from a methodStaticMetrics body over all revisions
 
 
 🔹 Coupling (Accoppiamento)

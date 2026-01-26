@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class CsvUtils {
@@ -25,16 +26,34 @@ public class CsvUtils {
 
 
     /**
-     * Crea e restituisce un CSVPrinter configurato secondo lo standard del progetto.
-     * Utile per scrivere file riga per riga (streaming) in loop di grandi dimensioni.
+     * Crea un CSVPrinter che può appendere al file esistente.
+     * Se il file non esiste, lo crea e scrive gli header.
+     * Se esiste e append=true, ignora gli header e scrive in coda.
      */
-    public static CSVPrinter createPrinter(String outputPath, String... headers) throws IOException {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputPath));
+    public static CSVPrinter createPrinter(String outputPath, boolean append, String... headers) throws IOException {
+        boolean fileExists = new File(outputPath).exists();
 
-        return new CSVPrinter(writer, CSVFormat.DEFAULT
-                .builder()
-                .setHeader(headers) // Scrive automaticamente l'header all'inizio
-                .build());
+        // Se dobbiamo appendere e il file esiste, apriamo in modalità APPEND
+        // Altrimenti (sovrascrittura o file nuovo) usiamo modalità normale
+        StandardOpenOption[] options = (append && fileExists)
+                ? new StandardOpenOption[]{ StandardOpenOption.WRITE, StandardOpenOption.APPEND }
+                : new StandardOpenOption[]{ StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE };
+
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get(outputPath), options);
+
+        // Costruiamo il formato
+        CSVFormat.Builder builder = CSVFormat.DEFAULT.builder();
+
+        // Scriviamo l'header SOLO se il file è nuovo o stiamo sovrascrivendo
+        if (!fileExists || !append) {
+            builder.setHeader(headers);
+        } else {
+            // Se appendiamo, dobbiamo dire al formato di ignorare l'header
+            // altrimenti Commons CSV potrebbe arrabbiarsi o non allineare le colonne
+            builder.setSkipHeaderRecord(true);
+        }
+
+        return new CSVPrinter(writer, builder.build());
     }
 
     /**

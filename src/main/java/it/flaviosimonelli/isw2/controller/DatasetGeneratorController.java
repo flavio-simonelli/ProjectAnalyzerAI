@@ -12,15 +12,13 @@ import it.flaviosimonelli.isw2.model.MethodProcessMetrics;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import it.flaviosimonelli.isw2.snoring.SnoringControlService;
 import it.flaviosimonelli.isw2.szz.SZZService;
-import it.flaviosimonelli.isw2.util.AppConfig;
+import it.flaviosimonelli.isw2.config.ProjectConstants;
 import it.flaviosimonelli.isw2.util.CsvUtils;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -68,16 +66,18 @@ public class DatasetGeneratorController {
         // 2. PREPARAZIONE HEADER
         // Costruiamo una lista ordinata di intestazioni
         List<String> headers = new ArrayList<>();
-        headers.add("Version");
+        headers.add(ProjectConstants.VERSION_ATTRIBUTE);
+        headers.add(ProjectConstants.RELEASE_INDEX_ATTRIBUTE);
+        headers.add(ProjectConstants.DATA_ATTRIBUTE);
         headers.add("File");
         headers.add("Class");
         headers.add("Signature");
         headers.addAll(staticService.getHeaderList());       // Es: ["LOC", "NAuth", ...]
         headers.addAll(processAnalyzer.getHeaderList());     // Es: ["Churn", "Revision", ...]
         headers.addAll(processAnalyzer.getGlobalHeaderList());
-        headers.add("Buggy");
+        headers.add(ProjectConstants.TARGET_CLASS);
 
-        try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, headers.toArray(new String[0]))) {
+        try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, false, headers.toArray(new String[0]))) {
 
             // Variabile per tracciare l'inizio della finestra temporale
             JiraRelease prevRelease = null;
@@ -101,6 +101,8 @@ public class DatasetGeneratorController {
                 // Calcoliamo cosa è successo TRA la release precedente e questa
                 LocalDate startDate = (prevRelease != null) ? prevRelease.getReleaseDate() : null;
                 LocalDate endDate = release.getReleaseDate();
+                int releaseIndex = i + 1;
+                String releaseDateStr = release.getReleaseDate().toString();
 
                 // DEBUG 2: Controllo Date
                 logger.debug("Finestra temporale {} -> {}", startDate, endDate);
@@ -157,6 +159,8 @@ public class DatasetGeneratorController {
 
                     // 1. Identificatori
                     record.add(release.getName());
+                    record.add(releaseIndex);
+                    record.add(releaseDateStr);
                     record.add(id.getClassName() + ".java");
                     record.add(id.getClassName());
                     record.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
@@ -167,7 +171,7 @@ public class DatasetGeneratorController {
                     record.addAll(processAnalyzer.getValuesAsList(globalProcessMap.get(id)));
 
                     // 3. Label
-                    record.add(isBuggyBoolean ? "Yes" : "No");
+                    record.add(isBuggyBoolean ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
 
                     // Scrittura fisica
                     printer.printRecord(record);

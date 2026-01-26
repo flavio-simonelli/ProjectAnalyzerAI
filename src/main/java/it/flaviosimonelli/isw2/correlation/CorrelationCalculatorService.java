@@ -11,23 +11,25 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import it.flaviosimonelli.isw2.config.ProjectConstants;
+
 public class CorrelationCalculatorService {
     private static final Logger logger = LoggerFactory.getLogger(CorrelationCalculatorService.class);
 
     /**
-     * Prende una mappa di colonne grezze (Stringhe), identifica la colonna target "Buggy",
+     * Prende una mappa di colonne grezze (Stringhe), identifica la colonna target @ProjectConstants.TARGET_CLASS,
      * converte le altre colonne in numeri e calcola le correlazioni.
      */
     public List<MetricCorrelation> calculateCorrelations(Map<String, List<String>> rawData) {
         List<MetricCorrelation> results = new ArrayList<>();
 
         // 1. Validazione e Estrazione Target
-        if (!rawData.containsKey("Buggy")) {
+        if (!rawData.containsKey(ProjectConstants.TARGET_CLASS)) {
             logger.error("Impossibile calcolare correlazioni: Colonna 'Buggy' mancante.");
             return results;
         }
 
-        double[] buggyArray = parseTargetColumn(rawData.get("Buggy"));
+        double[] buggyArray = parseTargetColumn(rawData.get(ProjectConstants.TARGET_CLASS));
 
         // 2. Setup Calcolatori Matematici
         PearsonsCorrelation pCalc = new PearsonsCorrelation();
@@ -76,8 +78,10 @@ public class CorrelationCalculatorService {
     // --- Helpers Privati (Business Logic interna) ---
 
     private boolean isMetadata(String header) {
-        return header.equals("Buggy") ||
-                header.equals("Version") ||
+        return header.equals(ProjectConstants.TARGET_CLASS) ||
+                header.equals(ProjectConstants.VERSION_ATTRIBUTE) ||
+                header.equals(ProjectConstants.RELEASE_INDEX_ATTRIBUTE) ||
+                header.equals(ProjectConstants.DATA_ATTRIBUTE) ||
                 header.equals("File") ||
                 header.equals("Class") ||
                 header.equals("Signature");
@@ -85,7 +89,7 @@ public class CorrelationCalculatorService {
 
     private double[] parseTargetColumn(List<String> values) {
         return values.stream()
-                .mapToDouble(v -> v.equalsIgnoreCase("Yes") ? 1.0 : 0.0)
+                .mapToDouble(v -> v.equalsIgnoreCase(ProjectConstants.BUGGY_LABEL) ? 1.0 : 0.0)
                 .toArray();
     }
 
