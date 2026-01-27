@@ -4,6 +4,10 @@ import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.ml.exceptions.DatasetLoadingException;
 import it.flaviosimonelli.isw2.ml.exceptions.ModelEvaluationException;
+import it.flaviosimonelli.isw2.ml.feature_selection.BestFirstSelectionStrategy;
+import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
+import it.flaviosimonelli.isw2.ml.feature_selection.InfoGainSelectionStrategy;
+import it.flaviosimonelli.isw2.ml.feature_selection.NoSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.reporting.CsvResultExporter;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingStrategy;
 import it.flaviosimonelli.isw2.ml.sampling.SmoteSamplingStrategy;
@@ -18,6 +22,7 @@ import it.flaviosimonelli.isw2.config.ProjectConstants;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +34,10 @@ public class TrainingExperimentController {
     private final String projectKey;
 
     private static final String[] METADATA_COLS = {
-            ProjectConstants.RELEASE_INDEX_ATTRIBUTE, // Serve al validator, ma non al modello
-            ProjectConstants.DATA_ATTRIBUTE,          // Serve ai grafici, ma non al modello
-            ProjectConstants.VERSION_ATTRIBUTE,       // Stringa versione
-            "File", "Class", "Signature"              // Identificatori stringa
+            ProjectConstants.RELEASE_INDEX_ATTRIBUTE,
+            ProjectConstants.DATA_ATTRIBUTE,
+            ProjectConstants.VERSION_ATTRIBUTE,
+            "File", "Class", "Signature"
     };
 
     public TrainingExperimentController(String datasetPath, String projectKey) {
@@ -41,98 +46,117 @@ public class TrainingExperimentController {
     }
 
     public void runExperiment() {
-        logger.info("Avvio esperimento Bug Prediction...");
+        logger.info("Avvio esperimento Bug Prediction per {}", projectKey);
 
         WekaDataLoader loader = new WekaDataLoader();
         CsvResultExporter exporter = new CsvResultExporter();
         WalkForwardValidator validator = new WalkForwardValidator();
 
+        // 1. Setup Cartelle Output
         String outputDir = AppConfig.getProperty("output.base.path", "./results") + "/ml";
         new File(outputDir).mkdirs();
         String reportPath = Paths.get(outputDir, projectKey + "_validation_results.csv").toString();
 
-        String runsStr = AppConfig.getProperty("ml.num_runs", "10");
-        int numRuns;
-        try {
-            numRuns = Integer.parseInt(runsStr);
-        } catch (NumberFormatException e) {
-            logger.warn("Valore 'ml.num_runs' non valido nel properties: {}. Uso default: 10", runsStr);
-            numRuns = 10;
-        }
+        // 2. Lettura Configurazioni da AppConfig
+        int numRuns = Integer.parseInt(AppConfig.getProperty("ml.num_runs", "10"));
 
-        logger.info("Configurazione caricata: Esecuzione di {} Run totali.", numRuns);
+        // Legge liste separate da virgola (es. "RandomForest,IBk")
+        List<String> activeClassifiers = getListFromConfig("ml.classifiers", "RandomForest,NaiveBayes,IBk");
+        List<String> activeSamplers = getListFromConfig("ml.samplers", "NoSampling,SMOTE");
+        List<String> activeFeatureSelectors = getListFromConfig("ml.feature_selection", "NoSelection,BestFirst");
+
+        logger.info("CONFIGURAZIONE ESPERIMENTO:");
+        logger.info("Runs: {}", numRuns);
+        logger.info("Classifiers: {}", activeClassifiers);
+        logger.info("Samplers: {}", activeSamplers);
+        logger.info("Feature Sel.: {}", activeFeatureSelectors);
 
         try {
-            // 1. Load Dataset Completo
+            // 3. Load Dataset
             Instances dataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
 
-            // Definiamo le configurazioni (nomi e oggetti base)
-            // Nota: Li ricreeremo o configureremo dentro il loop per pulizia
-            List<String> classifierNames = Arrays.asList("RandomForest", "NaiveBayes", "IBk");
-            List<String> samplerNames = Arrays.asList("NoSampling", "SMOTE");
+            // --- TRIPLO LOOP: Classifier -> Sampler -> FeatureSelection ---
+            // Nota: L'ordine dei loop non è critico per il risultato, ma per il log sì.
+            // Eseguiamo 10 run per ogni configurazione.
 
-            // --- INIZIO LOOP 10 RUNS ---
             for (int run = 1; run <= numRuns; run++) {
-                logger.info(">>> RUN {}/{}", run, numRuns);
+                logger.info(">>> INIZIO RUN {}/{}", run, numRuns);
 
-                for (String clfName : classifierNames) {
-                    for (String smpName : samplerNames) {
+                for (String clfName : activeClassifiers) {
+                    for (String smpName : activeSamplers) {
+                        for (String fsName : activeFeatureSelectors) {
 
-                        // 1. Setup Classificatore con SEED VARIABILE
-                        Classifier classifier = getClassifierInstance(clfName, run);
+                            try {
+                                // A. Istanzia le strategie (Con Seed variabile dove serve)
+                                Classifier classifier = getClassifierInstance(clfName, run);
+                                SamplingStrategy sampler = getSamplingStrategy(smpName, run);
+                                FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fsName);
 
-                        // 2. Setup Sampler con SEED VARIABILE
-                        SamplingStrategy strategy = getSamplingStrategy(smpName, run);
+                                logger.info("Training: [Run {}] {} + {} + {}", run, clfName, smpName, fsName);
 
-                        logger.info("Evaluating Run {}: {} + {}", run, clfName, smpName);
+                                // B. Esegui Validazione Walk-Forward
+                                // Passiamo TUTTE le strategie al validatore
+                                List<EvaluationResult> results = validator.validate(
+                                        dataset,
+                                        classifier,
+                                        METADATA_COLS, // Colonne da scartare (ID, Version...)
+                                        sampler,       // SMOTE o null
+                                        fsStrategy     // BestFirst o NoSelection
+                                );
 
-                        // 3. Validazione
-                        List<EvaluationResult> results = validator.validate(
-                                dataset,
-                                classifier,
-                                METADATA_COLS,
-                                strategy
-                        );
+                                // C. Salva Risultati su CSV
+                                exporter.appendResults(
+                                        reportPath,
+                                        projectKey,
+                                        run,
+                                        clfName,
+                                        smpName,
+                                        fsName, // Passiamo anche il nome della FS strategy
+                                        results
+                                );
 
-                        // 4. Export (passiamo 'run')
-                        exporter.appendResults(
-                                reportPath,
-                                projectKey,
-                                run,
-                                clfName,
-                                smpName,
-                                results
-                        );
+                            } catch (Exception ex) {
+                                logger.error("Errore nella configurazione [{} - {} - {}]: {}",
+                                        clfName, smpName, fsName, ex.getMessage());
+                            }
+                        }
                     }
                 }
             }
 
-            logger.info("Esperimento completato. File: {}", reportPath);
+            logger.info("Esperimento completato. Report salvato in: {}", reportPath);
 
         } catch (DatasetLoadingException e) {
-            logger.error("ERRORE DATI: {}", e.getMessage());
-        } catch (ModelEvaluationException e) {
-            logger.error("Errore validazione modello: {}", e.getMessage());
+            logger.error("Impossibile caricare il dataset: {}", e.getMessage());
         } catch (Exception e) {
-            logger.error("ERRORE IMPREVISTO DI SISTEMA", e);
+            logger.error("Errore critico di sistema", e);
         }
     }
 
-    // --- Helper Classes ---
+    // --- Helper Methods ---
+
+    /**
+     * Legge una proprietà CSV e la converte in Lista di stringhe.
+     */
+    private List<String> getListFromConfig(String key, String defaultValue) {
+        String raw = AppConfig.getProperty(key, defaultValue);
+        if (raw == null || raw.trim().isEmpty()) return new ArrayList<>();
+        return Arrays.asList(raw.split("\\s*,\\s*")); // Split su virgola rimuovendo spazi
+    }
 
     private Classifier getClassifierInstance(String name, int seed) {
         switch (name) {
             case "RandomForest":
                 weka.classifiers.trees.RandomForest rf = new weka.classifiers.trees.RandomForest();
                 rf.setNumIterations(100);
-                rf.setSeed(seed); // FONDAMENTALE: cambia la foresta ogni volta
+                rf.setSeed(seed);
                 return rf;
             case "NaiveBayes":
-                return new weka.classifiers.bayes.NaiveBayes(); // Deterministico, il seed non serve
+                return new weka.classifiers.bayes.NaiveBayes();
             case "IBk":
-                return new weka.classifiers.lazy.IBk(); // Deterministico (KNN standard)
+                return new weka.classifiers.lazy.IBk();
             default:
-                throw new IllegalArgumentException("Classificatore sconosciuto: " + name);
+                throw new IllegalArgumentException("Classificatore non supportato: " + name);
         }
     }
 
@@ -141,8 +165,22 @@ public class TrainingExperimentController {
             SmoteSamplingStrategy smote = new SmoteSamplingStrategy();
             smote.setRandomSeed(seed);
             return smote;
+        } else if ("NoSampling".equals(name)) {
+            return null;
         }
-        return null; // NoSampling
+        throw new IllegalArgumentException("Sampling Strategy non supportata: " + name);
     }
 
+    private FeatureSelectionStrategy getFeatureSelectionStrategy(String name) {
+        switch (name) {
+            case "BestFirst":
+                return new BestFirstSelectionStrategy();
+            case "InfoGain":
+                return new InfoGainSelectionStrategy();
+            case "NoSelection":
+                return new NoSelectionStrategy();
+            default:
+                throw new IllegalArgumentException("Feature Selection Strategy non supportata: " + name);
+        }
+    }
 }

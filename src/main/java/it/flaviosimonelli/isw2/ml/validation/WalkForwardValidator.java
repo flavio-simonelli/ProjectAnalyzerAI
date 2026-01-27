@@ -2,6 +2,7 @@ package it.flaviosimonelli.isw2.ml.validation;
 
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.ml.exceptions.ModelEvaluationException;
+import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +26,15 @@ public class WalkForwardValidator {
 
     /**
      * Esegue la validazione Walk-Forward.
-     * * @param data Il dataset completo contenente anche le colonne amministrative.
-     * @param classifier Il classificatore da allenare.
-     * @param columnsToDrop Le colonne da rimuovere PRIMA del training (es. ID, Version, Date).
-     * @return Lista dei risultati per ogni fold.
+     *
+     * @param data Il dataset completo.
+     * @param classifier Il classificatore.
+     * @param columnsToDrop Colonne amministrative da rimuovere.
+     * @param samplingStrategy Strategia di bilanciamento (SMOTE, etc).
+     * @param fsStrategy Strategia di selezione feature (BestFirst, etc).
+     * @return Lista dei risultati.
      */
-    public List<EvaluationResult> validate(Instances data, Classifier classifier, String[] columnsToDrop, SamplingStrategy samplingStrategy) {
+    public List<EvaluationResult> validate(Instances data, Classifier classifier, String[] columnsToDrop, SamplingStrategy samplingStrategy, FeatureSelectionStrategy fsStrategy) {
         List<EvaluationResult> results = new ArrayList<>();
 
         // 1. Recupera l'attributo ReleaseIndex (Numerico: 1, 2, 3...)
@@ -55,8 +59,12 @@ public class WalkForwardValidator {
                 Instances rawTest = filterByIndex(data, indexAttr, i, false);
 
                 // B. Check vacuità
-                if (rawTest.numInstances() == 0 || rawTrain.numInstances() == 0) {
-                    logger.warn("Fold Release {}: Train o Test vuoti. Skipping.", i);
+                if (rawTest.numInstances() == 0) {
+                    logger.warn("Fold Release {}: Test vuoti. Skipping.", i);
+                    continue;
+                }
+                if (rawTrain.numInstances() == 0) {
+                    logger.warn("Fold Release {}: Train vuoti. Skipping.", i);
                     continue;
                 }
 
@@ -73,14 +81,35 @@ public class WalkForwardValidator {
                 logger.info("Fold Release {}: Train instances: {}, Test instances: {} (Attributi usati: {})",
                         i, cleanTrain.numInstances(), cleanTest.numInstances(), cleanTrain.numAttributes());
 
+                // --- 3. FEATURE SELECTION ---
+                String selectedFeaturesString = "ALL"; // Default se non usiamo FS
+
+                if (fsStrategy != null) {
+                    // Applica la selezione: filtro train e test in base a ciò che è meglio per il train
+                    Instances[] filtered = fsStrategy.apply(cleanTrain, cleanTest);
+                    cleanTrain = filtered[0];
+                    cleanTest = filtered[1];
+
+                    // Salviamo i nomi delle feature rimaste per il report
+                    StringBuilder sb = new StringBuilder();
+                    for (int k = 0; k < cleanTrain.numAttributes(); k++) {
+                        if (k != cleanTrain.classIndex()) {
+                            if (!sb.isEmpty()) sb.append(";");
+                            sb.append(cleanTrain.attribute(k).name());
+                        }
+                    }
+                    selectedFeaturesString = sb.toString();
+                    logger.debug("Fold {}: FS kept {} features.", i, cleanTrain.numAttributes() - 1);
+                }
+
                 // C. SAMPLING (Bilanciamento Classi)
                 // APPLICATO SOLO AL TRAINING SET!
                 // Il Test set deve rimanere sbilanciato come nella realtà.
-                Instances balancedTrain;
+                Instances trainToUse = cleanTrain;
                 if (samplingStrategy != null) {
-                    balancedTrain = samplingStrategy.apply(cleanTrain);
-                    logger.debug("Fold {}: SMOTE applicato. Train size passa da {} a {}",
-                            i, cleanTrain.numInstances(), balancedTrain.numInstances());
+                    trainToUse = samplingStrategy.apply(cleanTrain);
+                    logger.debug("Fold {}: SMOTE applied. Size: {} -> {}",
+                            i, cleanTrain.numInstances(), trainToUse.numInstances());
                 }
 
                 // D. Training & Evaluation
@@ -91,21 +120,23 @@ public class WalkForwardValidator {
                 eval.evaluateModel(clsCopy, cleanTest);
 
                 // E. Raccolta Metriche
-                int positiveClassIndex = getPositiveClassIndex(cleanTrain);
-                double npofb20 = calculateNPofB20(eval.predictions(), cleanTest, positiveClassIndex);
+                int posIdx = getPositiveClassIndex(cleanTrain);
+                double npofb20 = calculateNPofB20(eval.predictions(), cleanTest, posIdx);
+
                 results.add(new EvaluationResult(
                         i,
-                        eval.precision(positiveClassIndex),
-                        eval.recall(positiveClassIndex),
-                        eval.fMeasure(positiveClassIndex),
-                        eval.areaUnderROC(positiveClassIndex),
+                        eval.precision(posIdx),
+                        eval.recall(posIdx),
+                        eval.fMeasure(posIdx),
+                        eval.areaUnderROC(posIdx),
                         eval.kappa(),
-                        npofb20
+                        npofb20,
+                        selectedFeaturesString
                 ));
             }
 
         } catch (ModelEvaluationException me) {
-            throw me; // Rilancia la nostra
+            throw me;
         } catch (Exception e) {
             // Cattura errori Weka generici e incapsula
             throw new ModelEvaluationException("Errore critico durante l'esecuzione del Walk-Forward: " + e.getMessage(), e);

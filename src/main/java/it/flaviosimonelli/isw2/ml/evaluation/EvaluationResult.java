@@ -11,11 +11,12 @@ public class EvaluationResult {
     private double auc;      // Area Under ROC
     private double kappa;    // Cohen's Kappa
     private double npofb20;  // Number of Predicted Bugs in top 20% LOC
+    private String selectedFeatures;
 
     public EvaluationResult() {}
 
     public EvaluationResult(int releaseIndex, double precision, double recall, double fMeasure,
-                            double auc, double kappa, double npofb20) {
+                            double auc, double kappa, double npofb20, String selectedFeatures) {
         this.releaseIndex = releaseIndex;
         this.precision = precision;
         this.recall = recall;
@@ -23,10 +24,13 @@ public class EvaluationResult {
         this.auc = auc;
         this.kappa = kappa;
         this.npofb20 = npofb20;
+        this.selectedFeatures = selectedFeatures;
     }
 
     // getter e setter
     public int getReleaseIndex() { return releaseIndex; }
+
+    public String getSelectedFeatures() { return selectedFeatures; }
 
     public double getPrecision() {
         return precision;

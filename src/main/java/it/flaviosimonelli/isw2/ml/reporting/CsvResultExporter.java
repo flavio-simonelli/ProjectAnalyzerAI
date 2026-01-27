@@ -15,16 +15,14 @@ public class CsvResultExporter {
 
     // Intestazioni del report finale
     private static final String[] REPORT_HEADERS = {
-            "Project", "Run", "Classifier", "Sampling", "CostSensitive",
-            "ReleaseIndex",
-            "Precision", "Recall", "F-Measure", "AUC", "Kappa", "NPofB20"
+            "Project", "Run", "Classifier", "Sampling", "ReleaseIndex", "Precision", "Recall", "F-Measure", "AUC", "Kappa", "NPofB20"
     };
 
     /**
      * Scrive i risultati su CSV usando CsvUtils in modalità append.
      */
     public void appendResults(String outputPath, String project, int run, String classifierName,
-                              String samplingName, List<EvaluationResult> results) {
+                              String samplingName, String fsName, List<EvaluationResult> results) {
 
         try (CSVPrinter printer = CsvUtils.createPrinter(outputPath, true, REPORT_HEADERS)) {
 
@@ -34,14 +32,15 @@ public class CsvResultExporter {
                         run,
                         classifierName,
                         samplingName,
-                        "No", // Placeholder per Cost Sensitive Learning se lo userai
+                        fsName,
                         res.getReleaseIndex(),
                         format(res.getPrecision()),
                         format(res.getRecall()),
                         format(res.getFMeasure()),
                         format(res.getAuc()),
                         format(res.getKappa()),
-                        format(res.getNpofb20())
+                        format(res.getNpofb20()),
+                        res.getSelectedFeatures()
                 );
             }
             // Il flush è gestito dal try-with-resources di CSVPrinter
