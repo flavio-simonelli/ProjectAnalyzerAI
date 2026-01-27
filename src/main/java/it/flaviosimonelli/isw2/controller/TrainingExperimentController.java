@@ -3,7 +3,6 @@ package it.flaviosimonelli.isw2.controller;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.ml.exceptions.DatasetLoadingException;
-import it.flaviosimonelli.isw2.ml.exceptions.ModelEvaluationException;
 import it.flaviosimonelli.isw2.ml.feature_selection.BestFirstSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.feature_selection.InfoGainSelectionStrategy;
@@ -172,15 +171,11 @@ public class TrainingExperimentController {
     }
 
     private FeatureSelectionStrategy getFeatureSelectionStrategy(String name) {
-        switch (name) {
-            case "BestFirst":
-                return new BestFirstSelectionStrategy();
-            case "InfoGain":
-                return new InfoGainSelectionStrategy();
-            case "NoSelection":
-                return new NoSelectionStrategy();
-            default:
-                throw new IllegalArgumentException("Feature Selection Strategy non supportata: " + name);
-        }
+        return switch (name) {
+            case "BestFirst" -> new BestFirstSelectionStrategy();
+            case "InfoGain" -> new InfoGainSelectionStrategy();
+            case "NoSelection" -> new NoSelectionStrategy();
+            default -> throw new IllegalArgumentException("Feature Selection Strategy non supportata: " + name);
+        };
     }
 }
