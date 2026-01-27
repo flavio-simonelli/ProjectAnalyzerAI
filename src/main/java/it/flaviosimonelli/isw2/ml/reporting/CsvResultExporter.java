@@ -13,9 +13,20 @@ public class CsvResultExporter {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvResultExporter.class);
 
-    // Intestazioni del report finale
     private static final String[] REPORT_HEADERS = {
-            "Project", "Run", "Classifier", "Sampling", "ReleaseIndex", "Precision", "Recall", "F-Measure", "AUC", "Kappa", "NPofB20"
+            "Project",
+            "Run",
+            "Classifier",
+            "Sampling",
+            "FeatureSelection",
+            "ReleaseIndex",
+            "Precision",
+            "Recall",
+            "F-Measure",
+            "AUC",
+            "Kappa",
+            "NPofB20",
+            "SelectedFeatures"
     };
 
     /**
@@ -43,8 +54,8 @@ public class CsvResultExporter {
                         res.getSelectedFeatures()
                 );
             }
-            // Il flush è gestito dal try-with-resources di CSVPrinter
-            logger.info("Salvati {} risultati per {} ({})", results.size(), classifierName, samplingName);
+            logger.info("Salvati {} risultati per {} ({}, {})",
+                    results.size(), classifierName, samplingName, fsName);
 
         } catch (IOException e) {
             logger.error("Errore scrittura report ML: {}", outputPath, e);
