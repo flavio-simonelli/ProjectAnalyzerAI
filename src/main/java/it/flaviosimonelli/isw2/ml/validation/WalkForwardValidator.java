@@ -81,6 +81,10 @@ public class WalkForwardValidator {
                 logger.info("Fold Release {}: Train instances: {}, Test instances: {} (Attributi usati: {})",
                         i, cleanTrain.numInstances(), cleanTest.numInstances(), cleanTrain.numAttributes());
 
+                // Salviamo un riferimento al test set "intero" (con LOC) PRIMA della Feature Selection.
+                // Ci servirà solo alla fine per calcolare i costi, non per la predizione.
+                Instances testSetForCostAnalysis = cleanTest;
+
                 // --- 3. FEATURE SELECTION ---
                 String selectedFeaturesString = "ALL"; // Default se non usiamo FS
 
@@ -105,7 +109,7 @@ public class WalkForwardValidator {
                 // C. SAMPLING (Bilanciamento Classi)
                 // APPLICATO SOLO AL TRAINING SET!
                 // Il Test set deve rimanere sbilanciato come nella realtà.
-                Instances trainToUse = cleanTrain;
+                Instances trainToUse;
                 if (samplingStrategy != null) {
                     trainToUse = samplingStrategy.apply(cleanTrain);
                     logger.debug("Fold {}: SMOTE applied. Size: {} -> {}",
@@ -121,7 +125,7 @@ public class WalkForwardValidator {
 
                 // E. Raccolta Metriche
                 int posIdx = getPositiveClassIndex(cleanTrain);
-                double npofb20 = calculateNPofB20(eval.predictions(), cleanTest, posIdx);
+                double npofb20 = calculateNPofB20(eval.predictions(), testSetForCostAnalysis, posIdx);
 
                 results.add(new EvaluationResult(
                         i,
