@@ -27,6 +27,20 @@ public class MethodProcessMetrics {
         return Collections.unmodifiableMap(metrics);
     }
 
+    /**
+     * Somma il valore a quello esistente (es. Totale Churn).
+     */
+    public void increaseMetric(String key, double valueToAdd) {
+        metrics.merge(key, valueToAdd, Double::sum);
+    }
+
+    /**
+     * Aggiorna il valore solo se il nuovo è maggiore (es. Max Churn).
+     */
+    public void updateMax(String key, double potentialNewMax) {
+        metrics.merge(key, potentialNewMax, Math::max);
+    }
+
     // --- Gestione Dati Complessi (Per Autori Distinti) ---
     public void addToSet(String metricName, String value) {
         complexData.computeIfAbsent(metricName, _ -> new HashSet<>()).add(value);

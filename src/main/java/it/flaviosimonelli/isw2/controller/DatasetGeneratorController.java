@@ -166,9 +166,12 @@ public class DatasetGeneratorController {
                     record.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
 
                     // 2. Metriche
+                    // Metriche Statiche
                     record.addAll(staticService.getValuesAsList(entry.getValue()));
-                    record.addAll(processAnalyzer.getValuesAsList(intervalProcessMap.get(id)));
-                    record.addAll(processAnalyzer.getValuesAsList(globalProcessMap.get(id)));
+                    // Valori Locali (Intervallo corrente)
+                    record.addAll(processAnalyzer.getLocalValues(intervalProcessMap.get(id)));
+                    // Valori Globali (Storico accumulato)
+                    record.addAll(processAnalyzer.getGlobalValues(globalProcessMap.get(id)));
 
                     // 3. Label
                     record.add(isBuggyBoolean ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
