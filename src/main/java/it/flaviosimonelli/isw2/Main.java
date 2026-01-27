@@ -9,6 +9,7 @@ import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.client.IJiraClient;
 import it.flaviosimonelli.isw2.jira.service.JiraService;
 import it.flaviosimonelli.isw2.jira.client.RestJiraClient;
+import it.flaviosimonelli.isw2.ml.reporting.GraphGenerationService;
 import it.flaviosimonelli.isw2.util.AppConfig;
 
 import org.slf4j.Logger;
@@ -27,8 +28,8 @@ import it.flaviosimonelli.isw2.config.ExecutionMode;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main() {
-        logger.info("Avvio applicazione ISW2 Mining...");
+    static void main() {
+        logger.info("Avvio applicazione ISW2 Prediction...");
 
         try {
             // =================================================================
@@ -51,6 +52,9 @@ public class Main {
             // Definizione File Path Completi
             String datasetFile = datasetDir.resolve(projectKey + DATASET_SUFFIX).toString();
             String correlationFile = correlationDir.resolve(projectKey + CORRELATION_SUFFIX).toString();
+
+            String mlResultFile = mlDir.resolve(projectKey + "_validation_results.csv").toString();
+            String graphsDir = mlDir.resolve("graphs").toString();
 
             // =================================================================
             // 2. LOGICA DI ESECUZIONE
@@ -83,6 +87,14 @@ public class Main {
                 case ML_ONLY:
                     if (ensureFileExists(datasetFile)) {
                         runMachineLearning(datasetFile, projectKey);
+                        runGraphGeneration(mlResultFile, graphsDir);
+                    }
+                    break;
+                case GRAPH_ONLY:
+                    if (ensureFileExists(mlResultFile)) {
+                        runGraphGeneration(mlResultFile, graphsDir);
+                    } else {
+                        logger.error("Impossibile generare grafici: manca il file risultati ML ({})", mlResultFile);
                     }
                     break;
             }
@@ -98,14 +110,7 @@ public class Main {
     private static void runDatasetGeneration(String projectKey, String outputCsvPath) {
         logger.info(">>> STEP 1: Generazione Dataset");
 
-        // Inizializzazione Lazy dei servizi (risparmia risorse se non usati)
         String gitRepoPath = AppConfig.get("git.repoPath");
-        // non effettuiamo più il controllo sul repo se è esistente o meno
-        // Verifica Repo Git
-//        if (!new File(gitRepoPath).exists()) {
-//            logger.error("La cartella Git specificata non esiste: {}", gitRepoPath);
-//            return;
-//        }
         IJiraClient jiraClient = new RestJiraClient();
         IGitClient gitClient = new JGitClient(gitRepoPath);
         JiraService jiraService = new JiraService(jiraClient);
@@ -125,6 +130,12 @@ public class Main {
         logger.info(">>> STEP 3: Machine Learning (Weka)");
         TrainingExperimentController mlController = new TrainingExperimentController(inputCsvPath, projectKey);
         mlController.runExperiment();
+    }
+
+    private static void runGraphGeneration(String inputCsvPath, String outputDir) {
+        logger.info(">>> STEP 4: Generazione Grafici (Python)");
+        GraphGenerationService graphService = new GraphGenerationService();
+        graphService.generateGraphs(inputCsvPath, outputDir);
     }
 
     // Utility per verificare i pre-requisiti

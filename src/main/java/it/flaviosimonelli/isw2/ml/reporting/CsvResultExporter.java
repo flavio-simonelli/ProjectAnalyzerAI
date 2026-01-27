@@ -15,7 +15,7 @@ public class CsvResultExporter {
 
     // Intestazioni del report finale
     private static final String[] REPORT_HEADERS = {
-            "Project", "Classifier", "Sampling", "CostSensitive",
+            "Project", "Run", "Classifier", "Sampling", "CostSensitive",
             "ReleaseIndex",
             "Precision", "Recall", "F-Measure", "AUC", "Kappa", "NPofB20"
     };
