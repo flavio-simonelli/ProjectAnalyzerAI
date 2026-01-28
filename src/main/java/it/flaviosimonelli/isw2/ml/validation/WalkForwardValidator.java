@@ -109,19 +109,25 @@ public class WalkForwardValidator {
                 // C. SAMPLING (Bilanciamento Classi)
                 // APPLICATO SOLO AL TRAINING SET!
                 // Il Test set deve rimanere sbilanciato come nella realtà.
-                Instances trainToUse;
+                Instances trainToUse = cleanTrain;
                 if (samplingStrategy != null) {
                     trainToUse = samplingStrategy.apply(cleanTrain);
                     logger.debug("Fold {}: SMOTE applied. Size: {} -> {}",
                             i, cleanTrain.numInstances(), trainToUse.numInstances());
                 }
 
+                // Conta quanti Buggy ci sono nel training set effettivo
+                int[] stats = trainToUse.attributeStats(trainToUse.classIndex()).nominalCounts;
+                // Assumendo indice 0=Clean, 1=Buggy (verifica l'ordine nel tuo ARFF se diverso)
+                logger.info("Fold {}: Training Class Distribution -> Clean: {}, Buggy: {}",
+                        i, stats[0], stats[1]);
+
                 // D. Training & Evaluation
                 Classifier clsCopy = weka.classifiers.AbstractClassifier.makeCopy(classifier);
-                clsCopy.buildClassifier(cleanTrain);
+                clsCopy.buildClassifier(trainToUse);
 
-                Evaluation eval = new Evaluation(cleanTrain);
-                eval.evaluateModel(clsCopy, cleanTest);
+                Evaluation eval = new Evaluation(cleanTrain); // L'eval si inizializza sulla struttura (va bene cleanTrain o trainToUse)
+                eval.evaluateModel(clsCopy, cleanTest); // Il test DEVE essere cleanTest (non bilanciato)
 
                 // E. Raccolta Metriche
                 int posIdx = getPositiveClassIndex(cleanTrain);
