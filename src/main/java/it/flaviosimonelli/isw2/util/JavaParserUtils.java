@@ -9,6 +9,10 @@ import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
 public class JavaParserUtils {
 
+    private JavaParserUtils() {
+        throw new IllegalStateException("Utility class - non istanziabile");
+    }
+
     /**
      * Genera la firma univoca completa (Package + Classi + Metodo + Parametri).
      * Esempio: "it.pkg.Outer.Inner.myMethod(int, String)"
