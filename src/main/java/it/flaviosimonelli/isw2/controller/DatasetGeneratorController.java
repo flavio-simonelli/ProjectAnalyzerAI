@@ -31,6 +31,8 @@ public class DatasetGeneratorController {
     private final StaticAnalysisService staticService;
     private final ProcessMetricAnalyzer processAnalyzer;
 
+    private static final String SEP = "===============================================================";
+
     public DatasetGeneratorController(JiraService jiraService, GitService gitService) {
         this.jiraService = jiraService;
         this.gitService = gitService;
@@ -198,23 +200,33 @@ public class DatasetGeneratorController {
             }
 
             snoringService.printFinalReport(outputCsvPath);
-            // --- STAMPA FINALE DELLE STATISTICHE ---
-            logger.info("===============================================================");
-            logger.info("            DATASET GENERATION REPORT                          ");
-            logger.info("===============================================================");
-            logger.info("File Output: {}", outputCsvPath);
-            logger.info("Totale Righe Scritte: {}", totalRowsWritten);
-            logger.info("Totale Righe BUGGY (Class 'Yes'): {}", totalBuggyRowsWritten);
-            if (totalRowsWritten > 0) {
-                double perc = (double) totalBuggyRowsWritten / totalRowsWritten * 100.0;
-                logger.info("Percentuale Bugginess nel Dataset: {}%", String.format("%.2f", perc));
-            }
-            logger.info("===============================================================");
+            logDatasetReport(outputCsvPath, totalRowsWritten, totalBuggyRowsWritten);
 
         } catch (IOException e) {
             logger.error("Errore critico durante la scrittura del dataset", e);
             throw new RuntimeException("Creazione dataset fallita", e);
         }
+    }
+
+
+    /**
+     * Funzione Helper per la stampa del report finale.
+     */
+    private void logDatasetReport(String path, long total, long buggy) {
+        double perc = (total > 0) ? (double) buggy / total * 100.0 : 0.0;
+
+        String report = """
+            %s
+                        DATASET GENERATION REPORT
+            %s
+            File Output: %s
+            Totale Righe Scritte: %d
+            Totale Righe BUGGY (Class 'Yes'): %d
+            Percentuale Bugginess nel Dataset: %.2f%%
+            %s
+            """.formatted(SEP, SEP, path, total, buggy, perc, SEP);
+
+        logger.info("\n{}", report);
     }
 
 }
