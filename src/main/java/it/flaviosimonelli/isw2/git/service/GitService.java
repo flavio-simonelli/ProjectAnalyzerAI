@@ -157,8 +157,8 @@ public class GitService {
 
         // 2. Applichiamo solo i filtri di business (es. no test)
         return javaFiles.stream()
-                .filter(path -> !path.contains(TEST_PATH_MARKER)) // Filtro business
-                .collect(Collectors.toList());
+                .filter(path -> !path.contains(TEST_PATH_MARKER))
+                .toList();
     }
 
     public Map<String, String> getJavaFilesContent(GitCommit commit) {
