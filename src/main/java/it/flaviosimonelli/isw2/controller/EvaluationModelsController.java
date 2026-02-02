@@ -49,83 +49,76 @@ public class EvaluationModelsController {
         CsvResultExporter exporter = new CsvResultExporter();
         WalkForwardValidator validator = new WalkForwardValidator();
 
-        // 1. Setup Cartelle Output
-        String outputDir = AppConfig.getProperty("output.base.path", "./results") + "/ml";
-        new File(outputDir).mkdirs();
-        String reportPath = Paths.get(outputDir, projectKey + "_validation_results.csv").toString();
+        String reportPath = prepareOutputDirectory();
 
-        // 2. Lettura Configurazioni da AppConfig
+        // Lettura configurazioni
         int numRuns = Integer.parseInt(AppConfig.getProperty("ml.num_runs", "10"));
         List<String> activeClassifiers = AppConfig.getList("ml.classifiers", "RandomForest,NaiveBayes,IBk");
         List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE");
         List<String> activeFeatureSelectors = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
 
-        logger.info("CONFIGURAZIONE ESPERIMENTO:");
-        logger.info("Runs: {}", numRuns);
-        logger.info("Classifiers: {}", activeClassifiers);
-        logger.info("Samplers: {}", activeSamplers);
-        logger.info("Feature Sel.: {}", activeFeatureSelectors);
-
         try {
-            // 3. Load Dataset
             Instances dataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
-
-            // --- TRIPLO LOOP: Classifier -> Sampler -> FeatureSelection ---
-            // Nota: L'ordine dei loop non è critico per il risultato, ma per il log sì.
-            // Eseguiamo 10 run per ogni configurazione.
 
             for (int run = 1; run <= numRuns; run++) {
                 logger.info(">>> INIZIO RUN {}/{}", run, numRuns);
 
+                // Iteriamo sulle combinazioni di parametri
                 for (String clfName : activeClassifiers) {
                     for (String smpName : activeSamplers) {
                         for (String fsName : activeFeatureSelectors) {
-
-                            try {
-                                // A. Istanzia le strategie (Con Seed variabile dove serve)
-                                Classifier classifier = getClassifierInstance(clfName, run);
-                                SamplingStrategy sampler = getSamplingStrategy(smpName, run);
-                                FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fsName);
-
-                                logger.info("Training: [Run {}] {} + {} + {}", run, clfName, smpName, fsName);
-
-                                // B. Esegui Validazione Walk-Forward
-                                // Passiamo TUTTE le strategie al validatore
-                                List<EvaluationResult> results = validator.validate(
-                                        dataset,
-                                        classifier,
-                                        METADATA_COLS, // Colonne da scartare (ID, Version...)
-                                        sampler,       // SMOTE o null
-                                        fsStrategy     // BestFirst o NoSelection
-                                );
-
-                                // C. Salva Risultati su CSV
-                                exporter.appendResults(
-                                        reportPath,
-                                        projectKey,
-                                        run,
-                                        clfName,
-                                        smpName,
-                                        fsName, // Passiamo anche il nome della FS strategy
-                                        results
-                                );
-
-                            } catch (Exception ex) {
-                                logger.error("Errore nella configurazione [{} - {} - {}]: {}",
-                                        clfName, smpName, fsName, ex.getMessage());
-                            }
+                            // Estrazione della logica in un metodo separato per evitare try-catch annidati (S1141)
+                            executeSingleConfiguration(run, dataset, clfName, smpName, fsName, validator, exporter, reportPath);
                         }
                     }
                 }
             }
-
             logger.info("Esperimento completato. Report salvato in: {}", reportPath);
 
         } catch (DatasetLoadingException e) {
             logger.error("Impossibile caricare il dataset: {}", e.getMessage());
         } catch (Exception e) {
-            logger.error("Errore critico di sistema", e);
+            logger.error("Errore critico durante l'esecuzione dell'esperimento", e);
         }
+    }
+
+    /**
+     * Esegue una singola configurazione del modello.
+     * Metodo estratto per ridurre la complessità e risolvere java:S1141.
+     */
+    private void executeSingleConfiguration(int run, Instances dataset, String clfName, String smpName, String fsName,
+                                            WalkForwardValidator validator, CsvResultExporter exporter, String reportPath) {
+        try {
+            Classifier classifier = getClassifierInstance(clfName, run);
+            SamplingStrategy sampler = getSamplingStrategy(smpName, run);
+            FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fsName);
+
+            logger.info("Valutazione: [Run {}] {} + {} + {}", run, clfName, smpName, fsName);
+
+            // Validazione Walk-Forward con i nuovi tipi (List<String>)
+            List<EvaluationResult> results = validator.validate(
+                    dataset,
+                    classifier,
+                    METADATA_COLS,
+                    sampler,
+                    fsStrategy
+            );
+
+            exporter.appendResults(reportPath, projectKey, run, clfName, smpName, fsName, results);
+
+        } catch (Exception ex) {
+            // L'errore di una singola configurazione non deve bloccare le altre
+            logger.error("Errore nella configurazione [{} - {} - {}]: {}", clfName, smpName, fsName, ex.getMessage());
+        }
+    }
+
+    private String prepareOutputDirectory() {
+        String outputDir = AppConfig.getProperty("output.base.path", "./results") + "/ml";
+        File dir = new File(outputDir);
+        if (!dir.exists() && !dir.mkdirs()) {
+            logger.warn("Impossibile creare la cartella di output: {}", outputDir);
+        }
+        return Paths.get(outputDir, projectKey + "_validation_results.csv").toString();
     }
 
     // --- Helper Methods ---
