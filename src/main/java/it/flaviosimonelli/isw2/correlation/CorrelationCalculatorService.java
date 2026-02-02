@@ -64,7 +64,7 @@ public class CorrelationCalculatorService {
 
             } catch (NumberFormatException e) {
                 // Log debug: è normale che colonne come "Class" o "File" falliscano il parsing se non filtrate prima
-                logger.debug("Colonna {} non numerica, ignorata.", metricName);
+                logger.debug("Salto colonna '{}': non è una metrica numerica valida. Dettaglio: {}", metricName, e.getMessage());
             }
         }
 
