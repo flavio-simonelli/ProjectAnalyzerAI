@@ -32,7 +32,6 @@ public class WekaDataLoader {
             DataSource source = new DataSource(csvPath);
             data = source.getDataSet();
         } catch (Exception e) {
-            logger.error("Errore critico durante la lettura del file CSV: {}", e.getMessage());
             throw new DatasetLoadingException("Impossibile leggere il file CSV al percorso: " + csvPath, e);
         }
 
