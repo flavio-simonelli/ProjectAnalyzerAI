@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2.ml.feature_selection;
 
+import it.flaviosimonelli.isw2.ml.exceptions.FeatureSelectionException;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.core.Instances;
@@ -17,18 +18,23 @@ import weka.filters.supervised.attribute.AttributeSelection;
 public class InfoGainSelectionStrategy implements FeatureSelectionStrategy {
 
     @Override
-    public Instances[] apply(Instances train, Instances test) throws Exception {
-        // 1. Configura l'Evaluator (Calcola il punteggio InfoGain per ogni feature)
-        AttributeSelection filter = getAttributeSelection();
+    public Instances[] apply(Instances train, Instances test) {
+        try {
+            // 1. Configura l'Evaluator tramite metodo helper
+            AttributeSelection filter = getAttributeSelection();
 
-        // 4. Addestra il filtro sul Training Set
-        filter.setInputFormat(train);
+            // 2. Addestra il filtro sul Training Set
+            filter.setInputFormat(train);
 
-        // 5. Applica il filtro a Train e Test
-        Instances newTrain = Filter.useFilter(train, filter);
-        Instances newTest = Filter.useFilter(test, filter);
+            // 3. Applica il filtro a Train e Test
+            Instances newTrain = Filter.useFilter(train, filter);
+            Instances newTest = Filter.useFilter(test, filter);
 
-        return new Instances[]{newTrain, newTest};
+            return new Instances[]{newTrain, newTest};
+
+        } catch (Exception e) {
+            throw new FeatureSelectionException("Errore nel calcolo del ranking tramite Information Gain", e);
+        }
     }
 
     private static AttributeSelection getAttributeSelection() {
@@ -38,7 +44,7 @@ public class InfoGainSelectionStrategy implements FeatureSelectionStrategy {
         Ranker search = new Ranker();
 
         search.setThreshold(0.0);
-        search.setNumToSelect(10);
+        search.setNumToSelect(10); // Seleziona le top 10 feature
 
         // 3. Configura il Filtro
         AttributeSelection filter = new AttributeSelection();
