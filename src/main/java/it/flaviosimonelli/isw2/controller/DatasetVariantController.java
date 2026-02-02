@@ -47,7 +47,7 @@ public class DatasetVariantController {
             int smellIdx = smellAttr.index();
 
             // 3. Prepara i contenitori vuoti (copia solo header)
-            Instances dataB_Plus = new Instances(dataA, 0); // B+: Smells > 0
+            Instances dataBPlus = new Instances(dataA, 0); // B+: Smells > 0
             Instances dataB      = new Instances(dataA, 0); // B : Smells > 0 ma forzati a 0
             Instances dataC      = new Instances(dataA, 0); // C : Smells == 0 (naturali)
 
@@ -58,7 +58,7 @@ public class DatasetVariantController {
 
                 if (smellValue > 0) {
                     // --- Caso B+ (Originale con smell) ---
-                    dataB_Plus.add((Instance) originalInst.copy());
+                    dataBPlus.add((Instance) originalInst.copy());
 
                     // --- Caso B (Artificiale senza smell) ---
                     Instance artificialInst = (Instance) originalInst.copy();
@@ -72,12 +72,12 @@ public class DatasetVariantController {
             }
 
             logger.info("Split completato. Scrittura CSV...");
-            logger.info("Dataset B+ (Smelly): {} istanze", dataB_Plus.numInstances());
+            logger.info("Dataset B+ (Smelly): {} istanze", dataBPlus.numInstances());
             logger.info("Dataset B  (Fixed):  {} istanze", dataB.numInstances());
             logger.info("Dataset C  (Clean):  {} istanze", dataC.numInstances());
 
             // 5. Salva i file usando CsvUtils
-            saveViaCsvUtils(dataB_Plus, outputDir, projectKey + "_B_PLUS.csv");
+            saveViaCsvUtils(dataBPlus, outputDir, projectKey + "_B_PLUS.csv");
             saveViaCsvUtils(dataB,      outputDir, projectKey + "_B_FIXED.csv");
             saveViaCsvUtils(dataC,      outputDir, projectKey + "_C_CLEAN.csv");
 
