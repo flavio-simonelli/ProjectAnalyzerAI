@@ -4,54 +4,35 @@ import java.util.Objects;
 
 /**
  * Rappresenta l'identità univoca di un metodo.
- * È progettata per essere usata come CHIAVE nelle HashMap.
- * È IMMUTABILE.
+ * Implementata come Record per garantire immutabilità e concisione (SonarCloud java:S6206).
+ *
+ * @param fullSignature L'identificativo univoco (es. "it.pkg.MyClass.myMethod(int)")
+ * @param className     Nome della classe
+ * @param methodName    Nome del metodo
  */
-public final class MethodIdentity {
-
-    // L'identificativo univoco (es. "it.pkg.MyClass.myMethod(int)")
-    private final String fullSignature;
-
-    // Metadati utili già separati (per comodità di scrittura CSV)
-    private final String className;
-    private final String methodName;
-
-    public MethodIdentity(String fullSignature, String className, String methodName) {
-        // Fail-fast: Non ha senso avere una identità null
-        this.fullSignature = Objects.requireNonNull(fullSignature, "La signature non può essere null");
-        this.className = className;
-        this.methodName = methodName;
-    }
-
-    // --- GETTERS ---
-    public String getFullSignature() {
-        return fullSignature;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    // --- CORE LOGIC PER HASHMAP ---
+public record MethodIdentity(String fullSignature, String className, String methodName) {
 
     /**
-     * Due identità sono uguali se hanno la stessa firma completa.
-     * ClassName e MethodName sono derivati, quindi non servono per l'uguaglianza.
+     * Costruttore compatto per la validazione.
+     * Le assegnazioni ai campi avvengono automaticamente alla fine del blocco.
+     */
+    public MethodIdentity {
+        Objects.requireNonNull(fullSignature, "La signature non può essere null");
+    }
+
+    /**
+     * Redefiniamo equals per mantenere la tua logica originale:
+     * l'uguaglianza dipende solo dalla firma completa.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MethodIdentity that = (MethodIdentity) o;
-        return fullSignature.equals(that.fullSignature);
+        if (!(o instanceof MethodIdentity that)) return false; // Pattern Matching (Java 25)
+        return Objects.equals(fullSignature, that.fullSignature);
     }
 
     /**
-     * L'hashcode deve essere consistente con equals.
+     * L'hashcode deve essere consistente con la logica di equals basata solo sulla firma.
      */
     @Override
     public int hashCode() {

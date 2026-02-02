@@ -176,9 +176,9 @@ public class DatasetGeneratorController {
                     csvRow.add(release.getName());
                     csvRow.add(releaseIndex);
                     csvRow.add(releaseDateStr);
-                    csvRow.add(id.getClassName() + ".java");
-                    csvRow.add(id.getClassName());
-                    csvRow.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
+                    csvRow.add(id.className() + ".java");
+                    csvRow.add(id.className());
+                    csvRow.add(id.fullSignature()); // Commons CSV gestirà le virgole interne alla firma!
 
                     // 2. Metriche
                     // Metriche Statiche
