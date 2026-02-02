@@ -24,6 +24,6 @@ public class ParameterCountMetric implements IMetric {
     @Override
     public double calculate(MethodDeclaration method) {
         // method.getParameters() restituisce una NodeList, .size() ci dà il conteggio diretto.
-        return (double) method.getParameters().size();
+        return method.getParameters().size();
     }
 }
