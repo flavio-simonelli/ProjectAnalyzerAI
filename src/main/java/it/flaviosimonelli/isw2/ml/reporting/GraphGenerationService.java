@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,17 @@ public class GraphGenerationService {
                 logger.error("Lo script Python è terminato con errore. Exit code: {}", exitCode);
             }
 
+        } catch (InterruptedException e) {
+            // 1. Ripristina lo stato di interruzione
+            Thread.currentThread().interrupt();
+            // 2. Log dell'errore
+            logger.error("Generazione grafici interrotta forzatamente", e);
+        } catch (IOException e) {
+            // Gestione specifica per IO (ProcessBuilder, etc)
+            logger.error("Errore di I/O durante l'esecuzione dello script Python", e);
         } catch (Exception e) {
-            logger.error("Errore durante l'esecuzione dello script Python", e);
+            // Catch-all per altre eccezioni non previste
+            logger.error("Errore generico durante l'esecuzione dello script Python", e);
         }
     }
 }
