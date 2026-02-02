@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CorrelationReportController {
     private static final Logger logger = LoggerFactory.getLogger(CorrelationReportController.class);
