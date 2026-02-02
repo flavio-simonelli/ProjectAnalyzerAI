@@ -25,6 +25,10 @@ public class CsvUtils {
             .build();
 
 
+    private CsvUtils() {
+        throw new IllegalStateException("Utility class - non istanziabile");
+    }
+
     /**
      * Crea un CSVPrinter che può appendere al file esistente.
      * Se il file non esiste, lo crea e scrive gli header.
