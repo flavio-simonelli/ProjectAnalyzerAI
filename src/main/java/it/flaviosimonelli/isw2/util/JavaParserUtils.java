@@ -41,10 +41,10 @@ public class JavaParserUtils {
         StringBuilder sb = new StringBuilder();
         Node current = method.getParentNode().orElse(null);
         while (current != null) {
-            if (current instanceof ClassOrInterfaceDeclaration) {
-                sb.insert(0, ((ClassOrInterfaceDeclaration) current).getNameAsString() + ".");
-            } else if (current instanceof EnumDeclaration) {
-                sb.insert(0, ((EnumDeclaration) current).getNameAsString() + ".");
+            if (current instanceof ClassOrInterfaceDeclaration classDecl) {
+                sb.insert(0, classDecl.getNameAsString() + ".");
+            } else if (current instanceof EnumDeclaration enumDecl) {
+                sb.insert(0, enumDecl.getNameAsString() + ".");
             }
             current = current.getParentNode().orElse(null);
         }
