@@ -77,10 +77,10 @@ public class CsvUtils {
             }
 
             // 2. Itera sui record (righe) gestendo automaticamente quote e virgole interne
-            for (CSVRecord record : parser) {
+            for (CSVRecord csvRecord : parser) {
                 for (String header : headers) {
                     // check difensivo se la riga ha meno colonne dell'header
-                    String value = record.isMapped(header) ? record.get(header) : "";
+                    String value = csvRecord.isMapped(header) ? csvRecord.get(header) : "";
                     dataset.get(header).add(value);
                 }
             }
