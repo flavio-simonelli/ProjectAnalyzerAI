@@ -14,6 +14,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class JiraService {
     private static final Logger logger = LoggerFactory.getLogger(JiraService.class);
@@ -24,49 +26,38 @@ public class JiraService {
     }
 
     /**
-     * Recupera tutte le
-     * @param projectKey la chiave Jira del progetto
-     * @return la lista delle versioni elencate da Jira
+     * Recupera e valida le release del progetto, ordinandole cronologicamente.
      */
     public List<JiraRelease> getReleases(String projectKey) {
         JSONArray jsonReleases = jiraClient.getProjectVersions(projectKey);
-        List<JiraRelease> releases = new ArrayList<>();
 
-        for (int i = 0; i < jsonReleases.length(); i++) {
-            JSONObject jsonItem = jsonReleases.getJSONObject(i);
+        return IntStream.range(0, jsonReleases.length())
+                .mapToObj(jsonReleases::getJSONObject)
+                .map(this::mapToJiraRelease)
+                .filter(Objects::nonNull) // Elimina i 'continue' filtrando i null (java:S135 fix)
+                .sorted(Comparator.comparing(JiraRelease::getReleaseDate))
+                .toList();
+    }
 
-            // Estrazione Nome (se manca, saltiamo la versione)
-            String name = jsonItem.optString("name");
-            if (name == null || name.isEmpty()) {
-                logger.warn("Release scartata (manca name)");
-                continue; // Salta alla prossima iterazione
-            }
-            // Estrazione ID (se manca, saltiamo la versione)
-            String id = jsonItem.optString("id");
-            if (id == null || id.isEmpty()) {
-                logger.warn("Release scartata (manca id): Name={}", name);
-                continue; // Salta alla prossima iterazione
-            }
-            // Estrazione Data (se manca, saltiamo la versione)
-            LocalDate releaseDate = parseDateSimple(jsonItem.optString("releaseDate"));
-            if (releaseDate == null) {
-                // Logghiamo il warning con i dettagli per capire quale versione stiamo perdendo
-                logger.warn("Release scartata (manca releaseDate): ID={}, Name={}", id, name);
-                continue; // Salta alla prossima iterazione
-            }
-            // Creazione Oggetto
-            JiraRelease release = new JiraRelease(
-                    id,
-                    name,
-                    releaseDate
-            );
-            releases.add(release);
+    private JiraRelease mapToJiraRelease(JSONObject json) {
+        String name = json.optString("name");
+        String id = json.optString("id");
+        LocalDate date = parseDateSimple(json.optString("releaseDate"));
+
+        if (name == null || name.isBlank()) {
+            logger.warn("Release scartata: manca name");
+            return null;
+        }
+        if (id == null || id.isBlank()) {
+            logger.warn("Release scartata: manca id (Name={})", name);
+            return null;
+        }
+        if (date == null) {
+            logger.warn("Release scartata: manca releaseDate (ID={}, Name={})", id, name);
+            return null;
         }
 
-        // Sorting per data di rilascio
-        releases.sort(Comparator.comparing(JiraRelease::getReleaseDate, Comparator.nullsLast(Comparator.naturalOrder())));
-
-        return releases;
+        return new JiraRelease(id, name, date);
     }
 
     /**
