@@ -112,7 +112,7 @@ public class WalkForwardValidator {
         if (locAttr == null) return 0.0;
 
         List<PredictionEntry> entries = new ArrayList<>();
-        double totalBugs = 0;
+        int totalBugs = 0;
         double totalLoc = 0;
 
         // Raccolta dati predetti e reali
