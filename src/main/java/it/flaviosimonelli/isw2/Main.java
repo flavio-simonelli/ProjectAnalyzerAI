@@ -143,7 +143,7 @@ public class Main {
 
     private static void runMachineLearning(String inputCsvPath, String projectKey) {
         logger.info(">>> STEP 3: Machine Learning (Weka)");
-        TrainingExperimentController mlController = new TrainingExperimentController(inputCsvPath, projectKey);
+        EvaluationModelsController mlController = new EvaluationModelsController(inputCsvPath, projectKey);
         mlController.runExperiment();
     }
 

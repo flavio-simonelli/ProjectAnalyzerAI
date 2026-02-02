@@ -21,13 +21,11 @@ import it.flaviosimonelli.isw2.config.ProjectConstants;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class TrainingExperimentController {
+public class EvaluationModelsController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TrainingExperimentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(EvaluationModelsController.class);
 
     private final String datasetPath;
     private final String projectKey;
@@ -39,7 +37,7 @@ public class TrainingExperimentController {
             "File", "Class", "Signature"
     };
 
-    public TrainingExperimentController(String datasetPath, String projectKey) {
+    public EvaluationModelsController(String datasetPath, String projectKey) {
         this.datasetPath = datasetPath;
         this.projectKey = projectKey;
     }
