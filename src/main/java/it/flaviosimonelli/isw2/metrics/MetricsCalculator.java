@@ -7,6 +7,7 @@ import it.flaviosimonelli.isw2.metrics.impl.*; // I tuoi pacchetti implementazio
 import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import it.flaviosimonelli.isw2.util.JavaParserUtils;
+import net.sourceforge.pmd.reporting.RuleViolation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +22,12 @@ public class MetricsCalculator {
 
     // Lista ordinata delle strategie di calcolo
     private final List<IMetric> metricsChain;
+    // Manteniamo un riferimento specifico per poter settare il contesto
+    private final PmdCodeSmellsMetric pmdMetric;
 
     public MetricsCalculator() {
         this.metricsChain = new ArrayList<>();
+        this.pmdMetric = new PmdCodeSmellsMetric();
         registerMetrics();
     }
 
@@ -41,7 +45,7 @@ public class MetricsCalculator {
         register(new ReturnTypeComplexityMetric()); // Complessità del tipo di ritorno (es. List<Map<String,A>>)
 
         // --- 3. Metriche di Qualità ---
-        register(new CodeSmellsMetric());
+        register(this.pmdMetric);
     }
 
     private void register(IMetric metric) {
@@ -54,11 +58,13 @@ public class MetricsCalculator {
      * @param filePath Il percorso del file (usato solo per logging o debug se necessario)
      * @return Una Mappa ordinata: Identità Metodo -> Metriche Calcolate
      */
-    public Map<MethodIdentity, MethodStaticMetrics> extractMetrics(String sourceCode, String filePath) {
+    public Map<MethodIdentity, MethodStaticMetrics> extractMetrics(String sourceCode, String filePath, List<RuleViolation> pmdViolations) {
         // LinkedHashMap preserva l'ordine di apparizione dei metodi nel file
         Map<MethodIdentity, MethodStaticMetrics> extractedData = new LinkedHashMap<>();
 
         try {
+            this.pmdMetric.setContext(pmdViolations);
+
             CompilationUnit cu = StaticJavaParser.parse(sourceCode);
             // Visitiamo tutti i metodi
             List<MethodDeclaration> methodDeclarations = cu.findAll(MethodDeclaration.class);
@@ -98,6 +104,9 @@ public class MetricsCalculator {
         } catch (Exception e) {
             // Se il file non è parsabile (es. errori di sintassi Java), logghiamo e saltiamo
             logger.error("Impossibile parsare il file: {}", filePath, e);
+        } finally {
+            // 5. Pulizia (Opzionale ma consigliata per evitare memory leak di riferimenti)
+            this.pmdMetric.setContext(null);
         }
 
         return extractedData;

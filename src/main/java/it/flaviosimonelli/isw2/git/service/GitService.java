@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GitService {
@@ -105,31 +106,23 @@ public class GitService {
         List<GitCommit> matches = new ArrayList<>();
         String ticketKey = ticket.getKey(); // es. BOOKKEEPER-1105
 
-        // Validazione data: Il commit non può essere avvenuto dopo la data di risoluzione su Jira
-        // (Aggiungiamo un buffer di 7 giorni per fusi orari o ritardi di sync)
-        LocalDateTime resolutionDeadline = ticket.getResolution() != null
-                ? ticket.getResolution().atTime(23, 59, 59).plusDays(60)
-                : LocalDateTime.MAX;
+        // Costruiamo la regex una volta sola per efficienza
+        // \b garantisce che BOOKKEEPER-1 non matchi BOOKKEEPER-12
+        String regex = ".*\\b" + Pattern.quote(ticketKey) + "\\b.*";
+        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 
         for (GitCommit c : getAllCommits()) {
-            if (c.getMessage().contains(ticketKey)) {
-                // Controllo Anti-Falso Positivo:
-                // Se il commit è del 2020 e il ticket chiuso nel 2017, è solo una citazione, non il fix.
-                if (c.getDate().isBefore(resolutionDeadline)) {
-                    matches.add(c);
-                } else {
-                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
-                            ticket.getResolution().atStartOfDay(), // Data Ticket (inizio giornata)
-                            c.getDate()                            // Data Commit
-                    );
-
-                    if (daysDiff < 200) {
-                        logger.debug("Scartato commit {} per ticket {} (Ritardo: {} gg). Forse il buffer è stretto?",
-                                c.getHash().substring(0, 7), ticketKey, daysDiff);
-                    }
-                }
+            // 1. Nessun filtro data (come nel riferimento)
+            // 2. Uso della Regex (come nel riferimento)
+            // 3. Controllo su tutto il messaggio (meglio del riferimento, ma sicuro)
+            if (pattern.matcher(c.getMessage()).matches()) {
+                matches.add(c);
             }
         }
+
+        // Ordiniamo per data per pulizia, ma li ritorniamo TUTTI
+        matches.sort(Comparator.comparing(GitCommit::getDate));
+
         return matches;
     }
 
@@ -183,5 +176,42 @@ public class GitService {
 
     public String getRawFileContent(GitCommit commit, String path) {
         return gitClient.getFileContent(commit.getHash(), path);
+    }
+
+
+    /**
+     * --- NUOVO PER SZZ ---
+     * Trova i commit in un range esatto (LocalDateTime), necessario per l'euristica
+     * ticket Created -> Resolution.
+     */
+    public List<GitCommit> findCommitsInDateRange(LocalDateTime start, LocalDateTime end) {
+        if (start == null || end == null) return Collections.emptyList();
+
+        // Nota: getAllCommits è già ordinata per data decrescente.
+        // Possiamo ottimizzare uscendo dal loop quando superiamo la start date,
+        // ma per ora il filtro semplice va bene.
+        return getAllCommits().stream()
+                .filter(c -> !c.getDate().isBefore(start) && !c.getDate().isAfter(end))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * --- NUOVO PER SZZ ---
+     * Restituisce un Set di path dei file Java toccati.
+     * Serve per fare l'intersezione veloce: SetA.retainAll(SetB).
+     */
+    public Set<String> getTouchedJavaFilePaths(GitCommit commit) {
+        List<GitDiffEntry> diffs = gitClient.getDiffEntries(commit.getHash());
+        Set<String> touchedFiles = new HashSet<>();
+
+        for (GitDiffEntry entry : diffs) {
+            String path = entry.getNewPath().equals("/dev/null") ? entry.getOldPath() : entry.getNewPath();
+
+            // Filtriamo solo i file Java (e opzionalmente rimuoviamo i test)
+            if (path.endsWith(".java") && !path.contains("/test/")) {
+                touchedFiles.add(path);
+            }
+        }
+        return touchedFiles;
     }
 }

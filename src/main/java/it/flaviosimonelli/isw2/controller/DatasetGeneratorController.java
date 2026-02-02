@@ -77,6 +77,9 @@ public class DatasetGeneratorController {
         headers.addAll(processAnalyzer.getGlobalHeaderList());
         headers.add(ProjectConstants.TARGET_CLASS);
 
+        long totalRowsWritten = 0;
+        long totalBuggyRowsWritten = 0;
+
         try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, false, headers.toArray(new String[0]))) {
 
             // Variabile per tracciare l'inizio della finestra temporale
@@ -140,6 +143,9 @@ public class DatasetGeneratorController {
                 // Recuperiamo il Set dei metodi buggati per QUESTA release specifica
                 Set<MethodIdentity> buggyInThisRelease = buggyRegistry.get(release.getName());
 
+                // Debug per release
+                int buggyInReleaseCount = 0;
+
                 // --- FASE C: UNIONE (JOIN) E SCRITTURA ---
                 // Iteriamo sulla mappa STATICA perché il dataset deve contenere le righe dei metodi ESISTENTI nello snapshot.
                 for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : projectStaticMap.entrySet()) {
@@ -151,6 +157,12 @@ public class DatasetGeneratorController {
                     // Controllo snoring (filtro righe)
                     if (!snoringService.shouldKeepRow(i, isBuggyBoolean)) {
                         continue; // Il service ha detto di scartarla
+                    }
+
+                    totalRowsWritten++;
+                    if (isBuggyBoolean) {
+                        totalBuggyRowsWritten++;
+                        buggyInReleaseCount++;
                     }
 
                     // Costruzione Riga (Lista di Oggetti)
@@ -186,7 +198,18 @@ public class DatasetGeneratorController {
             }
 
             snoringService.printFinalReport(outputCsvPath);
-            logger.info("Dataset generato con successo: {}", outputCsvPath);
+            // --- STAMPA FINALE DELLE STATISTICHE ---
+            logger.info("===============================================================");
+            logger.info("            DATASET GENERATION REPORT                          ");
+            logger.info("===============================================================");
+            logger.info("File Output: {}", outputCsvPath);
+            logger.info("Totale Righe Scritte: {}", totalRowsWritten);
+            logger.info("Totale Righe BUGGY (Class 'Yes'): {}", totalBuggyRowsWritten);
+            if (totalRowsWritten > 0) {
+                double perc = (double) totalBuggyRowsWritten / totalRowsWritten * 100.0;
+                logger.info("Percentuale Bugginess nel Dataset: {}%", String.format("%.2f", perc));
+            }
+            logger.info("===============================================================");
 
         } catch (IOException e) {
             logger.error("Errore critico durante la scrittura del dataset", e);

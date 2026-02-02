@@ -36,10 +36,9 @@ public class InfoGainSelectionStrategy implements FeatureSelectionStrategy {
 
         // 2. Configura il Search Method (Ranker)
         Ranker search = new Ranker();
-        // Impostiamo una soglia: teniamo solo attributi con Gain > 0
+
         search.setThreshold(0.0);
-        // Se volessi tenere solo le top N, useresti: search.setNumToSelect(10);
-        search.setNumToSelect(-1); // -1 significa "tutte quelle sopra la soglia"
+        search.setNumToSelect(10);
 
         // 3. Configura il Filtro
         AttributeSelection filter = new AttributeSelection();

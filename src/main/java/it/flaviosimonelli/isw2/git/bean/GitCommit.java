@@ -1,6 +1,7 @@
 package it.flaviosimonelli.isw2.git.bean;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class GitCommit {
     private String hash;
@@ -24,5 +25,19 @@ public class GitCommit {
     @Override
     public String toString() {
         return "GitCommit{hash='" + hash + "', date=" + date + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GitCommit gitCommit = (GitCommit) o;
+        // Due commit sono lo stesso oggetto se hanno lo stesso HASH
+        return Objects.equals(hash, gitCommit.hash);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hash);
     }
 }

@@ -112,7 +112,23 @@ public class SZZService {
             }
 
             // --- FASE 2: ANALISI GIT ---
-            List<GitCommit> fixCommits = gitService.findFixCommits(ticket); // trova tutti i commit che sono precedenti alla data di risoluzione del ticket e possiedono come descrizione il nome del ticket
+            // 1. Linkage "Forte" (ID nel messaggio)
+            // Usiamo new ArrayList<> per garantire che la lista sia modificabile
+            List<GitCommit> fixCommits = new ArrayList<>(gitService.findFixCommits(ticket)); // trova tutti i commit che sono precedenti alla data di risoluzione del ticket e possiedono come descrizione il nome del ticket
+
+            // 2. Linkage "Euristico" (Recupero commit persi)
+            // --- MODIFICA SZZ: Inizio Euristica ---
+            // Tentiamo il recupero solo se abbiamo una data di risoluzione valida
+            if (!fixCommits.isEmpty() && ticket.getResolution() != null) {
+                List<GitCommit> heuristicCommits = recoverMissingCommits(ticket, fixCommits);
+
+                if (!heuristicCommits.isEmpty()) {
+                    fixCommits.addAll(heuristicCommits);
+                    logger.debug("SZZ HEURISTIC: Recuperati {} commit aggiuntivi per il ticket {}.",
+                            heuristicCommits.size(), ticket.getKey());
+                }
+            }
+
             if (fixCommits.isEmpty()) {
                 logger.warn("SZZ SKIP Ticket {}: Nessun commit di fix trovato in Git.", ticket.getKey());
                 continue;
@@ -123,30 +139,30 @@ public class SZZService {
             // qualsiasi di questi commit, era parte del problema.
             Set<MethodIdentity> buggyMethods = new HashSet<>();
             // Lower Bound: Data Creazione Ticket (con 60 giorni di buffer per sicurezza)
-            LocalDateTime creationLowerBound = ticket.getCreated().atStartOfDay().minusDays(60);
+            //LocalDateTime creationLowerBound = ticket.getCreated().atStartOfDay().minusDays(60);
             boolean validCommitsFound = false;
             for (GitCommit commit : fixCommits) {
                 // identifyModifiedMethods restituisce i metodi toccati in QUEL commit.
                 // addAll fa l'unione dei set, gestendo i duplicati automaticamente.
                 // CHECK TEMPORALE INFERIORE (Anti-Noise)
-                if (commit.getDate().isBefore(creationLowerBound)) {
-                    // Calcolo giorni di anticipo per il log
-                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
-                            commit.getDate(),
-                            ticket.getCreated().atStartOfDay()
-                    );
-
-                    // Logghiamo se scartiamo qualcosa (evitiamo log inutili per date di anni prima)
-                    if (daysDiff < 365) {
-                        logger.debug("SZZ SKIP Commit {} per ticket {}: Commit del {} (Created: {}). Anticipo sospetto: {} giorni.",
-                                commit.getHash().substring(0, 7),
-                                ticket.getKey(),
-                                commit.getDate().toLocalDate(),
-                                ticket.getCreated(),
-                                daysDiff);
-                    }
-                    continue;
-                }
+//                if (commit.getDate().isBefore(creationLowerBound)) {
+//                    // Calcolo giorni di anticipo per il log
+//                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
+//                            commit.getDate(),
+//                            ticket.getCreated().atStartOfDay()
+//                    );
+//
+//                    // Logghiamo se scartiamo qualcosa (evitiamo log inutili per date di anni prima)
+//                    if (daysDiff < 365) {
+//                        logger.debug("SZZ SKIP Commit {} per ticket {}: Commit del {} (Created: {}). Anticipo sospetto: {} giorni.",
+//                                commit.getHash().substring(0, 7),
+//                                ticket.getKey(),
+//                                commit.getDate().toLocalDate(),
+//                                ticket.getCreated(),
+//                                daysDiff);
+//                    }
+//                    continue;
+//                }
                 // Se passa il filtro, uniamo i metodi
                 Set<MethodIdentity> methods = identifyModifiedMethods(commit);
                 if (!methods.isEmpty()) {
@@ -246,16 +262,56 @@ public class SZZService {
     }
 
     private boolean isIntersection(MethodDeclaration method, List<Edit> edits) {
-        if (method.getBegin().isEmpty() || method.getEnd().isEmpty()) return false;
-        int start = method.getBegin().get().line;
-        int end = method.getEnd().get().line;
+        if (!method.getBegin().isPresent() || !method.getEnd().isPresent()) return false;
+
+        // Range del metodo nel file corrente (Post-Fix)
+        // JavaParser usa indici base-1
+        int methodStart = method.getBegin().get().line;
+        int methodEnd = method.getEnd().get().line;
+
         for (Edit edit : edits) {
-            if (edit.getType() == Edit.Type.DELETE) continue;
-            int eStart = edit.getBeginB() + 1;
-            int eEnd = edit.getEndB() + 1;
-            if (Math.max(start, eStart) <= Math.min(end, eEnd)) return true;
+            // --- LOGICA CORRETTA PER LE COORDINATE ---
+
+            // JGit usa indici base-0.
+            // beginB è inclusivo.
+            // endB è esclusivo (tranne che per le DELETE dove beginB == endB).
+
+            int editStart;
+            int editEnd;
+
+            if (edit.getType() == Edit.Type.DELETE) {
+                // Caso DELETE: Le righe non esistono più nel file B.
+                // L'edit avviene in un "punto" tra due righe attuali.
+                // Consideriamo la riga successiva alla cancellazione come "toccata".
+                editStart = edit.getBeginB() + 1;
+                editEnd = editStart; // È un punto puntuale
+            } else {
+                // Caso INSERT o REPLACE: Ci sono nuove righe nel file B.
+                // Convertiamo da 0-based (JGit) a 1-based (JavaParser).
+                editStart = edit.getBeginB() + 1;
+
+                // JGit endB è esclusivo, quindi per avere l'ultima riga inclusiva
+                // normalmente faremmo (endB - 1) + 1 => endB.
+                // Esempio: Modifica righe 0,1 (2 righe). begin=0, end=2.
+                // Vogliamo righe 1,2.
+                // start = 0+1 = 1.
+                // end = 2.
+                editEnd = edit.getEndB();
+            }
+
+            // Controllo intersezioni tra range [methodStart, methodEnd] e [editStart, editEnd]
+            if (verifyOverlap(methodStart, methodEnd, editStart, editEnd)) {
+                return true;
+            }
         }
         return false;
+    }
+
+    // Helper per pulizia del codice
+    private boolean verifyOverlap(int mStart, int mEnd, int eStart, int eEnd) {
+        // Logica standard di overlap:
+        // max(start1, start2) <= min(end1, end2)
+        return Math.max(mStart, eStart) <= Math.min(mEnd, eEnd);
     }
 
     private void markBuggyInReleases(Map<String, Set<MethodIdentity>> map, Set<MethodIdentity> methods, JiraRelease iv, JiraRelease fv) {
@@ -341,5 +397,58 @@ public class SZZService {
                 procBoth, String.format("%.2f", percBoth));
 
         logger.info("===============================================================");
+    }
+
+    /**
+     * --- MODIFICA SZZ: Metodo Helper per l'Euristica ---
+     * Cerca commit "silenziosi" (senza ID ticket) fatti dallo stesso autore
+     * sugli stessi file nel periodo di attività del ticket.
+     */
+    private List<GitCommit> recoverMissingCommits(JiraTicket ticket, List<GitCommit> strongCommits) {
+        // Se non abbiamo commit forti o data di risoluzione, non possiamo creare la "firma" o l'intervallo
+        if (strongCommits.isEmpty() || ticket.getResolution() == null) {
+            return Collections.emptyList();
+        }
+
+        // 1. Configurazione Intervallo Temporale
+        // Start: Creazione Ticket. End: Risoluzione + 1 giorno (buffer)
+        LocalDateTime start = ticket.getCreated().atStartOfDay();
+        LocalDateTime end = ticket.getResolution().atStartOfDay().plusDays(1);
+
+        // 2. Costruzione della "Firma" dei commit certi (Autori e File)
+        Set<String> knownAuthors = new HashSet<>();
+        Set<String> knownFiles = new HashSet<>();
+
+        for (GitCommit c : strongCommits) {
+            knownAuthors.add(c.getAuthorName());
+            // Usa il metodo che abbiamo aggiunto a GitService
+            knownFiles.addAll(gitService.getTouchedJavaFilePaths(c));
+        }
+
+        // 3. Recupero Candidati da Git nel range temporale
+        List<GitCommit> candidates = gitService.findCommitsInDateRange(start, end);
+        List<GitCommit> recovered = new ArrayList<>();
+
+        // 4. Filtraggio Euristico
+        for (GitCommit candidate : candidates) {
+            // A. Evitiamo duplicati (se è già nei strongCommits, skip)
+            // Nota: GitCommit deve implementare equals/hashCode basandosi sull'Hash SHA-1
+            if (strongCommits.contains(candidate)) continue;
+
+            // B. Check Autore (Deve essere uno degli autori noti)
+            if (!knownAuthors.contains(candidate.getAuthorName())) continue;
+
+            // C. Check File (Deve toccare almeno un file già coinvolto nel bug)
+            Set<String> candidateFiles = gitService.getTouchedJavaFilePaths(candidate);
+
+            // !disjoint significa che c'è almeno un elemento in comune (intersezione)
+            boolean touchesKnownFiles = !Collections.disjoint(knownFiles, candidateFiles);
+
+            if (touchesKnownFiles) {
+                recovered.add(candidate);
+            }
+        }
+
+        return recovered;
     }
 }

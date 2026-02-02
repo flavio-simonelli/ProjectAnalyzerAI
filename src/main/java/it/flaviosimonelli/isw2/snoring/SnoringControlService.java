@@ -31,7 +31,7 @@ public class SnoringControlService {
         this.keepBuggyInSnoring = AppConfig.getBoolean("dataset.generation.snoring.keep_only_buggy", false);
 
         // 2. Calcola Indice di Taglio
-        int calculatedStopIndex = (int) (totalReleases * (1.0 - discardRatio));
+        int calculatedStopIndex = (int) Math.round(totalReleases * (1.0 - discardRatio));
         // Sanity check: processiamo almeno 1 release se possibile
         if (calculatedStopIndex < 1 && totalReleases > 0) calculatedStopIndex = 1;
         this.stopIndex = calculatedStopIndex;

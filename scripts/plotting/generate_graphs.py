@@ -5,11 +5,16 @@ import matplotlib.pyplot as plt
 import os
 
 # --- CONFIGURAZIONE ---
-# Lista delle metriche per cui vogliamo generare i grafici
 METRICS_TO_PLOT = ['Precision', 'Recall', 'F-Measure', 'AUC', 'Kappa', 'NPofB20']
 
+# Palette colori personalizzata (IBk=Blu, NB=Rosso, RF=Verde)
+CUSTOM_PALETTE = {
+    "IBk": "#6495ED",           # CornflowerBlue
+    "NaiveBayes": "#F08080",    # LightCoral
+    "RandomForest": "#90EE90"   # LightGreen
+}
+
 def main():
-    # 1. Parsing Argomenti
     if len(sys.argv) < 3:
         print("Usage: python generate_graphs.py <input_csv> <output_dir>")
         sys.exit(1)
@@ -17,90 +22,93 @@ def main():
     input_csv = sys.argv[1]
     output_dir = sys.argv[2]
 
-    print(f"[Python] Avvio generazione grafici...")
-    print(f"[Python] Input: {input_csv}")
+    print(f"[Python] Avvio generazione grafici a matrice...")
 
-    # 2. Controllo Cartella Output
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     try:
-        # 3. Caricamento Dati
+        # 1. Caricamento Dati
         df = pd.read_csv(input_csv)
-
         if df.empty:
-            print("[Python] Warning: Il CSV è vuoto. Nessun grafico generato.")
+            print("[Python] Warning: Il CSV è vuoto.")
             sys.exit(0)
 
-        # Recuperiamo il nome del progetto dalla prima riga (es. BOOKKEEPER)
-        project_name = df['Project'].iloc[0]
+        # 2. Pulizia e Preparazione
+        if 'Sampling' in df.columns:
+            df.rename(columns={'Sampling': 'SMOTE'}, inplace=True)
 
-        # 4. Preprocessing
-        # Creiamo una colonna "Configuration" che unisce le 3 variabili indipendenti.
-        # Usiamo \n per andare a capo e rendere l'etichetta più compatta sull'asse X.
-        df['Configuration'] = (
-                df['Classifier'] + " + " +
-                df['Sampling'] + "\n(" +
-                df['FeatureSelection'] + ")"
-        )
+        df['FeatureSelection'] = df['FeatureSelection'].astype(str)
+        if 'SMOTE' in df.columns:
+            df['SMOTE'] = df['SMOTE'].astype(str)
 
-        # Ordiniamo il DataFrame per avere i boxplot raggruppati logicamente
-        df.sort_values(by=['Classifier', 'Sampling', 'FeatureSelection'], inplace=True)
+        project_name = df['Project'].iloc[0] if 'Project' in df.columns else "Project"
 
-        # Impostiamo lo stile grafico
-        sns.set_theme(style="whitegrid")
+        # Impostiamo lo stile
+        sns.set_theme(style="whitegrid", font_scale=1.2)
 
-        # 5. Generazione Grafici (Loop sulle metriche)
+        # 3. Loop Metriche
         for metric in METRICS_TO_PLOT:
-            # Verifica che la metrica esista nel CSV (es. per evitare errori se manca NPofB20)
             if metric not in df.columns:
-                print(f"[Python] Warning: Metrica '{metric}' non trovata nel CSV. Salto.")
                 continue
 
-            # Creazione Figura (Molto larga per far stare tutte le combinazioni)
-            plt.figure(figsize=(16, 8))
+            print(f"[Python] Generazione grafico per {metric}...")
 
-            # Creazione Boxplot
-            # x = Configurazione (Combinazione di 3 fattori)
-            # y = Valore della metrica (es. AUC)
-            plot = sns.boxplot(
-                x='Configuration',
-                y=metric,
+            # --- Generazione Matrice ---
+            g = sns.catplot(
                 data=df,
-                palette="Set3", # Una palette colori pastello per distinguere
-                showfliers=False # Opzionale: Nasconde gli outlier estremi per pulizia
+                kind="box",
+                x="Classifier",
+                y=metric,
+                hue="Classifier",
+                col="SMOTE",
+                row="FeatureSelection",
+                palette=CUSTOM_PALETTE,
+                height=4,
+                aspect=1.2,
+                margin_titles=True,
+                showfliers=False,
+                linewidth=1.5,
+                sharey=True,
+                legend=True # Forziamo la creazione della legenda se possibile
             )
 
-            # --- Styling ---
-            plt.title(f'Project: {project_name} - Distribuzione {metric}', fontsize=16)
-            plt.ylabel(metric, fontsize=14)
-            plt.xlabel('Configurazione (Classifier + Sampling + Feat.Sel.)', fontsize=14)
+            # --- Styling Avanzato ---
+            g.figure.subplots_adjust(top=0.9)
+            g.figure.suptitle(f'{project_name} - {metric} Distribution', fontsize=20, fontweight='bold')
 
-            # Rotazione etichette asse X per leggerle bene
-            plt.xticks(rotation=45, ha='right', fontsize=10)
+            g.set_axis_labels("", metric)
+            g.set_titles(col_template="SMOTE: {col_name}", row_template="Feat.Sel.: {row_name}")
 
-            # Imposta limite Y da 0 a 1 (poiché sono percentuali/probabilità)
-            # tranne per metriche che possono essere negative o >1 se ce ne fossero
-            if metric != 'Kappa': # Kappa può essere negativo, gli altri sono di solito 0-1
-                plt.ylim(-0.05, 1.05)
+            # Limiti asse Y
+            if metric == 'Kappa':
+                g.set(ylim=(-0.2, 1.05))
+            else:
+                g.set(ylim=(-0.05, 1.05))
 
-            # Layout ottimizzato per evitare tagli delle scritte
-            plt.tight_layout()
+            # --- FIX ERRORE LEGENDA ---
+            # Proviamo a spostare la legenda solo se esiste.
+            # Se Seaborn non l'ha creata (perché ridondante), saltiamo il passaggio senza crashare.
+            try:
+                sns.move_legend(g, "upper right", bbox_to_anchor=(1, 1))
+            except ValueError:
+                # Se la legenda non esiste, non fa nulla (il grafico va bene anche senza, i nomi sono sull'asse X)
+                pass
+            except Exception as e:
+                print(f"[Python] Warning non bloccante sulla legenda: {e}")
 
             # Salvataggio
-            filename = f"{project_name}_boxplot_{metric}.png"
+            filename = f"{project_name}_matrix_{metric}.png"
             out_path = os.path.join(output_dir, filename)
-            plt.savefig(out_path)
-            plt.close() # Chiude la figura per liberare memoria
+            plt.savefig(out_path, dpi=300)
+            plt.close()
 
-            print(f"[Python] Generato: {filename}")
-
-        print("[Python] Processo completato con successo.")
+            print(f"[Python] Salvato: {filename}")
 
     except Exception as e:
         print(f"[Python] Errore critico: {e}")
         import traceback
-        traceback.print_exc() # Stampa lo stack trace completo per debug
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":

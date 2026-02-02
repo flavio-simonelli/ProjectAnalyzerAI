@@ -4,10 +4,12 @@ import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
+import net.sourceforge.pmd.reporting.RuleViolation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StaticAnalysisService {
@@ -15,10 +17,12 @@ public class StaticAnalysisService {
 
     private final GitService gitService;
     private final MetricsCalculator metricsCalculator;
+    private final PmdAnalysisService pmdService;
 
     public StaticAnalysisService(GitService gitService) {
         this.gitService = gitService;
         this.metricsCalculator = new MetricsCalculator();
+        this.pmdService = new PmdAnalysisService();
     }
 
     /**
@@ -52,7 +56,14 @@ public class StaticAnalysisService {
                 // CHECK 2: Log pre-analisi
                 logger.debug("Analisi file: {} ({} chars)", filePath, sourceCode.length());
 
-                Map<MethodIdentity, MethodStaticMetrics> fileMetrics = metricsCalculator.extractMetrics(sourceCode, filePath);
+                // 3. ESEGUI PMD SUL FILE
+                // Otteniamo la lista di tutte le violazioni nel file corrente
+                List<RuleViolation> violations = pmdService.analyze(sourceCode, filePath);
+
+                // 4. PASSA LE VIOLAZIONI AL CALCULATOR
+                // (Nota: dobbiamo aggiornare la firma di extractMetrics nel passo successivo)
+                Map<MethodIdentity, MethodStaticMetrics> fileMetrics =
+                        metricsCalculator.extractMetrics(sourceCode, filePath, violations);
 
                 if (fileMetrics.isEmpty()) {
                     if (!isIgnorableFile(filePath)) {

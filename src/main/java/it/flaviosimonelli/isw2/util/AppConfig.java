@@ -73,4 +73,32 @@ public class AppConfig {
         return (val == null) ? defaultValue : val;
     }
 
+    /**
+     * Ritorna la versione Java configurata per PMD (default: "1.8")
+     */
+    public static String getPmdJavaVersion() {
+        // Usiamo il tuo metodo getProperty che gestisce già il load()
+        return getProperty("pmd.java.version", "1.8");
+    }
+
+    /**
+     * Ritorna l'array di ruleset configurati.
+     * Legge una stringa separata da virgole e restituisce l'array.
+     */
+    public static String[] getPmdRuleSets() {
+        String raw = getProperty("pmd.rulesets", null);
+
+        if (raw == null || raw.trim().isEmpty()) {
+            // Fallback: se non c'è nulla nel config, usiamo i set standard
+            return new String[] {
+                    "category/java/design.xml",
+                    "category/java/bestpractices.xml",
+                    "category/java/errorprone.xml"
+            };
+        }
+
+        // Rimuove spazi bianchi e divide per virgola (es. "a.xml, b.xml" -> ["a.xml", "b.xml"])
+        return raw.split("\\s*,\\s*");
+    }
+
 }
