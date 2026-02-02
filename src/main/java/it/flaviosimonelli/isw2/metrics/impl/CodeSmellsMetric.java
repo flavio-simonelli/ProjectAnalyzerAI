@@ -5,7 +5,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
@@ -78,14 +77,13 @@ public class CodeSmellsMetric implements IMetric {
                 .count();
 
         // 5. SMELL: Reassigning Loop Variables (Molto pericoloso)
-        // Es: for(int i=0; i<10; i++) { i = 5; } -> Bug quasi certo.
         for (ForStmt forStmt : method.findAll(ForStmt.class)) {
             // Cerchiamo le variabili di inizializzazione (es. 'i' in 'int i=0')
             forStmt.getInitialization().stream()
                     .filter(init -> init.isVariableDeclarationExpr())
                     .flatMap(init -> init.asVariableDeclarationExpr().getVariables().stream())
-                    .forEach(var -> {
-                        String varName = var.getNameAsString();
+                    .forEach(declarator -> {
+                        String varName = declarator.getNameAsString();
                         // Cerchiamo se viene riassegnata nel corpo
                         boolean isReassigned = forStmt.getBody().findAll(AssignExpr.class).stream()
                                 .anyMatch(assign -> assign.getTarget().isNameExpr() &&
@@ -103,7 +101,7 @@ public class CodeSmellsMetric implements IMetric {
         // Versione semplificata per il punto 5 (senza lambda complesse):
         smellCount += countLoopReassignments(method);
 
-        return (double) smellCount;
+        return smellCount;
     }
 
     private int countLoopReassignments(MethodDeclaration method) {
