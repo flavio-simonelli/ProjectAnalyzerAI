@@ -3,7 +3,11 @@ package it.flaviosimonelli.isw2.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class AppConfig {
     private static final String CONFIG_FILE = "config.properties";
@@ -63,6 +67,20 @@ public class AppConfig {
         return Boolean.parseBoolean(val.trim());
     }
 
+    public static List<String> getList(String key, String defaultValue) {
+        String raw = getProperty(key, defaultValue);
+
+        if (raw == null || raw.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Split sicuro su virgola e trim tramite Stream
+        return Arrays.stream(raw.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
     /**
      * Recupera una stringa con un valore di default se la chiave non esiste.
      * Utile per parametri opzionali (es. path di output).
@@ -86,19 +104,13 @@ public class AppConfig {
      * Legge una stringa separata da virgole e restituisce l'array.
      */
     public static String[] getPmdRuleSets() {
-        String raw = getProperty("pmd.rulesets", null);
+        // Fallback default
+        String defaultRules = "category/java/design.xml, category/java/bestpractices.xml, category/java/errorprone.xml";
 
-        if (raw == null || raw.trim().isEmpty()) {
-            // Fallback: se non c'è nulla nel config, usiamo i set standard
-            return new String[] {
-                    "category/java/design.xml",
-                    "category/java/bestpractices.xml",
-                    "category/java/errorprone.xml"
-            };
-        }
+        // Ora riutilizziamo il metodo sicuro getList
+        List<String> rules = getList("pmd.rulesets", defaultRules);
 
-        // Rimuove spazi bianchi e divide per virgola (es. "a.xml, b.xml" -> ["a.xml", "b.xml"])
-        return raw.split("\\s*,\\s*");
+        return rules.toArray(new String[0]);
     }
 
 }

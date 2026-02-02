@@ -58,11 +58,9 @@ public class TrainingExperimentController {
 
         // 2. Lettura Configurazioni da AppConfig
         int numRuns = Integer.parseInt(AppConfig.getProperty("ml.num_runs", "10"));
-
-        // Legge liste separate da virgola (es. "RandomForest,IBk")
-        List<String> activeClassifiers = getListFromConfig("ml.classifiers", "RandomForest,NaiveBayes,IBk");
-        List<String> activeSamplers = getListFromConfig("ml.samplers", "NoSampling,SMOTE");
-        List<String> activeFeatureSelectors = getListFromConfig("ml.feature_selection", "NoSelection,BestFirst");
+        List<String> activeClassifiers = AppConfig.getList("ml.classifiers", "RandomForest,NaiveBayes,IBk");
+        List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE");
+        List<String> activeFeatureSelectors = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
 
         logger.info("CONFIGURAZIONE ESPERIMENTO:");
         logger.info("Runs: {}", numRuns);
@@ -133,15 +131,6 @@ public class TrainingExperimentController {
     }
 
     // --- Helper Methods ---
-
-    /**
-     * Legge una proprietà CSV e la converte in Lista di stringhe.
-     */
-    private List<String> getListFromConfig(String key, String defaultValue) {
-        String raw = AppConfig.getProperty(key, defaultValue);
-        if (raw == null || raw.trim().isEmpty()) return new ArrayList<>();
-        return Arrays.asList(raw.split("\\s*,\\s*")); // Split su virgola rimuovendo spazi
-    }
 
     private Classifier getClassifierInstance(String name, int seed) {
         switch (name) {
