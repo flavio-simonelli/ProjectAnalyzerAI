@@ -156,7 +156,7 @@ public class ProcessMetricAnalyzer {
         return metricsChain.stream()
                 .map(m -> m.getHeaderList(false)) // false = Local Config
                 .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -167,7 +167,7 @@ public class ProcessMetricAnalyzer {
                 .map(m -> m.getHeaderList(true)) // true = Global Config
                 .flatMap(List::stream)
                 .map(h -> "Global_" + h)         // Aggiungiamo prefisso
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // --- GESTIONE VALORI ---
@@ -180,7 +180,7 @@ public class ProcessMetricAnalyzer {
         return metricsChain.stream()
                 .map(m -> m.getValues(metricsData, false)) // false = Local Context
                 .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -191,6 +191,6 @@ public class ProcessMetricAnalyzer {
         return metricsChain.stream()
                 .map(m -> m.getValues(metricsData, true)) // true = Global Context
                 .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
