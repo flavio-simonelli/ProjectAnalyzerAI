@@ -21,7 +21,7 @@ public abstract class AbstractConfigurableMetric implements IProcessMetric {
      * @param localConfig Quali statistiche mostrare per la release corrente
      * @param globalConfig Quali statistiche mostrare per lo storico globale
      */
-    public AbstractConfigurableMetric(String name, Set<MetricStat> localConfig, Set<MetricStat> globalConfig) {
+    protected AbstractConfigurableMetric(String name, Set<MetricStat> localConfig, Set<MetricStat> globalConfig) {
         this.baseName = name;
         this.maxName = "MAX_" + name;
         // Copia difensiva o EnumSet per efficienza
