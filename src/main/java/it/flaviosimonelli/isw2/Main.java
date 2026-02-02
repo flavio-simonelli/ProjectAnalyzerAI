@@ -26,7 +26,7 @@ import it.flaviosimonelli.isw2.config.ExecutionMode;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    static void main() {
+    public static void main() {
         logger.info("Avvio applicazione ISW2 Prediction...");
 
         try {
