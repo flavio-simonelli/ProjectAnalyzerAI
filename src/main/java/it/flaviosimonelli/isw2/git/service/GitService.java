@@ -140,12 +140,9 @@ public class GitService {
             // Prendiamo il path nuovo (se aggiunto/modificato) o vecchio (se cancellato)
             String path = entry.getNewPath().equals("/dev/null") ? entry.getOldPath() : entry.getNewPath();
 
-            // 1. Filtro: Solo file .java
-            if (path.endsWith(".java")) {
-                // 2. Filtro opzionale: Escludere i Test (spesso in ISW2 si analizza solo production code)
-                if (!path.toLowerCase().contains(TEST_PATH_MARKER)) {
-                    javaChanges.put(path, entry.getChangeType());
-                }
+            // 1. Filtro: Solo file .java e tolgo i file di test
+            if (path.endsWith(".java") && !path.toLowerCase().contains(TEST_PATH_MARKER)) {
+                javaChanges.put(path, entry.getChangeType());
             }
         }
         return javaChanges;
