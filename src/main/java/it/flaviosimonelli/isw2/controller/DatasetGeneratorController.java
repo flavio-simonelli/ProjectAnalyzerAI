@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2.controller;
 
+import it.flaviosimonelli.isw2.exception.DatasetGenerationException;
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
@@ -203,7 +204,7 @@ public class DatasetGeneratorController {
             logDatasetReport(outputCsvPath, totalRowsWritten, totalBuggyRowsWritten);
 
         } catch (IOException e) {
-            throw new RuntimeException("Creazione dataset fallita", e);
+            throw new DatasetGenerationException("Creazione dataset fallita", e);
         }
     }
 
