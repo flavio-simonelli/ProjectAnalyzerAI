@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2.ml.validation;
 
+import it.flaviosimonelli.isw2.ml.evaluation.ClassificationMetrics;
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.ml.exceptions.ModelEvaluationException;
 import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
@@ -133,13 +134,16 @@ public class WalkForwardValidator {
                 int posIdx = getPositiveClassIndex(cleanTrain);
                 double npofb20 = calculateNPofB20(eval.predictions(), testSetForCostAnalysis, posIdx);
 
-                results.add(new EvaluationResult(
-                        i,
+                ClassificationMetrics metrics = new ClassificationMetrics(
                         eval.precision(posIdx),
                         eval.recall(posIdx),
                         eval.fMeasure(posIdx),
                         eval.areaUnderROC(posIdx),
-                        eval.kappa(),
+                        eval.kappa()
+                );
+                results.add(new EvaluationResult(
+                        i,
+                        metrics,
                         npofb20,
                         selectedFeaturesString
                 ));
