@@ -1,7 +1,6 @@
 package it.flaviosimonelli.isw2.ml.sampling;
 
 import weka.core.Instances;
-import weka.filters.Filter;
 import weka.filters.supervised.instance.SMOTE;
 
 public class SmoteSamplingStrategy implements SamplingStrategy {
