@@ -14,7 +14,7 @@ public enum ExecutionMode {
     public static ExecutionMode fromString(String value) {
         try {
             return ExecutionMode.valueOf(value.toUpperCase());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException _) {
             return FULL; // Default safe
         }
     }
