@@ -259,7 +259,9 @@ public class SZZService {
                         modifiedMethods.add(new MethodIdentity(fullSig, className, pureName));
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                logger.debug("Impossibile analizzare il file {} nel commit {}: {}", filePath, commit.getHash(), e.getMessage());
+            }
         }
         return modifiedMethods;
     }
