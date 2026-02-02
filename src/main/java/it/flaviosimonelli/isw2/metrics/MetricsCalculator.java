@@ -76,40 +76,45 @@ public class MetricsCalculator {
 
             for (MethodDeclaration methodDecl : methodDeclarations) {
                 // 1. Costruzione Identità Robusta (delegata alla Utility)
-                String fullSignature = JavaParserUtils.getFullyQualifiedSignature(methodDecl, cu);
-                String className = JavaParserUtils.getParentClassName(methodDecl);
-                String methodName = methodDecl.getNameAsString();
-
-                // Creazione della chiave univoca
-                MethodIdentity identity = new MethodIdentity(fullSignature, className, methodName);
-
+                MethodIdentity identity = new MethodIdentity(
+                        JavaParserUtils.getFullyQualifiedSignature(methodDecl, cu),
+                        JavaParserUtils.getParentClassName(methodDecl),
+                        methodDecl.getNameAsString()
+                );
                 // 2. Calcolo Metriche
-                MethodStaticMetrics metrics = new MethodStaticMetrics();
-
-                for (IMetric metric : metricsChain) {
-                    try {
-                        double value = metric.calculate(methodDecl);
-                        metrics.addMetric(metric.getName(), value);
-                    } catch (Exception e) {
-                        logger.warn("Errore calcolo metrica {} su metodo {}: {}",
-                                metric.getName(), fullSignature, e.getMessage());
-                        // Fallback a 0 o NaN in caso di errore della singola metrica
-                        metrics.addMetric(metric.getName(), 0.0);
-                    }
-                }
-
+                MethodStaticMetrics metrics = calculateAllMetrics(methodDecl, identity.fullSignature());
                 extractedData.put(identity, metrics);
-
             }
         } catch (Exception e) {
             // Se il file non è parsabile (es. errori di sintassi Java), logghiamo e saltiamo
             logger.error("Impossibile parsare il file: {}", filePath, e);
         } finally {
-            // 5. Pulizia (Opzionale ma consigliata per evitare memory leak di riferimenti)
+            // 5. Pulizia
             this.pmdMetric.setContext(null);
         }
 
         return extractedData;
+    }
+
+    /**
+     * Calcola l'intera catena di metriche per un singolo metodo.
+     * Metodo estratto per evitare try-catch annidati (SonarCloud S1141).
+     */
+    private MethodStaticMetrics calculateAllMetrics(MethodDeclaration methodDecl, String fullSignature) {
+        MethodStaticMetrics metrics = new MethodStaticMetrics();
+
+        for (IMetric metric : metricsChain) {
+            try {
+                double value = metric.calculate(methodDecl);
+                metrics.addMetric(metric.getName(), value);
+            } catch (Exception e) {
+                // Se una singola metrica fallisce, non vogliamo bloccare le altre
+                logger.warn("Errore calcolo metrica {} su metodo {}: {}",
+                        metric.getName(), fullSignature, e.getMessage());
+                metrics.addMetric(metric.getName(), 0.0);
+            }
+        }
+        return metrics;
     }
 
     /**
