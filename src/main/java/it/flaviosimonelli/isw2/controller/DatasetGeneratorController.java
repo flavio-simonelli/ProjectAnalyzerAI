@@ -203,7 +203,6 @@ public class DatasetGeneratorController {
             logDatasetReport(outputCsvPath, totalRowsWritten, totalBuggyRowsWritten);
 
         } catch (IOException e) {
-            logger.error("Errore critico durante la scrittura del dataset", e);
             throw new RuntimeException("Creazione dataset fallita", e);
         }
     }
