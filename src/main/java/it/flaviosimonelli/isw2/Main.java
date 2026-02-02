@@ -1,8 +1,6 @@
 package it.flaviosimonelli.isw2;
 
-import it.flaviosimonelli.isw2.controller.CorrelationReportController;
-import it.flaviosimonelli.isw2.controller.DatasetGeneratorController;
-import it.flaviosimonelli.isw2.controller.TrainingExperimentController;
+import it.flaviosimonelli.isw2.controller.*;
 import it.flaviosimonelli.isw2.git.client.IGitClient;
 import it.flaviosimonelli.isw2.git.client.JGitClient;
 import it.flaviosimonelli.isw2.git.service.GitService;
@@ -97,6 +95,23 @@ public class Main {
                         logger.error("Impossibile generare grafici: manca il file risultati ML ({})", mlResultFile);
                     }
                     break;
+
+                case TRAIN_FINAL:
+                    if (ensureFileExists(datasetFile)) {
+                        runFinalTraining(datasetFile, projectKey);
+                    }
+                    break;
+
+                case CREATE_VARIANTS:
+                    if (ensureFileExists(datasetFile)) {
+                        runDatasetVariantsCreation(datasetFile, projectKey);
+                    }
+                    break;
+
+                case WHATIF_ANALYSIS:
+                    runImpactAnalysis(projectKey);
+                    break;
+
             }
 
             logger.info("=== PROCESSO TERMINATO CON SUCCESSO ===");
@@ -136,6 +151,24 @@ public class Main {
         logger.info(">>> STEP 4: Generazione Grafici (Python)");
         GraphGenerationService graphService = new GraphGenerationService();
         graphService.generateGraphs(inputCsvPath, outputDir);
+    }
+
+    private static void runFinalTraining(String inputCsvPath, String projectKey) {
+        logger.info(">>> STEP: Training Modello Finale (Produzione)");
+        FinalModelTrainingController finalController = new FinalModelTrainingController(inputCsvPath, projectKey);
+        finalController.trainAndSaveModel();
+    }
+
+    private static void runDatasetVariantsCreation(String inputCsvPath, String projectKey) {
+        logger.info(">>> STEP: Creazione Varianti Dataset (B+, B, C)");
+        DatasetVariantController variantController = new DatasetVariantController(inputCsvPath, projectKey);
+        variantController.createVariants();
+    }
+
+    private static void runImpactAnalysis(String projectKey) {
+        logger.info(">>> STEP: Analisi Impatto Refactoring (Tabella Risultati)");
+        WhatIfController controller = new WhatIfController(projectKey);
+        controller.runAnalysis();
     }
 
     // Utility per verificare i pre-requisiti

@@ -5,7 +5,11 @@ public enum ExecutionMode {
     DATASET_ONLY,      // Solo estrazione dati (Mining + SZZ)
     CORRELATION_ONLY,  // Solo analisi feature (richiede dataset esistente)
     ML_ONLY,           // Solo Weka (richiede dataset esistente)
-    GRAPH_ONLY;
+    GRAPH_ONLY,
+    TRAIN_FINAL,
+    CREATE_VARIANTS,
+    WHATIF_ANALYSIS;
+
 
     public static ExecutionMode fromString(String value) {
         try {
