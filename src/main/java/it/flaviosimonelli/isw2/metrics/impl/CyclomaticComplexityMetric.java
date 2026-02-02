@@ -40,6 +40,6 @@ public class CyclomaticComplexityMetric implements IMetric {
                 .filter(e -> !e.getLabels().isEmpty())
                 .count();
 
-        return (double) complexity;
+        return complexity;
     }
 }

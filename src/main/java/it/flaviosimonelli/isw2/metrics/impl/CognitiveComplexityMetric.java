@@ -46,7 +46,7 @@ public class CognitiveComplexityMetric implements IMetric {
         int maxDepth = calculateNestingDepthRecursive(method, 0);
         int nestingPenalty = Math.max(0, maxDepth - 1);
 
-        return (double) (complexity + nestingPenalty);
+        return (complexity + nestingPenalty);
     }
 
     // Copia helper per isolamento

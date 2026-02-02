@@ -41,10 +41,8 @@ public class PmdCodeSmellsMetric implements IMetric {
         int endLine = method.getEnd().get().line;
 
         // Conta le violazioni che cadono nel range del metodo
-        long count = currentFileViolations.stream()
+        return currentFileViolations.stream()
                 .filter(v -> v.getBeginLine() >= startLine && v.getBeginLine() <= endLine)
                 .count();
-
-        return (double) count;
     }
 }
