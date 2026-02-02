@@ -373,7 +373,6 @@ public class SZZService {
         double percFV = (proc > 0) ? ((double)procFV / proc) * 100 : 0;
         double percBoth = (proc > 0) ? ((double)procBoth / proc) * 100 : 0;
 
-        // 2. Uso di Text Block e costanti per risolvere il bug SonarCloud
         String report = """
             %1$s
                                SZZ DETAILED REPORT
