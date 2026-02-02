@@ -24,7 +24,20 @@ import weka.filters.unsupervised.attribute.Remove;
 public class WalkForwardValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(WalkForwardValidator.class);
-    private static final double NPofB20_EFFORT_LIMIT = 0.20;
+    private static final double NPOFB20_EFFORT_LIMIT = 0.20;
+
+
+    /**
+     * Raggruppa i parametri della validazione per evitare lo smell S107 (Too many parameters).
+     */
+    private record ValidationContext(
+            Classifier classifier,
+            String[] columnsToDrop,
+            SamplingStrategy samplingStrategy,
+            FeatureSelectionStrategy fsStrategy,
+            List<EvaluationResult> results
+    ) {}
+
 
     /**
      * Helper record per mappare le predizioni di Weka alle righe di codice (LOC).
@@ -41,6 +54,8 @@ public class WalkForwardValidator {
             throw new ModelEvaluationException("Attributo '" + ProjectConstants.RELEASE_INDEX_ATTRIBUTE + "' non trovato.");
         }
 
+        ValidationContext context = new ValidationContext(classifier, columnsToDrop, samplingStrategy, fsStrategy, results);
+
         try {
             data.sort(releaseIndex);
             int numReleases = (int) data.attributeStats(releaseIndex.index()).numericStats.max;
@@ -52,7 +67,7 @@ public class WalkForwardValidator {
 
                 // Evitiamo fold con dati mancanti (java:S135 - rimosso continue)
                 if (rawTrain.numInstances() > 0 && rawTest.numInstances() > 0) {
-                    processFold(i, rawTrain, rawTest, classifier, columnsToDrop, samplingStrategy, fsStrategy, results);
+                    processFold(i, rawTrain, rawTest, context);
                 }
             }
         } catch (Exception e) {
@@ -64,28 +79,28 @@ public class WalkForwardValidator {
     /**
      * Esegue il training e il test per una singola iterazione temporale (fold).
      */
-    private void processFold(int releaseId, Instances rawTrain, Instances rawTest, Classifier classifier,
-                             String[] columnsToDrop, SamplingStrategy sampling,
-                             FeatureSelectionStrategy fs, List<EvaluationResult> results) throws Exception {
+    private void processFold(int releaseId, Instances rawTrain, Instances rawTest, ValidationContext ctx) throws Exception {
 
         // 1. Rimozione attributi non predittivi (ID, Date, etc.)
-        Instances cleanTrain = removeColumns(rawTrain, columnsToDrop);
-        Instances cleanTest = removeColumns(rawTest, columnsToDrop);
+        Instances cleanTrain = removeColumns(rawTrain, ctx.columnsToDrop);
+        Instances cleanTest = removeColumns(rawTest, ctx.columnsToDrop);
 
         // 2. Feature Selection (opzionale)
         String selectedFeatures = "ALL";
-        if (fs != null) {
-            Instances[] filtered = fs.apply(cleanTrain, cleanTest);
+        if (ctx.fsStrategy() != null) {
+            Instances[] filtered = ctx.fsStrategy.apply(cleanTrain, cleanTest);
             cleanTrain = filtered[0];
             cleanTest = filtered[1];
             selectedFeatures = extractFeatureNames(cleanTrain);
         }
 
         // 3. Bilanciamento Training Set (Sampling)
-        Instances finalTrain = (sampling != null) ? sampling.apply(cleanTrain) : cleanTrain;
+        Instances finalTrain = (ctx.samplingStrategy() != null)
+                ? ctx.samplingStrategy().apply(cleanTrain)
+                : cleanTrain;
 
         // 4. Training e Testing
-        Classifier model = weka.classifiers.AbstractClassifier.makeCopy(classifier);
+        Classifier model = weka.classifiers.AbstractClassifier.makeCopy(ctx.classifier());
         model.buildClassifier(finalTrain);
 
         Evaluation eval = new Evaluation(cleanTrain);
@@ -100,7 +115,7 @@ public class WalkForwardValidator {
                 eval.areaUnderROC(posIdx), eval.kappa()
         );
 
-        results.add(new EvaluationResult(releaseId, metrics, npofb20Value, selectedFeatures));
+        ctx.results().add(new EvaluationResult(releaseId, metrics, npofb20Value, selectedFeatures));
     }
 
     /**
@@ -133,7 +148,7 @@ public class WalkForwardValidator {
         // Sorting decrescente per probabilità (Ranking)
         entries.sort((a, b) -> Double.compare(b.probBuggy(), a.probBuggy()));
 
-        double effortLimit = totalLoc * NPofB20_EFFORT_LIMIT;
+        double effortLimit = totalLoc * NPOFB20_EFFORT_LIMIT;
         final double[] currentEffort = {0};
 
         // takeWhile arresta lo stream appena superiamo la soglia del 20% LOC
