@@ -169,29 +169,29 @@ public class DatasetGeneratorController {
 
                     // Costruzione Riga (Lista di Oggetti)
                     // CSVPrinter gestirà automaticamente la conversione in stringa e l'escape
-                    List<Object> record = new ArrayList<>();
+                    List<Object> csvRow = new ArrayList<>();
 
                     // 1. Identificatori
-                    record.add(release.getName());
-                    record.add(releaseIndex);
-                    record.add(releaseDateStr);
-                    record.add(id.getClassName() + ".java");
-                    record.add(id.getClassName());
-                    record.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
+                    csvRow.add(release.getName());
+                    csvRow.add(releaseIndex);
+                    csvRow.add(releaseDateStr);
+                    csvRow.add(id.getClassName() + ".java");
+                    csvRow.add(id.getClassName());
+                    csvRow.add(id.getFullSignature()); // Commons CSV gestirà le virgole interne alla firma!
 
                     // 2. Metriche
                     // Metriche Statiche
-                    record.addAll(staticService.getValuesAsList(entry.getValue()));
+                    csvRow.addAll(staticService.getValuesAsList(entry.getValue()));
                     // Valori Locali (Intervallo corrente)
-                    record.addAll(processAnalyzer.getLocalValues(intervalProcessMap.get(id)));
+                    csvRow.addAll(processAnalyzer.getLocalValues(intervalProcessMap.get(id)));
                     // Valori Globali (Storico accumulato)
-                    record.addAll(processAnalyzer.getGlobalValues(globalProcessMap.get(id)));
+                    csvRow.addAll(processAnalyzer.getGlobalValues(globalProcessMap.get(id)));
 
                     // 3. Label
-                    record.add(isBuggyBoolean ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
+                    csvRow.add(isBuggyBoolean ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
 
                     // Scrittura fisica
-                    printer.printRecord(record);
+                    printer.printRecord(csvRow);
                 }
 
                 printer.flush();
