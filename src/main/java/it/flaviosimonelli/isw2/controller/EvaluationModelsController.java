@@ -42,6 +42,15 @@ public class EvaluationModelsController {
         this.projectKey = projectKey;
     }
 
+    /**
+     * Raggruppa gli strumenti di esecuzione per ridurre il numero di parametri (S107).
+     */
+    private record ExperimentContext(
+            WalkForwardValidator validator,
+            CsvResultExporter exporter,
+            String reportPath
+    ) {}
+
     public void runExperiment() {
         logger.info("Avvio esperimento Bug Prediction per {}", projectKey);
 
@@ -57,6 +66,8 @@ public class EvaluationModelsController {
         List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE");
         List<String> activeFeatureSelectors = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
 
+        ExperimentContext ctx = new ExperimentContext(validator, exporter, reportPath);
+
         try {
             Instances dataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
 
@@ -68,7 +79,7 @@ public class EvaluationModelsController {
                     for (String smpName : activeSamplers) {
                         for (String fsName : activeFeatureSelectors) {
                             // Estrazione della logica in un metodo separato per evitare try-catch annidati (S1141)
-                            executeSingleConfiguration(run, dataset, clfName, smpName, fsName, validator, exporter, reportPath);
+                            executeSingleConfiguration(run, dataset, clfName, smpName, fsName, ctx);
                         }
                     }
                 }
@@ -86,17 +97,16 @@ public class EvaluationModelsController {
      * Esegue una singola configurazione del modello.
      * Metodo estratto per ridurre la complessità e risolvere java:S1141.
      */
-    private void executeSingleConfiguration(int run, Instances dataset, String clfName, String smpName, String fsName,
-                                            WalkForwardValidator validator, CsvResultExporter exporter, String reportPath) {
+    private void executeSingleConfiguration(int run, Instances dataset, String clf, String smp, String fs,
+                                            ExperimentContext ctx) {
         try {
-            Classifier classifier = getClassifierInstance(clfName, run);
-            SamplingStrategy sampler = getSamplingStrategy(smpName, run);
-            FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fsName);
+            Classifier classifier = getClassifierInstance(clf, run);
+            SamplingStrategy sampler = getSamplingStrategy(smp, run);
+            FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fs);
 
-            logger.info("Valutazione: [Run {}] {} + {} + {}", run, clfName, smpName, fsName);
+            logger.info("Valutazione: [Run {}] {} + {} + {}", run, clf, smp, fs);
 
-            // Validazione Walk-Forward con i nuovi tipi (List<String>)
-            List<EvaluationResult> results = validator.validate(
+            List<EvaluationResult> results = ctx.validator().validate(
                     dataset,
                     classifier,
                     METADATA_COLS,
@@ -104,11 +114,10 @@ public class EvaluationModelsController {
                     fsStrategy
             );
 
-            exporter.appendResults(reportPath, projectKey, run, clfName, smpName, fsName, results);
+            ctx.exporter().appendResults(ctx.reportPath(), projectKey, run, clf, smp, fs, results);
 
         } catch (Exception ex) {
-            // L'errore di una singola configurazione non deve bloccare le altre
-            logger.error("Errore nella configurazione [{} - {} - {}]: {}", clfName, smpName, fsName, ex.getMessage());
+            logger.error("Fallimento configurazione [{}|{}|{}]: {}", clf, smp, fs, ex.getMessage());
         }
     }
 
