@@ -191,7 +191,7 @@ public class GitService {
         // ma per ora il filtro semplice va bene.
         return getAllCommits().stream()
                 .filter(c -> !c.getDate().isBefore(start) && !c.getDate().isAfter(end))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
