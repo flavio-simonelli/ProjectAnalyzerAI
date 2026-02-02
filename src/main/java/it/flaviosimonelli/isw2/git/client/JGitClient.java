@@ -246,8 +246,6 @@ public class JGitClient implements IGitClient {
             }
 
         } catch (Exception e) {
-            // Nota: Se usi la tua eccezione custom, usala qui
-            logger.error("Errore estrazione edits per commit " + commitHash, e);
             throw new GitClientException("Errore estrazione edits per " + commitHash, e);
         }
 
