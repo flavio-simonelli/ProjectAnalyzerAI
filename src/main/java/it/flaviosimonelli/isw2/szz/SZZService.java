@@ -356,50 +356,37 @@ public class SZZService {
      * sugli stessi file nel periodo di attività del ticket.
      */
     private List<GitCommit> recoverMissingCommits(JiraTicket ticket, List<GitCommit> strongCommits) {
-        // Se non abbiamo commit forti o data di risoluzione, non possiamo creare la "firma" o l'intervallo
         if (strongCommits.isEmpty() || ticket.getResolution() == null) {
             return Collections.emptyList();
         }
 
         // 1. Configurazione Intervallo Temporale
-        // Start: Creazione Ticket. End: Risoluzione + 1 giorno (buffer)
         LocalDateTime start = ticket.getCreated().atStartOfDay();
         LocalDateTime end = ticket.getResolution().atStartOfDay().plusDays(1);
 
-        // 2. Costruzione della "Firma" dei commit certi (Autori e File)
+        // 2. Costruzione della "Firma"
         Set<String> knownAuthors = new HashSet<>();
         Set<String> knownFiles = new HashSet<>();
 
         for (GitCommit c : strongCommits) {
             knownAuthors.add(c.getAuthorName());
-            // Usa il metodo che abbiamo aggiunto a GitService
             knownFiles.addAll(gitService.getTouchedJavaFilePaths(c));
         }
 
-        // 3. Recupero Candidati da Git nel range temporale
+        // 3. Recupero Candidati
         List<GitCommit> candidates = gitService.findCommitsInDateRange(start, end);
-        List<GitCommit> recovered = new ArrayList<>();
 
         // 4. Filtraggio Euristico
-        for (GitCommit candidate : candidates) {
-            // A. Evitiamo duplicati (se è già nei strongCommits, skip)
-            // Nota: GitCommit deve implementare equals/hashCode basandosi sull'Hash SHA-1
-            if (strongCommits.contains(candidate)) continue;
-
-            // B. Check Autore (Deve essere uno degli autori noti)
-            if (!knownAuthors.contains(candidate.getAuthorName())) continue;
-
-            // C. Check File (Deve toccare almeno un file già coinvolto nel bug)
-            Set<String> candidateFiles = gitService.getTouchedJavaFilePaths(candidate);
-
-            // !disjoint significa che c'è almeno un elemento in comune (intersezione)
-            boolean touchesKnownFiles = !Collections.disjoint(knownFiles, candidateFiles);
-
-            if (touchesKnownFiles) {
-                recovered.add(candidate);
-            }
-        }
-
-        return recovered;
+        return candidates.stream()
+                // Filtro A: Escludiamo i duplicati già noti
+                .filter(candidate -> !strongCommits.contains(candidate))
+                // Filtro B: Solo autori che hanno già lavorato su questo bug
+                .filter(candidate -> knownAuthors.contains(candidate.getAuthorName()))
+                // Filtro C: Solo commit che toccano almeno un file "sospetto"
+                .filter(candidate -> {
+                    Set<String> candidateFiles = gitService.getTouchedJavaFilePaths(candidate);
+                    return !Collections.disjoint(knownFiles, candidateFiles);
+                })
+                .toList();
     }
 }
