@@ -7,6 +7,7 @@ import it.flaviosimonelli.isw2.jira.bean.JiraRelease;
 import it.flaviosimonelli.isw2.jira.bean.JiraTicket;
 import it.flaviosimonelli.isw2.model.MethodIdentity;
 import it.flaviosimonelli.isw2.szz.impl.IncrementalProportionStrategy;
+import it.flaviosimonelli.isw2.util.AppConfig;
 import it.flaviosimonelli.isw2.util.JavaParserUtils;
 import org.eclipse.jgit.diff.Edit;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ public class SZZService {
     private final GitService gitService;
     private final List<JiraRelease> releases;
 
+    private final String testPathMarker;
+
     // Campo per la strategia (Polimorfismo)
     private IVEstimationStrategy estimationStrategy;
 
@@ -35,6 +38,7 @@ public class SZZService {
         this.releases = releases;
         // Default Strategy: Incremental Proportion
         this.estimationStrategy = new IncrementalProportionStrategy(releases);
+        this.testPathMarker = AppConfig.getProperty("git.test.path.marker", "/test/");
     }
 
     /**
@@ -136,26 +140,6 @@ public class SZZService {
         return map;
     }
 
-    private static class SZZStats {
-        int inFV = 0; int inNoFV = 0; int inAV = 0; int inNoAV = 0;
-        int procTotal = 0; int procAV = 0; int procFV = 0; int procBoth = 0;
-
-        void updateInputStats(JiraTicket t) {
-            if (!t.getFixVersions().isEmpty()) inFV++; else inNoFV++;
-            if (!t.getAffectedVersions().isEmpty()) inAV++; else inNoAV++;
-        }
-
-        void updateProcessedStats(JiraTicket t, int methodsCount) {
-            if (methodsCount == 0) return;
-            procTotal++;
-            boolean hasAV = !t.getAffectedVersions().isEmpty();
-            boolean hasFV = !t.getFixVersions().isEmpty();
-            if (hasAV) procAV++;
-            if (hasFV) procFV++;
-            if (hasAV && hasFV) procBoth++;
-        }
-    }
-
     // ==================================================================================
     //                           HELPERS DI RICERCA RELEASE
     // ==================================================================================
@@ -192,28 +176,46 @@ public class SZZService {
         Set<MethodIdentity> modifiedMethods = new HashSet<>();
         Map<String, List<Edit>> diffs = gitService.getDiffsWithEdits(commit);
 
+        // 1. Iteriamo sulle entry della mappa
         for (Map.Entry<String, List<Edit>> entry : diffs.entrySet()) {
             String filePath = entry.getKey();
             List<Edit> edits = entry.getValue();
 
-            if (!filePath.endsWith(".java") || filePath.contains("/test/")) continue;
-            try {
-                String sourceCode = gitService.getRawFileContent(commit, filePath);
-                if (sourceCode == null || sourceCode.isEmpty()) continue;
-                CompilationUnit cu = StaticJavaParser.parse(sourceCode);
-                for (MethodDeclaration method : cu.findAll(MethodDeclaration.class)) {
-                    if (isIntersection(method, edits)) {
-                        String fullSig = JavaParserUtils.getFullyQualifiedSignature(method, cu);
-                        String className = JavaParserUtils.getParentClassName(method);
-                        String pureName = method.getNameAsString();
-                        modifiedMethods.add(new MethodIdentity(fullSig, className, pureName));
-                    }
-                }
-            } catch (Exception e) {
-                logger.debug("Impossibile analizzare il file {} nel commit {}: {}", filePath, commit.getHash(), e.getMessage());
+            // 2. Uniamo i filtri iniziali in un unico check positivo
+            if (isJavaSourceFile(filePath)) {
+                // 3. Estraiamo la logica di parsing in un metodo dedicato (opzionale ma consigliato)
+                processFileEdits(commit, filePath, edits, modifiedMethods);
             }
         }
         return modifiedMethods;
+    }
+
+    private boolean isJavaSourceFile(String filePath) {
+        return filePath.endsWith(".java") && !filePath.contains(this.testPathMarker);
+    }
+
+    private void processFileEdits(GitCommit commit, String filePath, List<Edit> edits, Set<MethodIdentity> result) {
+        try {
+            String sourceCode = gitService.getRawFileContent(commit, filePath);
+
+            // Controllo validità contenuto senza 'continue'
+            if (sourceCode != null && !sourceCode.isEmpty()) {
+                CompilationUnit cu = StaticJavaParser.parse(sourceCode);
+
+                // Estraiamo i metodi che intersecano le modifiche
+                cu.findAll(MethodDeclaration.class).stream()
+                        .filter(method -> isIntersection(method, edits))
+                        .forEach(method -> {
+                            result.add(new MethodIdentity(
+                                    JavaParserUtils.getFullyQualifiedSignature(method, cu),
+                                    JavaParserUtils.getParentClassName(method),
+                                    method.getNameAsString()
+                            ));
+                        });
+            }
+        } catch (Exception e) {
+            logger.debug("Impossibile analizzare il file {} nel commit {}: {}", filePath, commit.getHash(), e.getMessage());
+        }
     }
 
     private boolean isIntersection(MethodDeclaration method, List<Edit> edits) {
@@ -388,5 +390,32 @@ public class SZZService {
                     return !Collections.disjoint(knownFiles, candidateFiles);
                 })
                 .toList();
+    }
+
+
+    private static class SZZStats {
+        int inFV = 0;
+        int inNoFV = 0;
+        int inAV = 0;
+        int inNoAV = 0;
+        int procTotal = 0;
+        int procAV = 0;
+        int procFV = 0;
+        int procBoth = 0;
+
+        void updateInputStats(JiraTicket t) {
+            if (!t.getFixVersions().isEmpty()) inFV++; else inNoFV++;
+            if (!t.getAffectedVersions().isEmpty()) inAV++; else inNoAV++;
+        }
+
+        void updateProcessedStats(JiraTicket t, int methodsCount) {
+            if (methodsCount == 0) return;
+            procTotal++;
+            boolean hasAV = !t.getAffectedVersions().isEmpty();
+            boolean hasFV = !t.getFixVersions().isEmpty();
+            if (hasAV) procAV++;
+            if (hasFV) procFV++;
+            if (hasAV && hasFV) procBoth++;
+        }
     }
 }
