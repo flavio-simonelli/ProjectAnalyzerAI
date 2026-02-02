@@ -1,6 +1,7 @@
 package it.flaviosimonelli.isw2.controller;
 
 import it.flaviosimonelli.isw2.config.ProjectConstants;
+import it.flaviosimonelli.isw2.exception.WhatIfAnalysisException;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
 import it.flaviosimonelli.isw2.util.AppConfig;
 import it.flaviosimonelli.isw2.util.CsvUtils; // <--- Importiamo la tua utility
@@ -66,7 +67,7 @@ public class WhatIfController {
             saveImpactReportCsv(statsA, statsBPlus, statsB, statsC, outputBase);
 
         } catch (Exception e) {
-            logger.error("Errore durante l'analisi d'impatto", e);
+            throw new WhatIfAnalysisException("Errore critico nell'analisi What-If per " + projectKey, e);
         }
     }
 
@@ -116,30 +117,36 @@ public class WhatIfController {
     // --- I METODI DI ANALISI RIMANGONO UGUALI ---
 
     private Stats analyzeDataset(String label, String path, Classifier model, Instances header) throws Exception {
-        WekaDataLoader loader = new WekaDataLoader();
-        // Disabilitiamo il filtro colonne nel loader passando null, gestiamo noi l'allineamento
-        Instances rawData = loader.loadData(path, ProjectConstants.TARGET_CLASS, null);
+        logger.info("Inizio elaborazione: {}", label);
 
-        int actualBuggy = 0;
-        int predictedBuggy = 0;
-        int classIdxRaw = rawData.classIndex();
+        try {
+            WekaDataLoader loader = new WekaDataLoader();
+            Instances rawData = loader.loadData(path, ProjectConstants.TARGET_CLASS, null);
 
-        for (Instance rawInst : rawData) {
-            // Conta reali
-            String trueLabel = rawInst.stringValue(classIdxRaw);
-            if (ProjectConstants.BUGGY_LABEL.equalsIgnoreCase(trueLabel)) {
-                actualBuggy++;
+            int actualBuggy = 0;
+            int predictedBuggy = 0;
+            int classIdxRaw = rawData.classIndex();
+
+            for (Instance rawInst : rawData) {
+                // Conteggio reali
+                if (ProjectConstants.BUGGY_LABEL.equalsIgnoreCase(rawInst.stringValue(classIdxRaw))) {
+                    actualBuggy++;
+                }
+
+                // Predizione con allineamento
+                Instance alignedInst = alignDataToHeader(rawInst, header);
+                double predVal = model.classifyInstance(alignedInst);
+                String predLabel = header.classAttribute().value((int) predVal);
+
+                if (ProjectConstants.BUGGY_LABEL.equalsIgnoreCase(predLabel)) {
+                    predictedBuggy++;
+                }
             }
-            // Predizione
-            Instance alignedInst = alignDataToHeader(rawInst, header);
-            double predVal = model.classifyInstance(alignedInst);
-            String predLabel = header.classAttribute().value((int) predVal);
+            return new Stats(actualBuggy, predictedBuggy);
 
-            if (ProjectConstants.BUGGY_LABEL.equalsIgnoreCase(predLabel)) {
-                predictedBuggy++;
-            }
+        } catch (Exception e) {
+            throw new WhatIfAnalysisException("Fallimento durante l'analisi di " + label, e);
         }
-        return new Stats(actualBuggy, predictedBuggy);
     }
 
     private Instance alignDataToHeader(Instance rawInst, Instances header) {
