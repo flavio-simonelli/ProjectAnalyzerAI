@@ -30,12 +30,12 @@ public class EvaluationModelsController {
     private final String datasetPath;
     private final String projectKey;
 
-    private static final String[] METADATA_COLS = {
+    private static final List<String> METADATA_COLS = List.of(
             ProjectConstants.RELEASE_INDEX_ATTRIBUTE,
             ProjectConstants.DATA_ATTRIBUTE,
             ProjectConstants.VERSION_ATTRIBUTE,
             "File", "Class", "Signature"
-    };
+    );
 
     public EvaluationModelsController(String datasetPath, String projectKey) {
         this.datasetPath = datasetPath;

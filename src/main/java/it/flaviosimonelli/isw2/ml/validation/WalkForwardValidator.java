@@ -32,7 +32,7 @@ public class WalkForwardValidator {
      */
     private record ValidationContext(
             Classifier classifier,
-            String[] columnsToDrop,
+            List<String> columnsToDrop,
             SamplingStrategy samplingStrategy,
             FeatureSelectionStrategy fsStrategy,
             List<EvaluationResult> results
@@ -45,7 +45,7 @@ public class WalkForwardValidator {
      */
     private record PredictionEntry(double probBuggy, double loc, boolean isActuallyBuggy) {}
 
-    public List<EvaluationResult> validate(Instances data, Classifier classifier, String[] columnsToDrop,
+    public List<EvaluationResult> validate(Instances data, Classifier classifier, List<String> columnsToDrop,
                                            SamplingStrategy samplingStrategy, FeatureSelectionStrategy fsStrategy) {
         List<EvaluationResult> results = new ArrayList<>();
         Attribute releaseIndex = data.attribute(ProjectConstants.RELEASE_INDEX_ATTRIBUTE);
@@ -82,8 +82,8 @@ public class WalkForwardValidator {
     private void processFold(int releaseId, Instances rawTrain, Instances rawTest, ValidationContext ctx) throws Exception {
 
         // 1. Rimozione attributi non predittivi (ID, Date, etc.)
-        Instances cleanTrain = removeColumns(rawTrain, ctx.columnsToDrop);
-        Instances cleanTest = removeColumns(rawTest, ctx.columnsToDrop);
+        Instances cleanTrain = removeColumns(rawTrain, ctx.columnsToDrop());
+        Instances cleanTest = removeColumns(rawTest, ctx.columnsToDrop());
 
         // 2. Feature Selection (opzionale)
         String selectedFeatures = "ALL";
@@ -189,21 +189,25 @@ public class WalkForwardValidator {
         return sb.toString();
     }
 
-    private Instances removeColumns(Instances data, String[] columnsNames) throws Exception {
-        if (columnsNames == null || columnsNames.length == 0) return data;
-
-        // Troviamo gli indici basati sui nomi
-        List<Integer> indices = new ArrayList<>();
-        for (String name : columnsNames) {
-            Attribute a = data.attribute(name);
-            if (a != null) indices.add(a.index());
+    private Instances removeColumns(Instances data, List<String> columnNames) throws Exception {
+        if (columnNames == null || columnNames.isEmpty()) {
+            return data;
         }
 
-        if (indices.isEmpty()) return data;
+        List<Integer> indices = new ArrayList<>();
+        for (String name : columnNames) {
+            Attribute a = data.attribute(name);
+            if (a != null) {
+                indices.add(a.index());
+            }
+        }
 
-        int[] indicesArray = indices.stream().mapToInt(i -> i).toArray();
+        if (indices.isEmpty()) {
+            return data;
+        }
+
         Remove remove = new Remove();
-        remove.setAttributeIndicesArray(indicesArray);
+        remove.setAttributeIndicesArray(indices.stream().mapToInt(i -> i).toArray());
         remove.setInputFormat(data);
         return Filter.useFilter(data, remove);
     }
