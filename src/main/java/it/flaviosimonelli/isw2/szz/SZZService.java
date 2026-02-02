@@ -45,155 +45,115 @@ public class SZZService {
     }
 
     public Map<String, Set<MethodIdentity>> getBuggyMethodsPerRelease(List<JiraTicket> tickets) {
-        // creiamo una mappa di <nomirelease, metodi Buggy in quella Release>
-        Map<String, Set<MethodIdentity>> buggyMap = new HashMap<>();
-        for (JiraRelease r : releases) buggyMap.put(r.getName(), new HashSet<>());
+        Map<String, Set<MethodIdentity>> buggyMap = initializeBuggyMap();
+        SZZStats stats = new SZZStats();
 
-        // Sorting per data resolution (serve per la strategia Proportion)
-        tickets.sort(Comparator.comparing(JiraTicket::getResolution)); // visto che la strategia di propotion si basa sulla fixversion e non sull data, qui dobbiamo ordinare rispetto alla fix verison e non la data
-
-        // --- CONTATORI STATISTICI ---
-        int totalTickets = 0;
-
-        // Statistiche Input (Jira)
-        int inputWithFV = 0;   // Ticket che hanno il campo FixVersion compilato
-        int inputWithoutFV = 0;
-        int inputWithAV = 0;   // Ticket che hanno il campo AffectedVersion compilato
-        int inputWithoutAV = 0;
-
-        // Statistiche Output (Processati / Utilizzati)
-        int processedTotal = 0;
-        int processedWithAV = 0;      // Utilizzati che avevano AV
-        int processedWithFV = 0;      // Utilizzati che avevano FV
-        int processedWithBoth = 0;    // Utilizzati che avevano SIA AV CHE FV
-        logger.info("Avvio SZZ su {} ticket. Strategia: {}", tickets.size(), estimationStrategy.getClass().getSimpleName());
+        // Sorting per data resolution (importante per Proportion)
+        tickets.sort(Comparator.comparing(JiraTicket::getResolution));
 
         for (JiraTicket ticket : tickets) {
-            totalTickets ++;
-            boolean hasJiraFixVersion = !ticket.getFixVersions().isEmpty();
-            boolean hasJiraAffectedVersion = !ticket.getAffectedVersions().isEmpty();
-
-            if (hasJiraFixVersion) inputWithFV++; else inputWithoutFV++;
-            if (hasJiraAffectedVersion) inputWithAV++; else inputWithoutAV++;
-
-            // --- FASE 1: DETERMINAZIONE VERSIONI (FV, OV, IV) ---
-            JiraRelease fv = getLatestReleaseFromList(ticket.getFixVersions());
-            // FALLBACK: Se Jira non ha fixVersions, usiamo la Resolution Date
-            if (fv == null) {
-                logger.warn("Nessuna fix version trovata per il ticket {}. fallback utilizzando la data di risoluzione", ticket.getKey());
-                fv = getReleaseByDate(ticket.getResolution());
-            }
-            JiraRelease ov = getReleaseByDate(ticket.getCreated());
-            if (fv == null || ov == null) {
-                logger.warn("SZZ SKIP Ticket {}: Impossibile determinare FV o OV (FV found? {}, OV found? {})",
-                        ticket.getKey(), (fv != null), (ov != null));
-                continue;
-            }
-            JiraRelease iv = null;
-
-            // Injected Version (IV) - GROUND TRUTH
-            // Cerchiamo la Affected Version più vecchia tra quelle dichiarate
-            if (hasJiraAffectedVersion) {
-                iv = getEarliestReleaseFromList(ticket.getAffectedVersions());
-                // Se l'abbiamo trovata, addestriamo Proportion
-                if (iv != null) {
-                    estimationStrategy.learn(iv, fv, ov);
-                }
-            }
-
-            // Injected Version (IV) - STIMA
-            if (iv == null) {
-                iv = estimationStrategy.estimate(fv, ov);
-            }
-
-            // SANITY CHECK FINALE
-            // Se per errore di dati o stima IV è dopo FV, tronchiamo a FV
-            if (iv.getReleaseDate().isAfter(fv.getReleaseDate())) {
-                logger.warn("SZZ ADJUST Ticket {}: IV stimata/trovata ({}) successiva a FV ({}). Imposto IV=FV (il ticket diventa essenzialmente inutile).",
-                        ticket.getKey(), iv.getName(), fv.getName());
-                iv = fv;
-            }
-
-            // --- FASE 2: ANALISI GIT ---
-            // 1. Linkage "Forte" (ID nel messaggio)
-            // Usiamo new ArrayList<> per garantire che la lista sia modificabile
-            List<GitCommit> fixCommits = new ArrayList<>(gitService.findFixCommits(ticket)); // trova tutti i commit che sono precedenti alla data di risoluzione del ticket e possiedono come descrizione il nome del ticket
-
-            // 2. Linkage "Euristico" (Recupero commit persi)
-            // --- MODIFICA SZZ: Inizio Euristica ---
-            // Tentiamo il recupero solo se abbiamo una data di risoluzione valida
-            if (!fixCommits.isEmpty() && ticket.getResolution() != null) {
-                List<GitCommit> heuristicCommits = recoverMissingCommits(ticket, fixCommits);
-
-                if (!heuristicCommits.isEmpty()) {
-                    fixCommits.addAll(heuristicCommits);
-                    logger.debug("SZZ HEURISTIC: Recuperati {} commit aggiuntivi per il ticket {}.",
-                            heuristicCommits.size(), ticket.getKey());
-                }
-            }
-
-            if (fixCommits.isEmpty()) {
-                logger.warn("SZZ SKIP Ticket {}: Nessun commit di fix trovato in Git.", ticket.getKey());
-                continue;
-            }
-            // LOGICA CORRETTA (Aggregazione):
-            // Un bug può essere risolto in più step. Consideriamo TUTTI i commit validi
-            // che fanno riferimento al ticket. Se un metodo è stato toccato in uno
-            // qualsiasi di questi commit, era parte del problema.
-            Set<MethodIdentity> buggyMethods = new HashSet<>();
-            // Lower Bound: Data Creazione Ticket (con 60 giorni di buffer per sicurezza)
-            //LocalDateTime creationLowerBound = ticket.getCreated().atStartOfDay().minusDays(60);
-            boolean validCommitsFound = false;
-            for (GitCommit commit : fixCommits) {
-                // identifyModifiedMethods restituisce i metodi toccati in QUEL commit.
-                // addAll fa l'unione dei set, gestendo i duplicati automaticamente.
-                // CHECK TEMPORALE INFERIORE (Anti-Noise)
-//                if (commit.getDate().isBefore(creationLowerBound)) {
-//                    // Calcolo giorni di anticipo per il log
-//                    long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(
-//                            commit.getDate(),
-//                            ticket.getCreated().atStartOfDay()
-//                    );
-//
-//                    // Logghiamo se scartiamo qualcosa (evitiamo log inutili per date di anni prima)
-//                    if (daysDiff < 365) {
-//                        logger.debug("SZZ SKIP Commit {} per ticket {}: Commit del {} (Created: {}). Anticipo sospetto: {} giorni.",
-//                                commit.getHash().substring(0, 7),
-//                                ticket.getKey(),
-//                                commit.getDate().toLocalDate(),
-//                                ticket.getCreated(),
-//                                daysDiff);
-//                    }
-//                    continue;
-//                }
-                // Se passa il filtro, uniamo i metodi
-                Set<MethodIdentity> methods = identifyModifiedMethods(commit);
-                if (!methods.isEmpty()) {
-                    buggyMethods.addAll(methods);
-                    validCommitsFound = true;
-                }
-            }
-
-            // Se alla fine del filtro temporale non abbiamo metodi validi, il ticket è scartato
-            if (buggyMethods.isEmpty()) {
-                logger.debug("SZZ SKIP Ticket {}: I commit trovati non modificavano file .java o erano fuori tempo.", ticket.getKey());
-                continue;
-            }
-
-            // DEBUG: Vediamo quanti metodi abbiamo trovato per questo ticket
-            logger.debug("Ticket {} -> {} metodi buggati identificati da {} commit.", ticket.getKey(), buggyMethods.size(), fixCommits.size());
-
-            // --- FASE 3: LABELING ---
-            markBuggyInReleases(buggyMap, buggyMethods, iv, fv);
-            processedTotal++;
-            if (hasJiraAffectedVersion) processedWithAV++;
-            if (hasJiraFixVersion) processedWithFV++;
-            if (hasJiraAffectedVersion && hasJiraFixVersion) processedWithBoth++;
+            processTicket(ticket, buggyMap, stats);
         }
 
-        printDetailedReport(totalTickets, inputWithFV, inputWithoutFV, inputWithAV, inputWithoutAV,
-                processedTotal, processedWithAV, processedWithFV, processedWithBoth);
+        printDetailedReport(tickets.size(), stats);
         return buggyMap;
+    }
+
+    private void processTicket(JiraTicket ticket, Map<String, Set<MethodIdentity>> buggyMap, SZZStats stats) {
+        stats.updateInputStats(ticket);
+
+        // 1. DETERMINAZIONE VERSIONI (FV, OV, IV)
+        JiraRelease fv = determineFixVersion(ticket);
+        JiraRelease ov = getReleaseByDate(ticket.getCreated());
+
+        if (fv == null || ov == null) {
+            logSkip(ticket, fv, ov);
+            return;
+        }
+
+        JiraRelease iv = determineInjectedVersion(ticket, fv, ov);
+
+        // 2. ANALISI GIT (Linkage + Heuristic)
+        List<GitCommit> fixCommits = collectFixCommits(ticket);
+        if (fixCommits.isEmpty()) return;
+
+        Set<MethodIdentity> buggyMethods = extractMethodsFromCommits(fixCommits);
+        if (buggyMethods.isEmpty()) return;
+
+        // 3. LABELING
+        markBuggyInReleases(buggyMap, buggyMethods, iv, fv);
+        stats.updateProcessedStats(ticket, buggyMethods.size());
+    }
+
+    private JiraRelease determineFixVersion(JiraTicket ticket) {
+        JiraRelease fv = getLatestReleaseFromList(ticket.getFixVersions());
+        if (fv == null) {
+            return getReleaseByDate(ticket.getResolution());
+        }
+        return fv;
+    }
+
+    private JiraRelease determineInjectedVersion(JiraTicket ticket, JiraRelease fv, JiraRelease ov) {
+        JiraRelease iv = getEarliestReleaseFromList(ticket.getAffectedVersions());
+
+        if (iv != null) {
+            estimationStrategy.learn(iv, fv, ov);
+        } else {
+            iv = estimationStrategy.estimate(fv, ov);
+        }
+
+        // Sanity Check
+        if (iv.getReleaseDate().isAfter(fv.getReleaseDate())) {
+            return fv;
+        }
+        return iv;
+    }
+
+    private List<GitCommit> collectFixCommits(JiraTicket ticket) {
+        List<GitCommit> fixCommits = new ArrayList<>(gitService.findFixCommits(ticket));
+
+        if (!fixCommits.isEmpty() && ticket.getResolution() != null) {
+            List<GitCommit> heuristic = recoverMissingCommits(ticket, fixCommits);
+            fixCommits.addAll(heuristic);
+        }
+
+        return fixCommits;
+    }
+
+    private Set<MethodIdentity> extractMethodsFromCommits(List<GitCommit> commits) {
+        Set<MethodIdentity> methods = new HashSet<>();
+        for (GitCommit commit : commits) {
+            methods.addAll(identifyModifiedMethods(commit));
+        }
+        return methods;
+    }
+
+    private Map<String, Set<MethodIdentity>> initializeBuggyMap() {
+        Map<String, Set<MethodIdentity>> map = new HashMap<>();
+        for (JiraRelease r : releases) {
+            map.put(r.getName(), new HashSet<>());
+        }
+        return map;
+    }
+
+    private static class SZZStats {
+        int inFV = 0; int inNoFV = 0; int inAV = 0; int inNoAV = 0;
+        int procTotal = 0; int procAV = 0; int procFV = 0; int procBoth = 0;
+
+        void updateInputStats(JiraTicket t) {
+            if (!t.getFixVersions().isEmpty()) inFV++; else inNoFV++;
+            if (!t.getAffectedVersions().isEmpty()) inAV++; else inNoAV++;
+        }
+
+        void updateProcessedStats(JiraTicket t, int methodsCount) {
+            if (methodsCount == 0) return;
+            procTotal++;
+            boolean hasAV = !t.getAffectedVersions().isEmpty();
+            boolean hasFV = !t.getFixVersions().isEmpty();
+            if (hasAV) procAV++;
+            if (hasFV) procFV++;
+            if (hasAV && hasFV) procBoth++;
+        }
     }
 
     // ==================================================================================
@@ -357,13 +317,11 @@ public class SZZService {
         return null;
     }
 
-    private void printDetailedReport(int total, int inFV, int inNoFV, int inAV, int inNoAV,
-                                     int proc, int procAV, int procFV, int procBoth) {
-
-        double percProc = (total > 0) ? ((double)proc / total) * 100 : 0;
-        double percAV = (proc > 0) ? ((double)procAV / proc) * 100 : 0;
-        double percFV = (proc > 0) ? ((double)procFV / proc) * 100 : 0;
-        double percBoth = (proc > 0) ? ((double)procBoth / proc) * 100 : 0;
+    private void printDetailedReport(int total, SZZStats s) {
+        double percProc = (total > 0) ? ((double) s.procTotal / total) * 100 : 0;
+        double percAV = (s.procTotal > 0) ? ((double) s.procAV / s.procTotal) * 100 : 0;
+        double percFV = (s.procTotal > 0) ? ((double) s.procFV / s.procTotal) * 100 : 0;
+        double percBoth = (s.procTotal > 0) ? ((double) s.procBoth / s.procTotal) * 100 : 0;
 
         String report = """
             %1$s
@@ -380,12 +338,16 @@ public class SZZService {
                - Avevano ENTRAMBE (AV + FV):              %14$d (%15$.2f%%)
             %1$s
             """.formatted(
-                REPORT_SEP, total, inFV, inNoFV, inAV, inNoAV,
-                SECTION_SEP, proc, percProc,
-                procAV, percAV, procFV, percFV, procBoth, percBoth
+                REPORT_SEP, total, s.inFV, s.inNoFV, s.inAV, s.inNoAV,
+                SECTION_SEP, s.procTotal, percProc,
+                s.procAV, percAV, s.procFV, percFV, s.procBoth, percBoth
         );
-
         logger.info("\n{}", report);
+    }
+
+    private void logSkip(JiraTicket ticket, JiraRelease fv, JiraRelease ov) {
+        logger.warn("SZZ SKIP Ticket {}: Impossibile determinare FV o OV (FV found? {}, OV found? {})",
+                ticket.getKey(), (fv != null), (ov != null));
     }
 
     /**
