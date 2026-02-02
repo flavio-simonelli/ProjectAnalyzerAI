@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2.ml.reporting;
 
+import it.flaviosimonelli.isw2.ml.evaluation.ClassificationMetrics;
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.util.CsvUtils;
 import org.apache.commons.csv.CSVPrinter;
@@ -38,20 +39,22 @@ public class CsvResultExporter {
         try (CSVPrinter printer = CsvUtils.createPrinter(outputPath, true, REPORT_HEADERS)) {
 
             for (EvaluationResult res : results) {
+                ClassificationMetrics m = res.metrics();
+
                 printer.printRecord(
                         project,
                         run,
                         classifierName,
                         samplingName,
                         fsName,
-                        res.getReleaseIndex(),
-                        format(res.getPrecision()),
-                        format(res.getRecall()),
-                        format(res.getFMeasure()),
-                        format(res.getAuc()),
-                        format(res.getKappa()),
-                        format(res.getNpofb20()),
-                        res.getSelectedFeatures()
+                        res.releaseIndex(),
+                        format(m.precision()),
+                        format(m.recall()),
+                        format(m.fMeasure()),
+                        format(m.auc()),
+                        format(m.kappa()),
+                        format(res.npofb20()),
+                        res.selectedFeatures()
                 );
             }
             logger.info("Salvati {} risultati per {} ({}, {})",
