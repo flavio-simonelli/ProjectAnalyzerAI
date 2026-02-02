@@ -44,170 +44,131 @@ public class DatasetGeneratorController {
     public void createDataset(String projectKey, String outputCsvPath) {
         logger.info("Inizio generazione dataset per {}", projectKey);
 
-        // Recupero informazioni release da Jira
-        List<JiraRelease> releases = jiraService.getReleases(projectKey);
-        releases.sort(Comparator.comparing(JiraRelease::getReleaseDate));
-        logger.info("Trovate {} release in Jira", releases.size());
-        // Recupero informazioni ticket da Jira
+        // 1. Inizializzazione dati Jira e SZZ
+        List<JiraRelease> releases = getSortedReleases(projectKey);
         List<JiraTicket> tickets = jiraService.getTickets(projectKey);
-        logger.info("Trovati {} ticket fixed in Jira", tickets.size());
-
-        // INIZIALIZZAZIONE LOGICA SNORIN
+        Map<String, Set<MethodIdentity>> buggyRegistry = new SZZService(gitService, releases).getBuggyMethodsPerRelease(tickets);
         SnoringControlService snoringService = new SnoringControlService(releases);
 
-        // ESECUZIONE SZZ (Labeling)
-        // Calcoliamo ORA quali metodi sono buggati in quali versioni.
-        // Lo facciamo fuori dal loop principale per performance (lo calcoliamo una volta sola).
-        SZZService szzService = new SZZService(gitService, releases);
-        Map<String, Set<MethodIdentity>> buggyRegistry = szzService.getBuggyMethodsPerRelease(tickets);
-
-
-        // REGISTRO GLOBALE (Accumulatore per Total Revisions, Total Churn, ecc.)
-        // Sopravvive attraverso le iterazioni del loop releases
+        // 2. Preparazione accumulatore e headers
         Map<MethodIdentity, MethodProcessMetrics> globalProcessMap = new HashMap<>();
+        List<String> headers = buildHeaders();
 
-        // 2. PREPARAZIONE HEADER
-        // Costruiamo una lista ordinata di intestazioni
-        List<String> headers = new ArrayList<>();
-        headers.add(ProjectConstants.VERSION_ATTRIBUTE);
-        headers.add(ProjectConstants.RELEASE_INDEX_ATTRIBUTE);
-        headers.add(ProjectConstants.DATA_ATTRIBUTE);
-        headers.add("File");
-        headers.add("Class");
-        headers.add("Signature");
-        headers.addAll(staticService.getHeaderList());       // Es: ["LOC", "NAuth", ...]
-        headers.addAll(processAnalyzer.getHeaderList());     // Es: ["Churn", "Revision", ...]
-        headers.addAll(processAnalyzer.getGlobalHeaderList());
-        headers.add(ProjectConstants.TARGET_CLASS);
+        // 3. Loop di processamento release
+        processReleases(releases, buggyRegistry, snoringService, globalProcessMap, outputCsvPath, headers);
+    }
 
-        long totalRowsWritten = 0;
-        long totalBuggyRowsWritten = 0;
+    private void processReleases(List<JiraRelease> releases, Map<String, Set<MethodIdentity>> buggyRegistry,
+                                 SnoringControlService snoring, Map<MethodIdentity, MethodProcessMetrics> globalProcessMap,
+                                 String outputPath, List<String> headers) {
 
-        try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, false, headers.toArray(new String[0]))) {
+        long[] stats = {0, 0}; // [totalRows, buggyRows]
 
-            // Variabile per tracciare l'inizio della finestra temporale
+        try (CSVPrinter printer = CsvUtils.createPrinter(outputPath, false, headers.toArray(new String[0]))) {
             JiraRelease prevRelease = null;
 
-            // 2. LOOP SULLE RELEASE
             for (int i = 0; i < releases.size(); i++) {
-                // controllo se dobbiamo fermarci per via dello snoring
-                if (snoringService.shouldStopProcessingReleases(i)) {
-                    logger.info("Snoring Cutoff triggered. Stopping loop.");
-                    break;
-                }
+                if (snoring.shouldStopProcessingReleases(i)) break;
 
-                JiraRelease release = releases.get(i);
-                boolean isSnoring = snoringService.isSnoringZone(i);
+                JiraRelease current = releases.get(i);
+                logger.info("Processing Release {}/{} : {}", (i + 1), releases.size(), current.getName());
 
-                logger.info("Processing Release {}/{} : {} {}",
-                        (i+1), releases.size(), release.getName(),
-                        (isSnoring ? "[SNORING ZONE]" : "[SAFE ZONE]"));
+                // FASE A: Analisi Processo (Delta tra release)
+                Map<MethodIdentity, MethodProcessMetrics> intervalMap = performProcessAnalysis(prevRelease, current, globalProcessMap);
 
-                // --- FASE A: ANALISI STORICA (Process Metrics) ---
-                // Calcoliamo cosa è successo TRA la release precedente e questa
-                LocalDate startDate = (prevRelease != null) ? prevRelease.getReleaseDate() : null;
-                LocalDate endDate = release.getReleaseDate();
-                int releaseIndex = i + 1;
-                String releaseDateStr = release.getReleaseDate().toString();
+                // FASE B: Analisi Statica (Snapshot a fine release)
+                Map<MethodIdentity, MethodStaticMetrics> staticMap = performStaticAnalysis(current);
+                if (staticMap.isEmpty()) continue;
 
-                // DEBUG 2: Controllo Date
-                logger.debug("Finestra temporale {} -> {}", startDate, endDate);
-
-                // Recuperiamo i commit dell'intervallo
-                List<GitCommit> historyCommits = gitService.getCommitsBetweenDates(startDate, endDate);
-                // DEBUG 3: Controllo Commit
-                logger.debug("Trovati {} commit storici per la release {}", historyCommits.size(), release.getName());
-
-                // 1. Calcolo Metriche Locali (Intervallo)
-                Map<MethodIdentity, MethodProcessMetrics> intervalProcessMap = processAnalyzer.extractProcessMetrics(historyCommits);
-
-                // 2. Aggiornamento Metriche Globali (Merge)
-                processAnalyzer.mergeToGlobal(globalProcessMap, intervalProcessMap);
-
-
-                // --- FASE B: Recupero Snapshot (Static Metrics) ---
-                GitCommit snapshot = (!historyCommits.isEmpty()) ? historyCommits.getFirst() : gitService.getLastCommitOnOrBeforeDate(endDate);
-
-                if (snapshot == null) {
-                    logger.warn("Skipping release {}: nessun commit valido trovato.", release.getName());
-                    prevRelease = release; // QUESTO SIAMO SICURI CHE CI VA?
-                    continue;
-                }
-
-                // 3. Analisi Statica dell'intero progetto
-                // Questa chiamata singola sostituisce tutto il loop manuale sui file.
-                // Ritorna una mappa completa di TUTTI i metodi esistenti nel progetto in quel momento.
-                Map<MethodIdentity, MethodStaticMetrics> projectStaticMap = staticService.analyzeRelease(snapshot);
-
-                if (projectStaticMap.isEmpty()) {
-                    logger.error("ERRORE GRAVE: L'analisi statica non ha prodotto risultati. Controllare StaticAnalysisService o il parsing.");
-                }
-
-                // Recuperiamo il Set dei metodi buggati per QUESTA release specifica
-                Set<MethodIdentity> buggyInThisRelease = buggyRegistry.get(release.getName());
-
-                // Debug per release
-                int buggyInReleaseCount = 0;
-
-                // --- FASE C: UNIONE (JOIN) E SCRITTURA ---
-                // Iteriamo sulla mappa STATICA perché il dataset deve contenere le righe dei metodi ESISTENTI nello snapshot.
-                for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : projectStaticMap.entrySet()) {
-
-                    MethodIdentity id = entry.getKey();
-
-                    boolean isBuggyBoolean = (buggyInThisRelease != null && buggyInThisRelease.contains(id));
-
-                    // Controllo snoring (filtro righe)
-                    if (!snoringService.shouldKeepRow(i, isBuggyBoolean)) {
-                        continue; // Il service ha detto di scartarla
-                    }
-
-                    totalRowsWritten++;
-                    if (isBuggyBoolean) {
-                        totalBuggyRowsWritten++;
-                        buggyInReleaseCount++;
-                    }
-
-                    // Costruzione Riga (Lista di Oggetti)
-                    // CSVPrinter gestirà automaticamente la conversione in stringa e l'escape
-                    List<Object> csvRow = new ArrayList<>();
-
-                    // 1. Identificatori
-                    csvRow.add(release.getName());
-                    csvRow.add(releaseIndex);
-                    csvRow.add(releaseDateStr);
-                    csvRow.add(id.className() + ".java");
-                    csvRow.add(id.className());
-                    csvRow.add(id.fullSignature()); // Commons CSV gestirà le virgole interne alla firma!
-
-                    // 2. Metriche
-                    // Metriche Statiche
-                    csvRow.addAll(staticService.getValuesAsList(entry.getValue()));
-                    // Valori Locali (Intervallo corrente)
-                    csvRow.addAll(processAnalyzer.getLocalValues(intervalProcessMap.get(id)));
-                    // Valori Globali (Storico accumulato)
-                    csvRow.addAll(processAnalyzer.getGlobalValues(globalProcessMap.get(id)));
-
-                    // 3. Label
-                    csvRow.add(isBuggyBoolean ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
-
-                    // Scrittura fisica
-                    printer.printRecord(csvRow);
-                }
+                // FASE C: Join e Scrittura
+                writeReleaseRows(printer, i, current, staticMap, intervalMap, globalProcessMap, buggyRegistry, snoring, stats);
 
                 printer.flush();
-                // Setup per la prossima iterazione
-                prevRelease = release;
+                prevRelease = current;
             }
 
-            snoringService.printFinalReport(outputCsvPath);
-            logDatasetReport(outputCsvPath, totalRowsWritten, totalBuggyRowsWritten);
+            snoring.printFinalReport(outputPath);
+            logDatasetReport(outputPath, stats[0], stats[1]);
 
         } catch (IOException e) {
             throw new DatasetGenerationException("Creazione dataset fallita", e);
         }
     }
 
+    private Map<MethodIdentity, MethodProcessMetrics> performProcessAnalysis(JiraRelease prev, JiraRelease current,
+                                                                             Map<MethodIdentity, MethodProcessMetrics> global) {
+        LocalDate start = (prev != null) ? prev.getReleaseDate() : null;
+        List<GitCommit> commits = gitService.getCommitsBetweenDates(start, current.getReleaseDate());
+
+        Map<MethodIdentity, MethodProcessMetrics> intervalMap = processAnalyzer.extractProcessMetrics(commits);
+        processAnalyzer.mergeToGlobal(global, intervalMap);
+        return intervalMap;
+    }
+
+    private Map<MethodIdentity, MethodStaticMetrics> performStaticAnalysis(JiraRelease release) {
+        GitCommit snapshot = gitService.getLastCommitOnOrBeforeDate(release.getReleaseDate());
+        if (snapshot == null) {
+            logger.warn("Nessun snapshot per la release {}", release.getName());
+            return Collections.emptyMap();
+        }
+        return staticService.analyzeRelease(snapshot);
+    }
+
+    private void writeReleaseRows(CSVPrinter printer, int releaseIdx, JiraRelease release,
+                                  Map<MethodIdentity, MethodStaticMetrics> staticMap,
+                                  Map<MethodIdentity, MethodProcessMetrics> intervalMap,
+                                  Map<MethodIdentity, MethodProcessMetrics> globalHistory,
+                                  Map<String, Set<MethodIdentity>> buggyRegistry,
+                                  SnoringControlService snoring, long[] stats) throws IOException {
+
+        Set<MethodIdentity> buggyInThisRelease = buggyRegistry.getOrDefault(release.getName(), Collections.emptySet());
+
+        for (var entry : staticMap.entrySet()) {
+            MethodIdentity id = entry.getKey();
+            boolean isBuggy = buggyInThisRelease.contains(id);
+
+            if (!snoring.shouldKeepRow(releaseIdx, isBuggy)) continue;
+
+            List<Object> row = new ArrayList<>();
+            // 1. Info release e file
+            row.add(release.getName());
+            row.add(releaseIdx + 1);
+            row.add(release.getReleaseDate().toString());
+            row.add(id.className() + ".java");
+            row.add(id.className());
+            row.add(id.fullSignature());
+
+            // 2. Metriche (Statiche, Locali, Globali)
+            row.addAll(staticService.getValuesAsList(entry.getValue()));
+            row.addAll(processAnalyzer.getLocalValues(intervalMap.get(id)));
+            row.addAll(processAnalyzer.getGlobalValues(globalHistory.get(id)));
+
+            // 3. Label
+            row.add(isBuggy ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
+
+            printer.printRecord(row);
+            stats[0]++;
+            if (isBuggy) stats[1]++;
+        }
+    }
+
+    private List<String> buildHeaders() {
+        List<String> h = new ArrayList<>(List.of(
+                ProjectConstants.VERSION_ATTRIBUTE, ProjectConstants.RELEASE_INDEX_ATTRIBUTE,
+                ProjectConstants.DATA_ATTRIBUTE, "File", "Class", "Signature"
+        ));
+        h.addAll(staticService.getHeaderList());
+        h.addAll(processAnalyzer.getHeaderList());
+        h.addAll(processAnalyzer.getGlobalHeaderList());
+        h.add(ProjectConstants.TARGET_CLASS);
+        return h;
+    }
+
+    private List<JiraRelease> getSortedReleases(String projectKey) {
+        List<JiraRelease> releases = jiraService.getReleases(projectKey);
+        releases.sort(Comparator.comparing(JiraRelease::getReleaseDate));
+        return releases;
+    }
 
     /**
      * Funzione Helper per la stampa del report finale.
