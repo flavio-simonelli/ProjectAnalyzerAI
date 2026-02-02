@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class GitService {
     private static final Logger logger = LoggerFactory.getLogger(GitService.class);
+    private static final String TEST_PATH_MARKER = "/test/";
+
     private final IGitClient gitClient;
 
     // Cache locale per non ricaricare la lista commit 1000 volte
@@ -141,7 +143,7 @@ public class GitService {
             // 1. Filtro: Solo file .java
             if (path.endsWith(".java")) {
                 // 2. Filtro opzionale: Escludere i Test (spesso in ISW2 si analizza solo production code)
-                if (!path.toLowerCase().contains("/test/")) {
+                if (!path.toLowerCase().contains(TEST_PATH_MARKER)) {
                     javaChanges.put(path, entry.getChangeType());
                 }
             }
@@ -158,7 +160,7 @@ public class GitService {
 
         // 2. Applichiamo solo i filtri di business (es. no test)
         return javaFiles.stream()
-                .filter(path -> !path.contains("/test/")) // Filtro business
+                .filter(path -> !path.contains(TEST_PATH_MARKER)) // Filtro business
                 .collect(Collectors.toList());
     }
 
@@ -208,7 +210,7 @@ public class GitService {
             String path = entry.getNewPath().equals("/dev/null") ? entry.getOldPath() : entry.getNewPath();
 
             // Filtriamo solo i file Java (e opzionalmente rimuoviamo i test)
-            if (path.endsWith(".java") && !path.contains("/test/")) {
+            if (path.endsWith(".java") && !path.contains(TEST_PATH_MARKER)) {
                 touchedFiles.add(path);
             }
         }
