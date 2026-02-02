@@ -4,6 +4,7 @@ import it.flaviosimonelli.isw2.git.client.IGitClient;
 import it.flaviosimonelli.isw2.git.bean.GitCommit;
 import it.flaviosimonelli.isw2.git.bean.GitDiffEntry;
 import it.flaviosimonelli.isw2.jira.bean.JiraTicket;
+import it.flaviosimonelli.isw2.util.AppConfig;
 import org.eclipse.jgit.diff.Edit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class GitService {
     private static final Logger logger = LoggerFactory.getLogger(GitService.class);
-    private static final String TEST_PATH_MARKER = "/test/";
+    private final String testPathMarker;
 
     private final IGitClient gitClient;
 
@@ -25,6 +25,7 @@ public class GitService {
 
     public GitService(IGitClient gitClient) {
         this.gitClient = gitClient;
+        this.testPathMarker = AppConfig.getProperty("git.test.path.marker", "/test/");
     }
 
     /**
@@ -141,7 +142,7 @@ public class GitService {
             String path = entry.getNewPath().equals("/dev/null") ? entry.getOldPath() : entry.getNewPath();
 
             // 1. Filtro: Solo file .java e tolgo i file di test
-            if (path.endsWith(".java") && !path.toLowerCase().contains(TEST_PATH_MARKER)) {
+            if (path.endsWith(".java") && !path.toLowerCase().contains(this.testPathMarker)) {
                 javaChanges.put(path, entry.getChangeType());
             }
         }
@@ -157,7 +158,7 @@ public class GitService {
 
         // 2. Applichiamo solo i filtri di business (es. no test)
         return javaFiles.stream()
-                .filter(path -> !path.contains(TEST_PATH_MARKER))
+                .filter(path -> !path.contains(this.testPathMarker))
                 .toList();
     }
 
@@ -207,7 +208,7 @@ public class GitService {
             String path = entry.getNewPath().equals("/dev/null") ? entry.getOldPath() : entry.getNewPath();
 
             // Filtriamo solo i file Java (e opzionalmente rimuoviamo i test)
-            if (path.endsWith(".java") && !path.contains(TEST_PATH_MARKER)) {
+            if (path.endsWith(".java") && !path.contains(this.testPathMarker)) {
                 touchedFiles.add(path);
             }
         }
