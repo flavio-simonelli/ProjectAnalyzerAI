@@ -1,7 +1,9 @@
 package it.flaviosimonelli.isw2.controller;
 
 import it.flaviosimonelli.isw2.config.ProjectConstants;
+import it.flaviosimonelli.isw2.exception.DatasetGenerationException;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
+import it.flaviosimonelli.isw2.ml.exceptions.DatasetLoadingException;
 import it.flaviosimonelli.isw2.util.AppConfig;
 import it.flaviosimonelli.isw2.util.CsvUtils; // <--- Importiamo la tua utility
 import org.slf4j.Logger;
@@ -42,7 +44,7 @@ public class DatasetVariantController {
             // 2. Trova l'indice dell'attributo CodeSmells
             Attribute smellAttr = dataA.attribute("CodeSmells");
             if (smellAttr == null) {
-                throw new RuntimeException("Colonna 'CodeSmells' non trovata nel dataset!");
+                throw new DatasetLoadingException("Colonna 'CodeSmells' non trovata nel dataset: " + datasetPath, null);
             }
             int smellIdx = smellAttr.index();
 
@@ -82,7 +84,7 @@ public class DatasetVariantController {
             saveViaCsvUtils(dataC,      outputDir, projectKey + "_C_CLEAN.csv");
 
         } catch (Exception e) {
-            logger.error("Errore durante la creazione delle varianti", e);
+            throw new DatasetGenerationException("Fallimento critico durante il processing dei dati per creare le varianti what-if del dataset", e);
         }
     }
 
