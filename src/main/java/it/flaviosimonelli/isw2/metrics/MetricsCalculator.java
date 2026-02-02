@@ -119,7 +119,7 @@ public class MetricsCalculator {
     public List<String> getHeaderList() {
         return metricsChain.stream()
                 .map(IMetric::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
