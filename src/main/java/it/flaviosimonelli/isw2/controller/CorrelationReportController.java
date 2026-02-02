@@ -58,7 +58,7 @@ public class CorrelationReportController {
                         String.format(Locale.US, "%.4f", c.getPearson()),
                         String.format(Locale.US, "%.4f", c.getSpearman())
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
         // 4. SCRITTURA (Delegata a Utility I/O)
         CsvUtils.writeCsv(outputReportPath, headers, rows);
