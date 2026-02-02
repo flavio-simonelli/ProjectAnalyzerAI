@@ -1,6 +1,8 @@
 package it.flaviosimonelli.isw2.ml.sampling;
 
+import it.flaviosimonelli.isw2.ml.exceptions.SamplingException;
 import weka.core.Instances;
+import weka.filters.Filter;
 import weka.filters.supervised.instance.SMOTE;
 
 public class SmoteSamplingStrategy implements SamplingStrategy {
@@ -12,33 +14,38 @@ public class SmoteSamplingStrategy implements SamplingStrategy {
     }
 
     @Override
-    public Instances apply(Instances data) throws Exception {
+    public Instances apply(Instances data) {
         int classIdx = data.classIndex();
 
-        // Conta le istanze
+        // 1. Analisi delle istanze per calcolare lo sbilanciamento
         int[] counts = data.attributeStats(classIdx).nominalCounts;
-        // Assumiamo che Clean sia la maggioritaria e Buggy la minoritaria
-        // Ma per sicurezza calcoliamo chi è chi
         int majorityCount = Math.max(counts[0], counts[1]);
         int minorityCount = Math.min(counts[0], counts[1]);
 
-        if (minorityCount == 0) return data; // Niente da bilanciare
+        // Se non ci sono istanze della classe minoritaria o il dataset è già bilanciato
+        if (minorityCount == 0 || minorityCount == majorityCount) {
+            return data;
+        }
 
-        // Calcoliamo la percentuale per arrivare circa al 50/50
-        // Formula SMOTE Weka: (Percentage / 100) * minority = new_instances
-        // Vogliamo: minority + new_instances = majority
-        // Quindi: new_instances = majority - minority
-        // (Perc / 100) * minority = majority - minority
-        // Perc = ((majority - minority) / minority) * 100
+        // 2. Calcolo della percentuale per il bilanciamento 50/50
+        double percentage = ((double) (majorityCount - minorityCount) / minorityCount) * 100;
 
-        double percentage = ((double)(majorityCount - minorityCount) / minorityCount) * 100;
+        try {
+            // 3. Setup e applicazione del filtro SMOTE
+            SMOTE smote = new SMOTE();
+            smote.setInputFormat(data);
+            smote.setPercentage(percentage);
+            smote.setRandomSeed(randomSeed);
 
-        // Setup SMOTE
-        SMOTE smote = new SMOTE();
-        smote.setInputFormat(data);
-        smote.setPercentage(percentage);
-        smote.setRandomSeed(randomSeed);
+            // Applichiamo il filtro e restituiamo il risultato
+            return Filter.useFilter(data, smote);
 
-        return weka.filters.Filter.useFilter(data, smote);
+        } catch (Exception e) {
+            // FIX java:S112: Incapsuliamo l'eccezione generica di Weka nella nostra specifica
+            throw new SamplingException(
+                    "Fallimento SMOTE: impossibile bilanciare la classe minoritaria (" + minorityCount + " istanze)",
+                    e
+            );
+        }
     }
 }
