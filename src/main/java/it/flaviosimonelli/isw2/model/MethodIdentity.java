@@ -27,7 +27,7 @@ public record MethodIdentity(String fullSignature, String className, String meth
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MethodIdentity that)) return false; // Pattern Matching (Java 25)
+        if (!(o instanceof MethodIdentity that)) return false;
         return Objects.equals(fullSignature, that.fullSignature);
     }
 
