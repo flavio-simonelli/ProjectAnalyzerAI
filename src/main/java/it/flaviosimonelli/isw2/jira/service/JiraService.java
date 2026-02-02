@@ -46,7 +46,7 @@ public class JiraService {
             if (id == null || id.isEmpty()) {
                 logger.warn("Release scartata (manca id): Name={}", name);
                 continue; // Salta alla prossima iterazione
-            };
+            }
             // Estrazione Data (se manca, saltiamo la versione)
             LocalDate releaseDate = parseDateSimple(jsonItem.optString("releaseDate"));
             if (releaseDate == null) {
