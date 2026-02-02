@@ -6,10 +6,7 @@ import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import it.flaviosimonelli.isw2.config.ProjectConstants;
 
@@ -21,58 +18,50 @@ public class CorrelationCalculatorService {
      * converte le altre colonne in numeri e calcola le correlazioni.
      */
     public List<MetricCorrelation> calculateCorrelations(Map<String, List<String>> rawData) {
-        List<MetricCorrelation> results = new ArrayList<>();
-
-        // 1. Validazione e Estrazione Target
+        // 1. Validazione ed Estrazione Target
         if (!rawData.containsKey(ProjectConstants.TARGET_CLASS)) {
-            logger.error("Impossibile calcolare correlazioni: Colonna 'Buggy' mancante.");
-            return results;
+            logger.error("Impossibile calcolare correlazioni: Colonna '{}' mancante.", ProjectConstants.TARGET_CLASS);
+            return List.of();
         }
 
-        double[] buggyArray = parseTargetColumn(rawData.get(ProjectConstants.TARGET_CLASS));
+        double[] targetValues = parseTargetColumn(rawData.get(ProjectConstants.TARGET_CLASS));
 
-        // 2. Setup Calcolatori Matematici
-        PearsonsCorrelation pCalc = new PearsonsCorrelation();
-        SpearmansCorrelation sCalc = new SpearmansCorrelation();
+        // 2. Elaborazione tramite Stream (Pipeline dichiarativa)
+        return rawData.entrySet().stream()
+                .filter(entry -> !isMetadata(entry.getKey())) // Filtraggio metadati
+                .map(entry -> processMetricColumn(entry.getKey(), entry.getValue(), targetValues))
+                .filter(Objects::nonNull) // Scarta i risultati falliti (NaN o lunghezze errate)
+                .sorted(Comparator.comparingDouble((MetricCorrelation m) -> Math.abs(m.getSpearman())).reversed())
+                .toList();
+    }
 
-        // 3. Iterazione su tutte le colonne
-        for (Map.Entry<String, List<String>> entry : rawData.entrySet()) {
-            String metricName = entry.getKey();
+    /**
+     * Calcola la correlazione per una singola colonna.
+     * Ritorna null se la colonna non è numerica o ha dimensioni errate.
+     */
+    private MetricCorrelation processMetricColumn(String name, List<String> rawValues, double[] targetValues) {
+        try {
+            double[] metricValues = parseMetricColumn(rawValues);
 
-            // Saltiamo colonne di metadati o la target stessa
-            if (isMetadata(metricName)) continue;
-
-            try {
-                // Parsing colonna metrica
-                double[] metricValues = parseMetricColumn(entry.getValue());
-
-                // Sanity Check: Lunghezza array
-                if (metricValues.length != buggyArray.length) {
-                    logger.warn("Metrica {} scartata: lunghezza dati incoerente.", metricName);
-                    continue;
-                }
-
-                // Calcolo Pura Matematica
-                double pearson = pCalc.correlation(metricValues, buggyArray);
-                double spearman = sCalc.correlation(metricValues, buggyArray);
-
-                // Pulizia NaN -> 0.0
-                if (Double.isNaN(pearson)) pearson = 0.0;
-                if (Double.isNaN(spearman)) spearman = 0.0;
-
-                results.add(new MetricCorrelation(metricName, pearson, spearman));
-
-            } catch (NumberFormatException e) {
-                // Log debug: è normale che colonne come "Class" o "File" falliscano il parsing se non filtrate prima
-                logger.debug("Salto colonna '{}': non è una metrica numerica valida. Dettaglio: {}", metricName, e.getMessage());
+            if (metricValues.length != targetValues.length) {
+                logger.warn("Metrica '{}' scartata: lunghezza dati incoerente.", name);
+                return null;
             }
+
+            double pearson = new PearsonsCorrelation().correlation(metricValues, targetValues);
+            double spearman = new SpearmansCorrelation().correlation(metricValues, targetValues);
+
+            // Sanificazione dei valori NaN (es. varianza zero)
+            return new MetricCorrelation(
+                    name,
+                    Double.isNaN(pearson) ? 0.0 : pearson,
+                    Double.isNaN(spearman) ? 0.0 : spearman
+            );
+
+        } catch (NumberFormatException e) {
+            logger.debug("Salto colonna non numerica '{}': {}", name, e.getMessage());
+            return null;
         }
-
-        // 4. Ordinamento per Rilevanza (Spearman Assoluto decrescente)
-        results.sort(Comparator.comparingDouble((MetricCorrelation m) -> Math.abs(m.getSpearman()))
-                .reversed());
-
-        return results;
     }
 
     // --- Helpers Privati (Business Logic interna) ---
