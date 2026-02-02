@@ -1,5 +1,7 @@
 package it.flaviosimonelli.isw2.util;
 
+import it.flaviosimonelli.isw2.exception.ConfigException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,10 @@ public class AppConfig {
     private static final String CONFIG_FILE = "config.properties";
     private static Properties properties;
 
+    private AppConfig() {
+        throw new IllegalStateException("Utility class");
+    }
+
     // Caricamento statico (Lazy load)
     private static void load() {
         properties = new Properties();
@@ -23,11 +29,11 @@ public class AppConfig {
             // Se non c'è, prova a cercarlo nel classpath (utile durante lo sviluppo in IDE)
             try (InputStream input = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
                 if (input == null) {
-                    throw new RuntimeException("Impossibile trovare il file " + CONFIG_FILE);
+                    throw new ConfigException("Impossibile trovare il file " + CONFIG_FILE + " nel filesystem o nel classpath.");
                 }
                 properties.load(input);
             } catch (IOException e) {
-                throw new RuntimeException("Errore critico caricando la configurazione", e);
+                throw new ConfigException("Errore critico durante il caricamento della configurazione", e);
             }
         }
     }
@@ -35,7 +41,7 @@ public class AppConfig {
     public static String get(String key) {
         if (properties == null) load();
         String val = properties.getProperty(key);
-        if (val == null) throw new RuntimeException("Chiave mancante nel config: " + key);
+        if (val == null) throw new ConfigException("Chiave obbligatoria mancante nel config: " + key);
         return val;
     }
 
@@ -45,7 +51,7 @@ public class AppConfig {
         if (val == null) return defaultValue;
         try {
             return Integer.parseInt(val);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
             return defaultValue;
         }
     }
@@ -56,7 +62,7 @@ public class AppConfig {
         if (val == null) return defaultValue;
         try {
             return Double.parseDouble(val);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
             return defaultValue;
         }
     }
@@ -78,7 +84,7 @@ public class AppConfig {
         return Arrays.stream(raw.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
