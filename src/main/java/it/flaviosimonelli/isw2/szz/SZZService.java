@@ -21,6 +21,9 @@ import java.util.*;
 public class SZZService {
     private static final Logger logger = LoggerFactory.getLogger(SZZService.class);
 
+    private static final String REPORT_SEP = "===============================================================";
+    private static final String SECTION_SEP = "---------------------------------------------------------------";
+
     private final GitService gitService;
     private final List<JiraRelease> releases;
 
@@ -365,38 +368,33 @@ public class SZZService {
     private void printDetailedReport(int total, int inFV, int inNoFV, int inAV, int inNoAV,
                                      int proc, int procAV, int procFV, int procBoth) {
 
-        // Calcolo percentuale totale processati
         double percProc = (total > 0) ? ((double)proc / total) * 100 : 0;
-
-        logger.info("===============================================================");
-        logger.info("                   SZZ DETAILED REPORT                         ");
-        logger.info("===============================================================");
-        logger.info("1. ANALISI INPUT (Ticket Jira scaricati: {})", total);
-        logger.info("   - Con Fix Version dichiarata:      {} (Senza: {})", inFV, inNoFV);
-        logger.info("   - Con Affected Version dichiarata: {} (Senza: {})", inAV, inNoAV);
-        logger.info("---------------------------------------------------------------");
-        // CORREZIONE QUI: Uso String.format per la percentuale
-        logger.info("2. RISULTATO SZZ (Ticket Utilizzati/Processati: {} -> {}%)",
-                proc, String.format("%.2f", percProc));
-
-        logger.info("   Di questi {} ticket utilizzati:", proc);
-
-        // Calcoli e formattazione per i dettagli
         double percAV = (proc > 0) ? ((double)procAV / proc) * 100 : 0;
         double percFV = (proc > 0) ? ((double)procFV / proc) * 100 : 0;
         double percBoth = (proc > 0) ? ((double)procBoth / proc) * 100 : 0;
 
-        // CORREZIONE QUI: String.format per ogni percentuale
-        logger.info("   - Avevano Affected Version (Ground Truth): {} ({}%)",
-                procAV, String.format("%.2f", percAV));
+        // 2. Uso di Text Block e costanti per risolvere il bug SonarCloud
+        String report = """
+            %1$s
+                               SZZ DETAILED REPORT
+            %1$s
+            1. ANALISI INPUT (Ticket Jira scaricati: %2$d)
+               - Con Fix Version dichiarata:      %3$d (Senza: %4$d)
+               - Con Affected Version dichiarata: %5$d (Senza: %6$d)
+            %7$s
+            2. RISULTATO SZZ (Ticket Utilizzati/Processati: %8$d -> %9$.2f%%)
+               Di questi %8$d ticket utilizzati:
+               - Avevano Affected Version (Ground Truth): %10$d (%11$.2f%%)
+               - Avevano Fix Version (Esplicita):         %12$d (%13$.2f%%)
+               - Avevano ENTRAMBE (AV + FV):              %14$d (%15$.2f%%)
+            %1$s
+            """.formatted(
+                REPORT_SEP, total, inFV, inNoFV, inAV, inNoAV,
+                SECTION_SEP, proc, percProc,
+                procAV, percAV, procFV, percFV, procBoth, percBoth
+        );
 
-        logger.info("   - Avevano Fix Version (Esplicita):         {} ({}%)",
-                procFV, String.format("%.2f", percFV));
-
-        logger.info("   - Avevano ENTRAMBE (AV + FV):              {} ({}%)",
-                procBoth, String.format("%.2f", percBoth));
-
-        logger.info("===============================================================");
+        logger.info("\n{}", report);
     }
 
     /**
