@@ -54,74 +54,86 @@ public class ProcessMetricAnalyzer {
     }
 
     /**
-     * Analizza una lista cronologica di commit per estrarre le metriche di processo
-     * per l'intervallo specificato (Analisi Locale).
-     *
-     * @param commits La lista dei commit da analizzare.
-     * @return Mappa (MethodIdentity -> MethodProcessMetrics) con i valori accumulati per l'intervallo.
+     * Estrae le metriche di processo analizzando la cronologia dei commit.
      */
     public Map<MethodIdentity, MethodProcessMetrics> extractProcessMetrics(List<GitCommit> commits) {
         Map<MethodIdentity, MethodProcessMetrics> metricsMap = new HashMap<>();
 
         for (GitCommit commit : commits) {
-            Map<String, List<Edit>> diffs = gitService.getDiffsWithEdits(commit);
-
-            for (Map.Entry<String, List<Edit>> entry : diffs.entrySet()) {
-                String filePath = entry.getKey();
-                if (!filePath.endsWith(".java")) continue;
-
-                try {
-                    // 1. Analisi Contestuale: Scarichiamo il file com'era IN QUEL COMMIT
-                    String sourceCode = gitService.getRawFileContent(commit, filePath);
-                    if (sourceCode == null) continue;
-
-                    // 2. Parsing AST
-                    CompilationUnit cu = StaticJavaParser.parse(sourceCode);
-                    List<MethodDeclaration> methods = cu.findAll(MethodDeclaration.class);
-                    List<Edit> edits = entry.getValue();
-
-                    for (Edit edit : edits) {
-                        // Conversione indici (JGit 0-based -> JavaParser 1-based)
-                        int startLine = edit.getBeginB() + 1;
-                        int endLine = edit.getEndB() + 1;
-
-                        // Dati grezzi del cambiamento
-                        int added = edit.getLengthB();
-                        int deleted = edit.getLengthA();
-
-                        for (MethodDeclaration method : methods) {
-                            if (method.getRange().isEmpty()) continue;
-                            int mStart = method.getRange().get().begin.line;
-                            int mEnd = method.getRange().get().end.line;
-
-                            // 3. Matching Spaziale: L'edit tocca il metodo?
-                            if (startLine <= mEnd && endLine >= mStart) {
-
-                                String fullSig = JavaParserUtils.getFullyQualifiedSignature(method, cu);
-                                String className = JavaParserUtils.getParentClassName(method);
-                                String methodName = method.getNameAsString();
-
-                                MethodIdentity identity = new MethodIdentity(fullSig, className, methodName);
-
-                                metricsMap.putIfAbsent(identity, new MethodProcessMetrics());
-                                MethodProcessMetrics data = metricsMap.get(identity);
-
-                                // 4. Aggiornamento Metriche
-                                // Passiamo i dati grezzi a tutte le metriche registrate
-                                for (IProcessMetric metric : metricsChain) {
-                                    metric.update(data, commit, added, deleted);
-                                }
-
-                                break; // Metodo trovato, passiamo al prossimo edit
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.debug("Skip file {} on commit {}: {}", filePath, commit.getHash(), e.getMessage());
-                }
-            }
+            analyzeCommitChanges(commit, metricsMap);
         }
         return metricsMap;
+    }
+
+    private void analyzeCommitChanges(GitCommit commit, Map<MethodIdentity, MethodProcessMetrics> metricsMap) {
+        Map<String, List<Edit>> diffs = gitService.getDiffsWithEdits(commit);
+
+        for (Map.Entry<String, List<Edit>> entry : diffs.entrySet()) {
+            String filePath = entry.getKey();
+
+            // Filtro file: solo Java e non test (utilizziamo logica centralizzata)
+            if (filePath.endsWith(".java")) {
+                processFileDiff(commit, filePath, entry.getValue(), metricsMap);
+            }
+        }
+    }
+
+    private void processFileDiff(GitCommit commit, String filePath, List<Edit> edits,
+                                 Map<MethodIdentity, MethodProcessMetrics> metricsMap) {
+        try {
+            String sourceCode = gitService.getRawFileContent(commit, filePath);
+            if (sourceCode == null || sourceCode.isEmpty()) return;
+
+            CompilationUnit cu = StaticJavaParser.parse(sourceCode);
+            List<MethodDeclaration> methods = cu.findAll(MethodDeclaration.class);
+
+            for (Edit edit : edits) {
+                mapEditToMethods(edit, methods, cu, commit, metricsMap);
+            }
+        } catch (Exception e) {
+            logger.debug("Skip file {} on commit {}: {}", filePath, commit.getHash(), e.getMessage());
+        }
+    }
+
+    private void mapEditToMethods(Edit edit, List<MethodDeclaration> methods, CompilationUnit cu,
+                                  GitCommit commit, Map<MethodIdentity, MethodProcessMetrics> metricsMap) {
+        // Conversione indici JGit -> JavaParser
+        int editStart = edit.getBeginB() + 1;
+        int editEnd = edit.getEndB() + 1;
+
+        for (MethodDeclaration method : methods) {
+            if (isEditInsideMethod(editStart, editEnd, method)) {
+                updateMethodMetrics(method, cu, commit, edit, metricsMap);
+                // Trovato il metodo per questo edit, passiamo al prossimo edit
+                break;
+            }
+        }
+    }
+
+    private boolean isEditInsideMethod(int editStart, int editEnd, MethodDeclaration method) {
+        return method.getRange().map(range ->
+                editStart <= range.end.line && editEnd >= range.begin.line
+        ).orElse(false);
+    }
+
+    private void updateMethodMetrics(MethodDeclaration method, CompilationUnit cu, GitCommit commit,
+                                     Edit edit, Map<MethodIdentity, MethodProcessMetrics> metricsMap) {
+
+        MethodIdentity identity = new MethodIdentity(
+                JavaParserUtils.getFullyQualifiedSignature(method, cu),
+                JavaParserUtils.getParentClassName(method),
+                method.getNameAsString()
+        );
+
+        MethodProcessMetrics data = metricsMap.computeIfAbsent(identity, k -> new MethodProcessMetrics());
+
+        // Dati grezzi del cambiamento
+        int added = edit.getLengthB();
+        int deleted = edit.getLengthA();
+
+        for (IProcessMetric metric : metricsChain) {
+            metric.update(data, commit, added, deleted);
+        }
     }
 
     /**
