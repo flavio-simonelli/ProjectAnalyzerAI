@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 public class AppConfig {
     private static final String CONFIG_FILE = "config.properties";
@@ -25,7 +24,7 @@ public class AppConfig {
         // Prima prova a cercarlo nella cartella corrente (utile per l'utente finale)
         try (InputStream input = new FileInputStream(CONFIG_FILE)) {
             properties.load(input);
-        } catch (IOException ex) {
+        } catch (IOException _) {
             // Se non c'è, prova a cercarlo nel classpath (utile durante lo sviluppo in IDE)
             try (InputStream input = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
                 if (input == null) {
