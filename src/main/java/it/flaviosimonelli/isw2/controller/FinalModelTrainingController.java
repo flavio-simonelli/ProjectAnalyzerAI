@@ -2,7 +2,6 @@ package it.flaviosimonelli.isw2.controller;
 
 import it.flaviosimonelli.isw2.config.ProjectConstants;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
-import it.flaviosimonelli.isw2.ml.exceptions.DatasetLoadingException;
 import it.flaviosimonelli.isw2.ml.feature_selection.BestFirstSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
 import it.flaviosimonelli.isw2.ml.feature_selection.InfoGainSelectionStrategy;
