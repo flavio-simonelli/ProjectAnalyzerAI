@@ -10,6 +10,9 @@ import java.util.List;
 public class SnoringControlService {
     private static final Logger logger = LoggerFactory.getLogger(SnoringControlService.class);
 
+    private static final String REPORT_SEP = "===============================================================";
+    private static final String LINE_SEP = "---------------------------------------------------------------";
+
     // Configurazione
     private final double discardRatio;
     private final boolean keepBuggyInSnoring;
@@ -112,28 +115,40 @@ public class SnoringControlService {
     }
 
     public void printFinalReport(String outputCsvPath) {
-        logger.info("===============================================================");
-        logger.info("                DATASET GENERATION REPORT                      ");
-        logger.info("===============================================================");
-        logger.info("File Output: {}", outputCsvPath);
-        logger.info("Strategy Used:  {}", keepBuggyInSnoring ? "FILTER (Keep Buggy)" : "CUTOFF (Truncate)");
-        logger.info("---------------------------------------------------------------");
+        String strategy = keepBuggyInSnoring ? "FILTER (Keep Buggy)" : "CUTOFF (Truncate)";
 
+        // Costruiamo la parte centrale del report in base alla strategia
+        String strategyStats;
         if (!keepBuggyInSnoring) {
-            // Report per CUTOFF
-            logger.info("Releases Processed: {}", (totalReleases - statsReleasesSkipped));
-            logger.info("Releases Skipped:   {}", statsReleasesSkipped);
-            logger.info("Total Rows Written: {}", statsRowsKept);
-            logger.info("(Note: Rows in skipped releases were not calculated)");
+            strategyStats = """
+                Releases Processed: %d
+                Releases Skipped:   %d
+                Total Rows Written: %d
+                (Note: Rows in skipped releases were not calculated)
+                """.formatted((totalReleases - statsReleasesSkipped), statsReleasesSkipped, statsRowsKept);
         } else {
-            // Report per FILTER
-            logger.info("Releases Processed: {}", totalReleases);
-            logger.info("Total Rows Written: {}", statsRowsKept);
-            logger.info("Snoring Zone Stats:");
-            logger.info("   - Rows Dropped (Clean/No): {}", statsCleanDroppedSnoring);
-            logger.info("   - Rows Kept (Buggy/Yes):   {}", statsBuggyKeptSnoring);
-            logger.info("   - Total Filtered Out:      {}", statsRowsDroppedSnoring);
+            strategyStats = """
+                Releases Processed: %d
+                Total Rows Written: %d
+                Snoring Zone Stats:
+                   - Rows Dropped (Clean/No): %d
+                   - Rows Kept (Buggy/Yes):   %d
+                   - Total Filtered Out:      %d
+                """.formatted(totalReleases, statsRowsKept, statsCleanDroppedSnoring, statsBuggyKeptSnoring, statsRowsDroppedSnoring);
         }
-        logger.info("===============================================================");
+
+        // Componiamo il report finale usando un unico Text Block
+        String finalReport = """
+            %s
+                            DATASET GENERATION REPORT
+            %1$s
+            File Output: %s
+            Strategy Used:  %s
+            %s
+            %s
+            %1$s
+            """.formatted(REPORT_SEP, outputCsvPath, strategy, LINE_SEP, strategyStats.trim());
+
+        logger.info("\n{}", finalReport);
     }
 }
