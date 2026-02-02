@@ -207,16 +207,11 @@ public class SZZService {
     private JiraRelease getLatestReleaseFromList(List<String> versionNames) {
         if (versionNames == null || versionNames.isEmpty()) return null;
 
-        JiraRelease latest = null;
-        for (String name : versionNames) {
-            JiraRelease candidate = getReleaseByName(name);
-            if (candidate != null) {
-                if (latest == null || candidate.getReleaseDate().isAfter(latest.getReleaseDate())) {
-                    latest = candidate;
-                }
-            }
-        }
-        return latest;
+        return versionNames.stream()
+                .map(this::getReleaseByName)
+                .filter(Objects::nonNull)
+                .max(Comparator.comparing(JiraRelease::getReleaseDate))
+                .orElse(null);
     }
 
     /**
@@ -226,16 +221,11 @@ public class SZZService {
     private JiraRelease getEarliestReleaseFromList(List<String> versionNames) {
         if (versionNames == null || versionNames.isEmpty()) return null;
 
-        JiraRelease earliest = null;
-        for (String name : versionNames) {
-            JiraRelease candidate = getReleaseByName(name);
-            if (candidate != null) {
-                if (earliest == null || candidate.getReleaseDate().isBefore(earliest.getReleaseDate())) {
-                    earliest = candidate;
-                }
-            }
-        }
-        return earliest;
+        return versionNames.stream()
+                .map(this::getReleaseByName)         // Trasforma i nomi in oggetti JiraRelease
+                .filter(Objects::nonNull)            // Scarta i risultati nulli
+                .min(Comparator.comparing(JiraRelease::getReleaseDate)) // Trova il minimo per data
+                .orElse(null);                       // Se non trova nulla, ritorna null
     }
 
     private Set<MethodIdentity> identifyModifiedMethods(GitCommit commit) {
