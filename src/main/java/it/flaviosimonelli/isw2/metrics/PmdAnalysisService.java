@@ -1,5 +1,6 @@
 package it.flaviosimonelli.isw2.metrics;
 
+import it.flaviosimonelli.isw2.exception.PmdAnalysisException;
 import net.sourceforge.pmd.PMDConfiguration;
 import net.sourceforge.pmd.PmdAnalysis;
 import net.sourceforge.pmd.lang.Language;
@@ -41,7 +42,7 @@ public class PmdAnalysisService {
             }
             config.setDefaultLanguageVersion(defaultJavaVersion);
         } else {
-            throw new RuntimeException("Modulo Java PMD non trovato!");
+            throw new PmdAnalysisException("Modulo Java PMD non trovato nel registro linguaggi!");
         }
 
         // 2. CONFIGURAZIONE RULESETS (Dinamica)
@@ -51,9 +52,10 @@ public class PmdAnalysisService {
             try {
                 config.addRuleSet(ruleset);
                 logger.debug("Aggiunto ruleset PMD: {}", ruleset);
+            } catch (IllegalArgumentException e) {
+                logger.error("Ruleset PMD non valido o malformato '{}': {}", ruleset, e.getMessage());
             } catch (Exception e) {
-                // Logghiamo l'errore ma continuiamo con gli altri ruleset
-                logger.error("Impossibile caricare ruleset PMD '{}': {}", ruleset, e.getMessage());
+                logger.error("Errore imprevisto caricando il ruleset '{}'", ruleset, e);
             }
         }
     }
