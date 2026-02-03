@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Remove;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -53,27 +55,33 @@ public class FinalModelTrainingController {
         try {
             // 2. Caricamento e Selezione Globale delle Feature
             Instances data = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
+            logger.info("Dataset caricato. Attributi grezzi: {}", data.numAttributes());
+
+            // 2. RIMUOVIAMO MANUALMENTE I METADATI (Il passaggio critico che mancava!)
+            Instances cleanedData = removeMetadata(data);
+            logger.info("Metadati rimossi. Attributi netti+target: {}", cleanedData.numAttributes());
 
             // Usiamo il nuovo Processor per gestire la selezione globale e la rimozione metadati in un colpo solo
             GlobalFeatureSelectionProcessor fsProcessor = new GlobalFeatureSelectionProcessor();
-            Instances trainingData = fsProcessor.apply(data, fsName, METADATA_COLS);
+            if (!"NoSelection".equalsIgnoreCase(fsName)) {
+                // Passiamo null come lista metadata perché li abbiamo già tolti noi
+                cleanedData = fsProcessor.apply(cleanedData, fsName, null);
+            }
 
-            logger.info("Dataset preparato. Istanze: {}, Attributi: {}", trainingData.numInstances(), trainingData.numAttributes());
-
-            // 3. Applicazione Sampling (Undersampling o SMOTE tramite Factory)
+            // 4. Sampling
             SamplingStrategy sampler = SamplingFactory.getStrategy(smpName, finalSeed);
             if (sampler != null) {
                 logger.info("Applicazione Sampling: {}...", smpName);
-                trainingData = sampler.apply(trainingData);
+                cleanedData = sampler.apply(cleanedData);
             }
 
             // 4. Training
             Classifier model = ClassifierFactory.getClassifier(clfName, finalSeed);
             logger.info("Avvio addestramento {}...", clfName);
-            model.buildClassifier(trainingData);
+            model.buildClassifier(cleanedData);
 
             // 5. Salvataggio
-            saveModelArtifacts(trainingData, model, modelsDir, clfName, smpName, fsName);
+            saveModelArtifacts(cleanedData, model, modelsDir, clfName, smpName, fsName);
 
         } catch (Exception e) {
             logger.error("Errore critico durante il training finale", e);
@@ -93,6 +101,26 @@ public class FinalModelTrainingController {
         SerializationHelper.write(headerPath, headerOnly);
 
         logger.info("MODELLO E HEADER SALVATI IN: {}", dir);
+    }
+
+    /**
+     * Metodo helper per rimuovere le colonne metadati
+     */
+    private Instances removeMetadata(Instances data) throws Exception {
+        StringBuilder indices = new StringBuilder();
+        for (int i = 0; i < data.numAttributes(); i++) {
+            if (METADATA_COLS.contains(data.attribute(i).name())) {
+                if (!indices.isEmpty()) indices.append(",");
+                indices.append(i + 1); // Weka usa indici 1-based per il filtro Remove
+            }
+        }
+
+        if (indices.isEmpty()) return data;
+
+        Remove remove = new Remove();
+        remove.setAttributeIndices(indices.toString());
+        remove.setInputFormat(data);
+        return Filter.useFilter(data, remove);
     }
 
     private String prepareOutputDirectory() {

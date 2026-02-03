@@ -1,0 +1,5 @@
+Dataset,Actual_Bugs,Predicted_Bugs (E),Bug_Reduction_Percentage
+Dataset A,6790,3835,
+Dataset B+,2755,2129,
+Dataset B (Fixed),-,1951,29.18%
+Dataset C,4035,1706,
