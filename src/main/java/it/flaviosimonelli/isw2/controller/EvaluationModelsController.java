@@ -8,7 +8,6 @@ import it.flaviosimonelli.isw2.ml.model.ClassifierFactory;
 import it.flaviosimonelli.isw2.ml.reporting.CsvResultExporter;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingFactory;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingStrategy;
-import it.flaviosimonelli.isw2.ml.sampling.SmoteSamplingStrategy;
 import it.flaviosimonelli.isw2.ml.validation.WalkForwardValidator;
 import it.flaviosimonelli.isw2.util.AppConfig;
 import org.slf4j.Logger;
