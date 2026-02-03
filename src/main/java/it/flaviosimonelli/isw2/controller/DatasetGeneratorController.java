@@ -62,7 +62,7 @@ public class DatasetGeneratorController {
                                  SnoringControlService snoring, Map<MethodIdentity, MethodProcessMetrics> globalProcessMap,
                                  String outputPath, List<String> headers) {
 
-        long[] stats = {0, 0}; // [totalRows, buggyRows]
+        List<Long> stats = new ArrayList<>(Arrays.asList(0L, 0L)); // [totalRows, buggyRows]
 
         try (CSVPrinter printer = CsvUtils.createPrinter(outputPath, false, headers.toArray(new String[0]))) {
             JiraRelease prevRelease = null;
@@ -89,7 +89,7 @@ public class DatasetGeneratorController {
             }
 
             snoring.printFinalReport(outputPath);
-            logDatasetReport(outputPath, stats[0], stats[1]);
+            logDatasetReport(outputPath, stats.getFirst(), stats.get(1));
 
         } catch (IOException e) {
             throw new DatasetGenerationException("Creazione dataset fallita", e);
@@ -159,8 +159,10 @@ public class DatasetGeneratorController {
         ctx.printer().printRecord(row);
 
         // Aggiornamento statistiche
-        ctx.stats()[0]++;
-        if (isBuggy) ctx.stats()[1]++;
+        ctx.stats.set(0, ctx.stats.getFirst() + 1);
+        if (isBuggy) {
+            ctx.stats.set(1, ctx.stats.get(1) + 1);
+        }
     }
 
     private List<String> buildHeaders() {
@@ -192,7 +194,7 @@ public class DatasetGeneratorController {
             Map<MethodIdentity, MethodProcessMetrics> globalHistory,
             Map<String, Set<MethodIdentity>> buggyRegistry,
             SnoringControlService snoring,
-            long[] stats
+            List<Long> stats
     ) {}
 
     /**
