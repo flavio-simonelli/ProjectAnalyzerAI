@@ -78,7 +78,8 @@ public class DatasetGeneratorController {
 
                 // 3. Scrittura: solo se abbiamo dati per popolare il CSV
                 if (!staticMap.isEmpty()) {
-                    writeReleaseRows(printer, i, current, staticMap, intervalMap, globalProcessMap, buggyRegistry, snoring, stats);
+                    WriteContext ctx = new WriteContext(printer, i, current, intervalMap, globalProcessMap, buggyRegistry, snoring, stats);
+                    writeReleaseRows(ctx, staticMap);
                     printer.flush();
                 }
 
@@ -114,42 +115,52 @@ public class DatasetGeneratorController {
         return staticService.analyzeRelease(snapshot);
     }
 
-    private void writeReleaseRows(CSVPrinter printer, int releaseIdx, JiraRelease release,
-                                  Map<MethodIdentity, MethodStaticMetrics> staticMap,
-                                  Map<MethodIdentity, MethodProcessMetrics> intervalMap,
-                                  Map<MethodIdentity, MethodProcessMetrics> globalHistory,
-                                  Map<String, Set<MethodIdentity>> buggyRegistry,
-                                  SnoringControlService snoring, long[] stats) throws IOException {
+    /**
+     * Scrive le righe sul CSV. Parametri ridotti drasticamente.
+     */
+    private void writeReleaseRows(WriteContext ctx, Map<MethodIdentity, MethodStaticMetrics> staticMap) throws IOException {
 
-        Set<MethodIdentity> buggyInThisRelease = buggyRegistry.getOrDefault(release.getName(), Collections.emptySet());
+        Set<MethodIdentity> buggyInThisRelease = ctx.buggyRegistry()
+                .getOrDefault(ctx.release().getName(), Collections.emptySet());
 
         for (var entry : staticMap.entrySet()) {
             MethodIdentity id = entry.getKey();
             boolean isBuggy = buggyInThisRelease.contains(id);
 
-            if (!snoring.shouldKeepRow(releaseIdx, isBuggy)) continue;
-
-            List<Object> row = new ArrayList<>();
-            // 1. Info release e file
-            row.add(release.getName());
-            row.add(releaseIdx + 1);
-            row.add(release.getReleaseDate().toString());
-            row.add(id.className() + ".java");
-            row.add(id.className());
-            row.add(id.fullSignature());
-
-            // 2. Metriche (Statiche, Locali, Globali)
-            row.addAll(staticService.getValuesAsList(entry.getValue()));
-            row.addAll(processAnalyzer.getLocalValues(intervalMap.get(id)));
-            row.addAll(processAnalyzer.getGlobalValues(globalHistory.get(id)));
-
-            // 3. Label
-            row.add(isBuggy ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
-
-            printer.printRecord(row);
-            stats[0]++;
-            if (isBuggy) stats[1]++;
+            // Verifichiamo se la riga va mantenuta (Snoring Control)
+            if (ctx.snoring().shouldKeepRow(ctx.releaseIdx(), isBuggy)) {
+                writeSingleRow(ctx, id, entry.getValue(), isBuggy);
+            }
         }
+    }
+
+    /**
+     * Helper per la costruzione fisica della riga.
+     */
+    private void writeSingleRow(WriteContext ctx, MethodIdentity id, MethodStaticMetrics staticMetrics, boolean isBuggy) throws IOException {
+        List<Object> row = new ArrayList<>();
+
+        // 1. Metadati
+        row.add(ctx.release().getName());
+        row.add(ctx.releaseIdx() + 1);
+        row.add(ctx.release().getReleaseDate().toString());
+        row.add(id.className() + ".java");
+        row.add(id.className());
+        row.add(id.fullSignature());
+
+        // 2. Metriche
+        row.addAll(staticService.getValuesAsList(staticMetrics));
+        row.addAll(processAnalyzer.getLocalValues(ctx.intervalMap().get(id)));
+        row.addAll(processAnalyzer.getGlobalValues(ctx.globalHistory().get(id)));
+
+        // 3. Label
+        row.add(isBuggy ? ProjectConstants.BUGGY_LABEL : ProjectConstants.CLEAN_LABEL);
+
+        ctx.printer().printRecord(row);
+
+        // Aggiornamento statistiche
+        ctx.stats()[0]++;
+        if (isBuggy) ctx.stats()[1]++;
     }
 
     private List<String> buildHeaders() {
@@ -169,6 +180,20 @@ public class DatasetGeneratorController {
         releases.sort(Comparator.comparing(JiraRelease::getReleaseDate));
         return releases;
     }
+
+    /**
+     * Raggruppa i dati necessari alla scrittura
+     */
+    private record WriteContext(
+            CSVPrinter printer,
+            int releaseIdx,
+            JiraRelease release,
+            Map<MethodIdentity, MethodProcessMetrics> intervalMap,
+            Map<MethodIdentity, MethodProcessMetrics> globalHistory,
+            Map<String, Set<MethodIdentity>> buggyRegistry,
+            SnoringControlService snoring,
+            long[] stats
+    ) {}
 
     /**
      * Funzione Helper per la stampa del report finale.
