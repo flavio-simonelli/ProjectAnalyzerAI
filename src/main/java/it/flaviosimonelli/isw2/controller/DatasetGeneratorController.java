@@ -67,23 +67,23 @@ public class DatasetGeneratorController {
         try (CSVPrinter printer = CsvUtils.createPrinter(outputPath, false, headers.toArray(new String[0]))) {
             JiraRelease prevRelease = null;
 
-            for (int i = 0; i < releases.size(); i++) {
-                if (snoring.shouldStopProcessingReleases(i)) break;
-
+            for (int i = 0; i < releases.size() && !snoring.shouldStopProcessingReleases(i); i++) {
                 JiraRelease current = releases.get(i);
-                logger.info("Processing Release {}/{} : {}", (i + 1), releases.size(), current.getName());
 
-                // FASE A: Analisi Processo (Delta tra release)
+                // 1. Analisi storica: consumiamo i commit di questa release
                 Map<MethodIdentity, MethodProcessMetrics> intervalMap = performProcessAnalysis(prevRelease, current, globalProcessMap);
 
-                // FASE B: Analisi Statica (Snapshot a fine release)
+                // 2. Analisi statica: scattiamo la foto al codice
                 Map<MethodIdentity, MethodStaticMetrics> staticMap = performStaticAnalysis(current);
-                if (staticMap.isEmpty()) continue;
 
-                // FASE C: Join e Scrittura
-                writeReleaseRows(printer, i, current, staticMap, intervalMap, globalProcessMap, buggyRegistry, snoring, stats);
+                // 3. Scrittura: solo se abbiamo dati per popolare il CSV
+                if (!staticMap.isEmpty()) {
+                    writeReleaseRows(printer, i, current, staticMap, intervalMap, globalProcessMap, buggyRegistry, snoring, stats);
+                    printer.flush();
+                }
 
-                printer.flush();
+                // 4. Update: passiamo alla prossima finestra temporale.
+                // Fondamentale per non processare due volte gli stessi commit!
                 prevRelease = current;
             }
 
