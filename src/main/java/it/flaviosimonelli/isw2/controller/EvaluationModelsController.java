@@ -73,15 +73,24 @@ public class EvaluationModelsController {
                 logger.info(">>> INIZIO RUN {}/{} <<<", run, numRuns);
 
                 for (String fsStrategyName : fsStrategies) {
-                    // Gestione della Feature Selection Globale: trasformiamo il dataset prima dei cicli interni
+                    // 1. Applichiamo la selezione GLOBALE (se richiesta)
                     Instances workingDataset = applyGlobalFSIfRequired(originalDataset, fsStrategyName, fsMode);
 
-                    // Se abbiamo fatto Global FS, nel fold non dobbiamo fare nulla
-                    String effectiveFsName = "GLOBAL".equalsIgnoreCase(fsMode) ? "NoSelection" : fsStrategyName;
+                    // 2. Determiniamo la strategia LOGICA per il Validator (dentro il fold)
+                    // Se siamo in GLOBAL, il dataset è già filtrato, quindi nel fold non facciamo nulla ("NoSelection")
+                    String foldStrategyName = "GLOBAL".equalsIgnoreCase(fsMode) ? "NoSelection" : fsStrategyName;
+
+                    // 3. Determiniamo l'etichetta per il CSV
+                    // Vogliamo che nel file compaia "BestFirst (Global)" e non "NoSelection"
+                    String csvStrategyName = fsStrategyName;
+                    if ("GLOBAL".equalsIgnoreCase(fsMode) && !"NoSelection".equalsIgnoreCase(fsStrategyName)) {
+                        csvStrategyName = fsStrategyName + " (Global)";
+                    }
 
                     for (String clfName : activeClassifiers) {
                         for (String smpName : activeSamplers) {
-                            executeSingleConfiguration(run, workingDataset, clfName, smpName, effectiveFsName, ctx);
+                            // Passiamo foldStrategyName alla logica e csvStrategyName al report
+                            executeSingleConfiguration(run, workingDataset, clfName, smpName, foldStrategyName, csvStrategyName, ctx);
                         }
                     }
                 }
@@ -109,14 +118,17 @@ public class EvaluationModelsController {
     /**
      * Esegue una singola configurazione del modello.
      */
-    private void executeSingleConfiguration(int run, Instances dataset, String clf, String smp, String fs,
+    private void executeSingleConfiguration(int run, Instances dataset, String clf, String smp,
+                                            String logicFsName, String logFsName,
                                             ExperimentContext ctx) {
         try {
             Classifier classifier = ClassifierFactory.getClassifier(clf, run);
             SamplingStrategy sampler = SamplingFactory.getStrategy(smp, run);
-            FeatureSelectionStrategy fsStrategy = FeatureSelectionFactory.getStrategy(fs);
 
-            logger.info("Valutazione: [Run {}] {} + {} + {}", run, clf, smp, fs);
+            // Usiamo il nome "Logico" per istanziare la strategia del fold
+            FeatureSelectionStrategy fsStrategy = FeatureSelectionFactory.getStrategy(logicFsName);
+
+            logger.info("Valutazione: [Run {}] {} + {} + {} (CSV: {})", run, clf, smp, logicFsName, logFsName);
 
             List<EvaluationResult> results = ctx.validator().validate(
                     dataset,
@@ -126,10 +138,11 @@ public class EvaluationModelsController {
                     fsStrategy
             );
 
-            ctx.exporter().appendResults(ctx.reportPath(), projectKey, run, clf, smp, fs, results);
+            // Usiamo il nome "Log" per scrivere nel file
+            ctx.exporter().appendResults(ctx.reportPath(), projectKey, run, clf, smp, logFsName, results);
 
         } catch (Exception ex) {
-            logger.error("Fallimento configurazione [{}|{}|{}]: {}", clf, smp, fs, ex.getMessage());
+            logger.error("Fallimento configurazione [{}|{}|{}]: {}", clf, smp, logFsName, ex.getMessage());
         }
     }
 

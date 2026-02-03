@@ -179,9 +179,9 @@ public class DatasetGeneratorController {
     }
 
     private List<JiraRelease> getSortedReleases(String projectKey) {
-        List<JiraRelease> releases = jiraService.getReleases(projectKey);
-        releases.sort(Comparator.comparing(JiraRelease::getReleaseDate));
-        return releases;
+        // Non c'è bisogno di ordinare di nuovo qui,
+        // il JiraService restituisce già una lista ordinata cronologicamente.
+        return jiraService.getReleases(projectKey);
     }
 
     /**
