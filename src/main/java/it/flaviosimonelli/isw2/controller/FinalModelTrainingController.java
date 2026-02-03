@@ -2,10 +2,9 @@ package it.flaviosimonelli.isw2.controller;
 
 import it.flaviosimonelli.isw2.config.ProjectConstants;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
-import it.flaviosimonelli.isw2.ml.feature_selection.BestFirstSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.InfoGainSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.NoSelectionStrategy;
+import it.flaviosimonelli.isw2.ml.feature_selection.*;
+import it.flaviosimonelli.isw2.ml.model.ClassifierFactory;
+import it.flaviosimonelli.isw2.ml.sampling.SamplingFactory;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingStrategy;
 import it.flaviosimonelli.isw2.ml.sampling.SmoteSamplingStrategy;
 import it.flaviosimonelli.isw2.util.AppConfig;
@@ -51,8 +50,9 @@ public class FinalModelTrainingController {
         String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
         String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
         String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
+        int finalSeed = Integer.parseInt(AppConfig.getProperty("ml.final_seed", "42"));
 
-        logger.info("Configurazione Scelta: Classificatore={}, Sampling={}, FeatureSel={}", clfName, smpName, fsName);
+        logger.info("Configurazione Scelta: Classificatore={}, Sampling={}, FeatureSel={}, Seed={}", clfName, smpName, fsName, finalSeed);
 
         WekaDataLoader loader = new WekaDataLoader();
         String modelsDir = AppConfig.getProperty("output.base.path", "./results") + "/models";
@@ -63,10 +63,11 @@ public class FinalModelTrainingController {
             Instances data = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
             Instances trainingData = removeMetadataColumns(data);
             logger.info("Dati caricati e puliti. Istanze: {}, Attributi: {}", trainingData.numInstances(), trainingData.numAttributes());
+            if (trainingData.classIndex() == -1) trainingData.setClassIndex(trainingData.numAttributes() - 1);
 
             // 3. APPLICAZIONE FEATURE SELECTION
             // Nota: Le strategie accettano (train, test). Qui passiamo (data, data) e prendiamo solo il primo risultato.
-            FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fsName);
+            FeatureSelectionStrategy fsStrategy = FeatureSelectionFactory.getStrategy(fsName);
             if (!(fsStrategy instanceof NoSelectionStrategy)) {
                 logger.info("Applicazione Feature Selection: {}...", fsName);
                 Instances[] fsResult = fsStrategy.apply(trainingData, trainingData);
@@ -75,7 +76,7 @@ public class FinalModelTrainingController {
             }
 
             // 4. APPLICAZIONE SAMPLING (SMOTE)
-            SamplingStrategy sampler = getSamplingStrategy(smpName);
+            SamplingStrategy sampler = SamplingFactory.getStrategy(smpName, finalSeed);
             if (sampler != null) {
                 logger.info("Applicazione Sampling: {}...", smpName);
                 int oldSize = trainingData.numInstances();
@@ -84,7 +85,7 @@ public class FinalModelTrainingController {
             }
 
             // 5. CONFIGURAZIONE CLASSIFICATORE
-            Classifier model = getClassifierInstance(clfName);
+            Classifier model = ClassifierFactory.getClassifier(clfName, finalSeed);
 
             // 6. TRAINING
             logger.info("Avvio addestramento {}...", clfName);
@@ -111,44 +112,6 @@ public class FinalModelTrainingController {
         } catch (Exception e) {
             logger.error("Errore critico durante il training finale", e);
         }
-    }
-
-    // --- FACTORY METHODS (Uguali a quelli dell'esperimento) ---
-
-    private Classifier getClassifierInstance(String name) {
-        switch (name) {
-            case "RandomForest":
-                RandomForest rf = new RandomForest();
-                rf.setNumIterations(100);
-                rf.setSeed(42);
-                return rf;
-            case "NaiveBayes":
-                return new NaiveBayes();
-            case "IBk":
-                return new IBk(); // Default K=1
-            default:
-                throw new IllegalArgumentException("Classificatore non supportato: " + name);
-        }
-    }
-
-    private SamplingStrategy getSamplingStrategy(String name) {
-        if ("SMOTE".equals(name)) {
-            SmoteSamplingStrategy smote = new SmoteSamplingStrategy();
-            smote.setRandomSeed(42); // Seed fisso per riproducibilità finale
-            return smote;
-        } else if ("NoSampling".equals(name)) {
-            return null;
-        }
-        throw new IllegalArgumentException("Sampling Strategy non supportata: " + name);
-    }
-
-    private FeatureSelectionStrategy getFeatureSelectionStrategy(String name) {
-        return switch (name) {
-            case "BestFirst" -> new BestFirstSelectionStrategy();
-            case "InfoGain" -> new InfoGainSelectionStrategy(); // Assicurati che sia la versione fixata (Top 10)
-            case "NoSelection" -> new NoSelectionStrategy();
-            default -> throw new IllegalArgumentException("Feature Selection Strategy non supportata: " + name);
-        };
     }
 
     private Instances removeMetadataColumns(Instances data) throws Exception {

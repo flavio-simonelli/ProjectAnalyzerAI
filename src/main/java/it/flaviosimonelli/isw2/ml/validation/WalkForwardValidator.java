@@ -85,10 +85,15 @@ public class WalkForwardValidator {
         Instances cleanTrain = removeColumns(rawTrain, ctx.columnsToDrop());
         Instances cleanTest = removeColumns(rawTest, ctx.columnsToDrop());
 
+        // IMPORTANTE: Assicuriamoci che Weka sappia qual è la classe target
+        // prima di passare al campionamento o alla feature selection.
+        ensureClassIndex(cleanTrain);
+        ensureClassIndex(cleanTest);
+
         // 2. Feature Selection (opzionale)
         String selectedFeatures = "ALL";
         if (ctx.fsStrategy() != null) {
-            Instances[] filtered = ctx.fsStrategy.apply(cleanTrain, cleanTest);
+            Instances[] filtered = ctx.fsStrategy().apply(cleanTrain, cleanTest);
             cleanTrain = filtered[0];
             cleanTest = filtered[1];
             selectedFeatures = extractFeatureNames(cleanTrain);
@@ -215,6 +220,16 @@ public class WalkForwardValidator {
     private int getPositiveClassIndex(Instances data) {
         int idx = data.classAttribute().indexOfValue(ProjectConstants.BUGGY_LABEL);
         return (idx == -1) ? 1 : idx;
+    }
+
+    /**
+     * Helper per garantire che l'indice della classe sia impostato.
+     * Necessario per i filtri supervised come Undersampling e SMOTE.
+     */
+    private void ensureClassIndex(Instances data) {
+        if (data.classIndex() == -1) {
+            data.setClassIndex(data.numAttributes() - 1);
+        }
     }
 
 }

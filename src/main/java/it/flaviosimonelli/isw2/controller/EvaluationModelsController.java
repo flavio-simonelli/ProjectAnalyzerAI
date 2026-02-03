@@ -3,11 +3,10 @@ package it.flaviosimonelli.isw2.controller;
 import it.flaviosimonelli.isw2.ml.data.WekaDataLoader;
 import it.flaviosimonelli.isw2.ml.evaluation.EvaluationResult;
 import it.flaviosimonelli.isw2.ml.exceptions.DatasetLoadingException;
-import it.flaviosimonelli.isw2.ml.feature_selection.BestFirstSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.FeatureSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.InfoGainSelectionStrategy;
-import it.flaviosimonelli.isw2.ml.feature_selection.NoSelectionStrategy;
+import it.flaviosimonelli.isw2.ml.feature_selection.*;
+import it.flaviosimonelli.isw2.ml.model.ClassifierFactory;
 import it.flaviosimonelli.isw2.ml.reporting.CsvResultExporter;
+import it.flaviosimonelli.isw2.ml.sampling.SamplingFactory;
 import it.flaviosimonelli.isw2.ml.sampling.SamplingStrategy;
 import it.flaviosimonelli.isw2.ml.sampling.SmoteSamplingStrategy;
 import it.flaviosimonelli.isw2.ml.validation.WalkForwardValidator;
@@ -100,9 +99,9 @@ public class EvaluationModelsController {
     private void executeSingleConfiguration(int run, Instances dataset, String clf, String smp, String fs,
                                             ExperimentContext ctx) {
         try {
-            Classifier classifier = getClassifierInstance(clf, run);
-            SamplingStrategy sampler = getSamplingStrategy(smp, run);
-            FeatureSelectionStrategy fsStrategy = getFeatureSelectionStrategy(fs);
+            Classifier classifier = ClassifierFactory.getClassifier(clf, run);
+            SamplingStrategy sampler = SamplingFactory.getStrategy(smp, run);
+            FeatureSelectionStrategy fsStrategy = FeatureSelectionFactory.getStrategy(fs);
 
             logger.info("Valutazione: [Run {}] {} + {} + {}", run, clf, smp, fs);
 
@@ -128,43 +127,5 @@ public class EvaluationModelsController {
             logger.warn("Impossibile creare la cartella di output: {}", outputDir);
         }
         return Paths.get(outputDir, projectKey + "_validation_results.csv").toString();
-    }
-
-    // --- Helper Methods ---
-
-    private Classifier getClassifierInstance(String name, int seed) {
-        switch (name) {
-            case "RandomForest":
-                weka.classifiers.trees.RandomForest rf = new weka.classifiers.trees.RandomForest();
-                rf.setNumIterations(100);
-                rf.setSeed(seed);
-                return rf;
-            case "NaiveBayes":
-                return new weka.classifiers.bayes.NaiveBayes();
-            case "IBk":
-                return new weka.classifiers.lazy.IBk();
-            default:
-                throw new IllegalArgumentException("Classificatore non supportato: " + name);
-        }
-    }
-
-    private SamplingStrategy getSamplingStrategy(String name, int seed) {
-        if ("SMOTE".equals(name)) {
-            SmoteSamplingStrategy smote = new SmoteSamplingStrategy();
-            smote.setRandomSeed(seed);
-            return smote;
-        } else if ("NoSampling".equals(name)) {
-            return null;
-        }
-        throw new IllegalArgumentException("Sampling Strategy non supportata: " + name);
-    }
-
-    private FeatureSelectionStrategy getFeatureSelectionStrategy(String name) {
-        return switch (name) {
-            case "BestFirst" -> new BestFirstSelectionStrategy();
-            case "InfoGain" -> new InfoGainSelectionStrategy();
-            case "NoSelection" -> new NoSelectionStrategy();
-            default -> throw new IllegalArgumentException("Feature Selection Strategy non supportata: " + name);
-        };
     }
 }
