@@ -41,7 +41,7 @@ public class EvaluationModelsController {
     }
 
     /**
-     * Raggruppa gli strumenti di esecuzione per ridurre il numero di parametri (S107).
+     * Raggruppa gli strumenti di esecuzione per ridurre il numero di parametri
      */
     private record ExperimentContext(
             WalkForwardValidator validator,
@@ -53,47 +53,61 @@ public class EvaluationModelsController {
         logger.info("Avvio esperimento Bug Prediction per {}", projectKey);
 
         WekaDataLoader loader = new WekaDataLoader();
-        CsvResultExporter exporter = new CsvResultExporter();
-        WalkForwardValidator validator = new WalkForwardValidator();
-
         String reportPath = prepareOutputDirectory();
+        ExperimentContext ctx = new ExperimentContext(new WalkForwardValidator(), new CsvResultExporter(), reportPath);
 
-        // Lettura configurazioni
+        // 1. Caricamento Parametri e Dataset
         int numRuns = Integer.parseInt(AppConfig.getProperty("ml.num_runs", "10"));
         List<String> activeClassifiers = AppConfig.getList("ml.classifiers", "RandomForest,NaiveBayes,IBk");
-        List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE");
-        List<String> activeFeatureSelectors = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
+        List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE,Undersampling");
 
-        ExperimentContext ctx = new ExperimentContext(validator, exporter, reportPath);
+        // Parametri per la Feature Selection flessibile
+        String fsMode = AppConfig.getProperty("ml.feature_selection.mode", "PER_FOLD"); // GLOBAL o PER_FOLD
+        List<String> fsStrategies = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
 
         try {
-            Instances dataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
+            Instances originalDataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
 
+            // 2. Loop delle RUN
             for (int run = 1; run <= numRuns; run++) {
-                logger.info(">>> INIZIO RUN {}/{}", run, numRuns);
+                logger.info(">>> INIZIO RUN {}/{} <<<", run, numRuns);
 
-                // Iteriamo sulle combinazioni di parametri
-                for (String clfName : activeClassifiers) {
-                    for (String smpName : activeSamplers) {
-                        for (String fsName : activeFeatureSelectors) {
-                            // Estrazione della logica in un metodo separato per evitare try-catch annidati (S1141)
-                            executeSingleConfiguration(run, dataset, clfName, smpName, fsName, ctx);
+                for (String fsStrategyName : fsStrategies) {
+                    // Gestione della Feature Selection Globale: trasformiamo il dataset prima dei cicli interni
+                    Instances workingDataset = applyGlobalFSIfRequired(originalDataset, fsStrategyName, fsMode);
+
+                    // Se abbiamo fatto Global FS, nel fold non dobbiamo fare nulla
+                    String effectiveFsName = "GLOBAL".equalsIgnoreCase(fsMode) ? "NoSelection" : fsStrategyName;
+
+                    for (String clfName : activeClassifiers) {
+                        for (String smpName : activeSamplers) {
+                            executeSingleConfiguration(run, workingDataset, clfName, smpName, effectiveFsName, ctx);
                         }
                     }
                 }
             }
-            logger.info("Esperimento completato. Report salvato in: {}", reportPath);
+            logger.info("Esperimento completato. Report in: {}", reportPath);
 
         } catch (DatasetLoadingException e) {
-            logger.error("Impossibile caricare il dataset: {}", e.getMessage());
+            logger.error("Errore caricamento dataset: {}", e.getMessage());
         } catch (Exception e) {
-            logger.error("Errore critico durante l'esecuzione dell'esperimento", e);
+            logger.error("Errore critico durante l'esperimento", e);
         }
     }
 
     /**
+     * Applica la selezione globale se configurata, altrimenti restituisce il dataset originale.
+     */
+    private Instances applyGlobalFSIfRequired(Instances data, String strategy, String mode) throws Exception {
+        if ("GLOBAL".equalsIgnoreCase(mode) && !"NoSelection".equalsIgnoreCase(strategy)) {
+            logger.info("Applicazione Global Feature Selection: {}", strategy);
+            return new GlobalFeatureSelectionProcessor().apply(data, strategy, METADATA_COLS);
+        }
+        return data;
+    }
+
+    /**
      * Esegue una singola configurazione del modello.
-     * Metodo estratto per ridurre la complessità e risolvere java:S1141.
      */
     private void executeSingleConfiguration(int run, Instances dataset, String clf, String smp, String fs,
                                             ExperimentContext ctx) {

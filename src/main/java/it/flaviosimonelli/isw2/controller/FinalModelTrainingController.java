@@ -27,12 +27,12 @@ public class FinalModelTrainingController {
     private final String datasetPath;
     private final String projectKey;
 
-    private static final String[] METADATA_COLS = {
+    private static final List<String> METADATA_COLS = List.of(
             ProjectConstants.RELEASE_INDEX_ATTRIBUTE,
             ProjectConstants.DATA_ATTRIBUTE,
             ProjectConstants.VERSION_ATTRIBUTE,
             "File", "Class", "Signature", "Project"
-    };
+    );
 
     public FinalModelTrainingController(String datasetPath, String projectKey) {
         this.datasetPath = datasetPath;
@@ -42,7 +42,7 @@ public class FinalModelTrainingController {
     public void trainAndSaveModel() {
         logger.info(">>> AVVIO TRAINING MODELLO FINALE per {} <<<", projectKey);
 
-        // 1. LETTURA CONFIGURAZIONE
+        // 1. Lettura configurazione
         String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
         String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
         String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
@@ -51,77 +51,56 @@ public class FinalModelTrainingController {
         logger.info("Configurazione Scelta: Classificatore={}, Sampling={}, FeatureSel={}, Seed={}", clfName, smpName, fsName, finalSeed);
 
         WekaDataLoader loader = new WekaDataLoader();
-        String modelsDir = AppConfig.getProperty("output.base.path", "./results") + "/models";
-        new File(modelsDir).mkdirs();
+        String modelsDir = prepareOutputDirectory();
 
         try {
-            // 2. CARICAMENTO E PULIZIA BASE
+            // 2. Caricamento e Selezione Globale delle Feature
             Instances data = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
-            Instances trainingData = removeMetadataColumns(data);
-            logger.info("Dati caricati e puliti. Istanze: {}, Attributi: {}", trainingData.numInstances(), trainingData.numAttributes());
-            if (trainingData.classIndex() == -1) trainingData.setClassIndex(trainingData.numAttributes() - 1);
 
-            // 3. APPLICAZIONE FEATURE SELECTION
-            // Nota: Le strategie accettano (train, test). Qui passiamo (data, data) e prendiamo solo il primo risultato.
-            FeatureSelectionStrategy fsStrategy = FeatureSelectionFactory.getStrategy(fsName);
-            if (!(fsStrategy instanceof NoSelectionStrategy)) {
-                logger.info("Applicazione Feature Selection: {}...", fsName);
-                Instances[] fsResult = fsStrategy.apply(trainingData, trainingData);
-                trainingData = fsResult[0]; // Prendiamo il dataset filtrato
-                logger.info("Feature Selection completata. Attributi rimanenti: {}", trainingData.numAttributes());
-            }
+            // Usiamo il nuovo Processor per gestire la selezione globale e la rimozione metadati in un colpo solo
+            GlobalFeatureSelectionProcessor fsProcessor = new GlobalFeatureSelectionProcessor();
+            Instances trainingData = fsProcessor.apply(data, fsName, METADATA_COLS);
 
-            // 4. APPLICAZIONE SAMPLING (SMOTE)
+            logger.info("Dataset preparato. Istanze: {}, Attributi: {}", trainingData.numInstances(), trainingData.numAttributes());
+
+            // 3. Applicazione Sampling (Undersampling o SMOTE tramite Factory)
             SamplingStrategy sampler = SamplingFactory.getStrategy(smpName, finalSeed);
             if (sampler != null) {
                 logger.info("Applicazione Sampling: {}...", smpName);
-                int oldSize = trainingData.numInstances();
                 trainingData = sampler.apply(trainingData);
-                logger.info("Sampling completato. Istanze: {} -> {}", oldSize, trainingData.numInstances());
             }
 
-            // 5. CONFIGURAZIONE CLASSIFICATORE
+            // 4. Training
             Classifier model = ClassifierFactory.getClassifier(clfName, finalSeed);
-
-            // 6. TRAINING
             logger.info("Avvio addestramento {}...", clfName);
             model.buildClassifier(trainingData);
-            logger.info("Training completato.");
 
-            // 7. SALVATAGGIO
-            // Costruiamo un nome file dinamico per non sovrascrivere modelli diversi
-            String fileNameBase = String.format("%s_%s_%s_%s", projectKey, clfName, smpName, fsName);
-
-            String modelPath = Paths.get(modelsDir, fileNameBase + ".model").toString();
-            SerializationHelper.write(modelPath, model);
-
-            String headerPath = Paths.get(modelsDir, fileNameBase + "_Header.arff").toString();
-            Instances headerOnly = new Instances(trainingData, 0);
-            SerializationHelper.write(headerPath, headerOnly);
-
-            logger.info("=================================================");
-            logger.info("MODELLO SALVATO CON SUCCESSO!");
-            logger.info("File: {}", modelPath);
-            logger.info("Header: {}", headerPath);
-            logger.info("=================================================");
+            // 5. Salvataggio
+            saveModelArtifacts(trainingData, model, modelsDir, clfName, smpName, fsName);
 
         } catch (Exception e) {
             logger.error("Errore critico durante il training finale", e);
         }
     }
 
-    private Instances removeMetadataColumns(Instances data) throws Exception {
-        List<Integer> indicesToRemove = new ArrayList<>();
-        for (String colName : METADATA_COLS) {
-            weka.core.Attribute attr = data.attribute(colName);
-            if (attr != null) indicesToRemove.add(attr.index());
-        }
-        if (indicesToRemove.isEmpty()) return data;
+    private void saveModelArtifacts(Instances data, Classifier model, String dir, String clf, String smp, String fs) throws Exception {
+        String fileNameBase = String.format("%s_%s_%s_%s", projectKey, clf, smp, fs);
 
-        int[] indicesArray = indicesToRemove.stream().mapToInt(i -> i).toArray();
-        Remove removeFilter = new Remove();
-        removeFilter.setAttributeIndicesArray(indicesArray);
-        removeFilter.setInputFormat(data);
-        return Filter.useFilter(data, removeFilter);
+        // Salvataggio Modello Binario
+        String modelPath = Paths.get(dir, fileNameBase + ".model").toString();
+        SerializationHelper.write(modelPath, model);
+
+        // Salvataggio Header (fondamentale per le predizioni future su OpenJPA)
+        String headerPath = Paths.get(dir, fileNameBase + "_Header.arff").toString();
+        Instances headerOnly = new Instances(data, 0);
+        SerializationHelper.write(headerPath, headerOnly);
+
+        logger.info("MODELLO E HEADER SALVATI IN: {}", dir);
+    }
+
+    private String prepareOutputDirectory() {
+        String path = AppConfig.getProperty("output.base.path", "./results") + "/models";
+        new File(path).mkdirs();
+        return path;
     }
 }
