@@ -89,6 +89,7 @@ public class DatasetGeneratorController {
             }
 
             snoring.printFinalReport(outputPath);
+            // Passiamo il totale (indice 0) e i buggy (indice 1)
             logDatasetReport(outputPath, stats.getFirst(), stats.get(1));
 
         } catch (IOException e) {
