@@ -57,13 +57,13 @@ public class EvaluationModelsController {
         ExperimentContext ctx = new ExperimentContext(new WalkForwardValidator(), new CsvResultExporter(), reportPath);
 
         // 1. Caricamento Parametri e Dataset
-        int numRuns = Integer.parseInt(AppConfig.getProperty("ml.num_runs", "10"));
-        List<String> activeClassifiers = AppConfig.getList("ml.classifiers", "RandomForest,NaiveBayes,IBk");
-        List<String> activeSamplers = AppConfig.getList("ml.samplers", "NoSampling,SMOTE,Undersampling");
+        int numRuns = Integer.parseInt(AppConfig.getProperty("evaluation.num_runs", "10"));
+        List<String> activeClassifiers = AppConfig.getList("evaluation.classifiers", "RandomForest,NaiveBayes,IBk");
+        List<String> activeSamplers = AppConfig.getList("evaluation.samplers", "NoSampling,SMOTE,Undersampling");
 
         // Parametri per la Feature Selection flessibile
-        String fsMode = AppConfig.getProperty("ml.feature_selection.mode", "PER_FOLD"); // GLOBAL o PER_FOLD
-        List<String> fsStrategies = AppConfig.getList("ml.feature_selection", "NoSelection,BestFirst");
+        String fsMode = AppConfig.getProperty("evaluation.feature_selection.mode", "PER_FOLD"); // GLOBAL o PER_FOLD
+        List<String> fsStrategies = AppConfig.getList("evaluation.feature_selection", "NoSelection,BestFirst");
 
         try {
             Instances originalDataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);

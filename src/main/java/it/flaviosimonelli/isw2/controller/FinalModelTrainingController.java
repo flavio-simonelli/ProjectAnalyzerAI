@@ -12,12 +12,9 @@ import org.slf4j.LoggerFactory;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
-import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.Remove;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FinalModelTrainingController {
@@ -46,7 +43,7 @@ public class FinalModelTrainingController {
         String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
         String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
         String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
-        int finalSeed = Integer.parseInt(AppConfig.getProperty("ml.final_seed", "42"));
+        int finalSeed = Integer.parseInt(AppConfig.getProperty("final.model.seed", "42"));
 
         logger.info("Configurazione Scelta: Classificatore={}, Sampling={}, FeatureSel={}, Seed={}", clfName, smpName, fsName, finalSeed);
 
