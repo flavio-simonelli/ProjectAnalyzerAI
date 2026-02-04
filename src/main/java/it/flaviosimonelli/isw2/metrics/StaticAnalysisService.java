@@ -8,6 +8,8 @@ import net.sourceforge.pmd.reporting.RuleViolation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +64,7 @@ public class StaticAnalysisService {
 
                 // 4. PASSA LE VIOLAZIONI AL CALCULATOR
                 // (Nota: dobbiamo aggiornare la firma di extractMetrics nel passo successivo)
-                Map<MethodIdentity, MethodStaticMetrics> fileMetrics =
-                        metricsCalculator.extractMetrics(sourceCode, filePath, violations);
+                Map<MethodIdentity, MethodStaticMetrics> fileMetrics = metricsCalculator.extractMetrics(sourceCode, filePath, violations);
 
                 if (fileMetrics.isEmpty()) {
                     if (!isIgnorableFile(filePath)) {
@@ -80,6 +81,57 @@ public class StaticAnalysisService {
         }
         logger.info("Analisi completata: parsati {} file, estratti {} metodi.", parsedFilesCount, projectMap.size());
         return projectMap;
+    }
+
+    /**
+     * NUOVO METODO PER IL WHAT-IF: Analizza un singolo file locale (.java o .txt).
+     * Ritorna una mappa dove la chiave è la String signature (compatibile col CSV)
+     * e il valore sono le metriche.
+     */
+    public Map<String, MethodStaticMetrics> analyzeLocalFile(File javaFile) {
+        Map<String, MethodStaticMetrics> result = new HashMap<>();
+
+        if (!javaFile.exists()) {
+            logger.error("File locale non trovato: {}", javaFile.getAbsolutePath());
+            return result;
+        }
+
+        try {
+            // 1. Leggi il contenuto del file
+            String sourceCode = Files.readString(javaFile.toPath());
+            String fakePath = javaFile.getName();
+
+            // 2. Analisi (Riusiamo la stessa logica di Git!)
+            Map<MethodIdentity, MethodStaticMetrics> metricsMap = internalAnalyze(sourceCode, fakePath);
+
+            // 3. Convertiamo MethodIdentity in String Signature per facilitare il matching col CSV
+            // La MethodIdentity contiene già la firma formattata corretta
+            for (Map.Entry<MethodIdentity, MethodStaticMetrics> entry : metricsMap.entrySet()) {
+                // MethodIdentity.toString() o un getter dedicato dovrebbe darti "package.Class.method"
+                result.put(entry.getKey().fullSignature(), entry.getValue());
+            }
+
+        } catch (Exception e) {
+            logger.error("Errore analisi file locale {}", javaFile.getAbsolutePath(), e);
+        }
+        return result;
+    }
+
+    /**
+     * Logica Core condivisa: prende codice sorgente e path, restituisce metriche.
+     */
+    private Map<MethodIdentity, MethodStaticMetrics> internalAnalyze(String sourceCode, String filePath) {
+        try {
+            // 1. PMD Analysis
+            List<RuleViolation> violations = pmdService.analyze(sourceCode, filePath);
+
+            // 2. Metrics Calculation (AST Parsing + Incrocio Violazioni)
+            return metricsCalculator.extractMetrics(sourceCode, filePath, violations);
+
+        } catch (Exception e) {
+            logger.error("Errore interno analisi statica su {}", filePath, e);
+            return new HashMap<>();
+        }
     }
 
     /**

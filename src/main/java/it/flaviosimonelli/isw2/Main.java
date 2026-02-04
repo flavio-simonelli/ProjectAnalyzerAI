@@ -7,6 +7,8 @@ import it.flaviosimonelli.isw2.git.service.GitService;
 import it.flaviosimonelli.isw2.jira.client.IJiraClient;
 import it.flaviosimonelli.isw2.jira.service.JiraService;
 import it.flaviosimonelli.isw2.jira.client.RestJiraClient;
+import it.flaviosimonelli.isw2.metrics.StaticAnalysisService;
+import it.flaviosimonelli.isw2.ml.prediction.PredictionService;
 import it.flaviosimonelli.isw2.ml.reporting.GraphGenerationService;
 import it.flaviosimonelli.isw2.util.AppConfig;
 
@@ -17,6 +19,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static it.flaviosimonelli.isw2.config.ProjectConstants.CORRELATION_SUFFIX;
 import static it.flaviosimonelli.isw2.config.ProjectConstants.DATASET_SUFFIX;
@@ -112,6 +115,10 @@ public class Main {
                     runImpactAnalysis(projectKey);
                     break;
 
+                case REFACTORING_EXPERIMENT: // Assicurati che l'enum abbia questo valore
+                    runRefactoringExperiment(projectKey);
+                    break;
+
             }
 
             logger.info("=== PROCESSO TERMINATO CON SUCCESSO ===");
@@ -179,6 +186,91 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    private static void runRefactoringExperiment(String projectKey) {
+        logger.info(">>> STEP: Refactoring Experiment (Analisi Post-Modifica)");
+
+        // 1. Setup Servizi
+        String gitRepoPath = AppConfig.get("git.repoPath");
+        GitService gitService = new GitService(new JGitClient(gitRepoPath));
+        StaticAnalysisService staticService = new StaticAnalysisService(gitService);
+        RefactoringController refactoringCtrl = new RefactoringController(staticService);
+
+        // 2. Recupero percorsi
+        String basePath = AppConfig.getProperty("output.base.path", "./results");
+        String datasetPath = basePath + "/dataset/" + projectKey + DATASET_SUFFIX;
+
+        String originalFile = AppConfig.getRefactoringOriginalFile();
+        String refactoredFile = AppConfig.getRefactoringRefactoredFile();
+        String targetSig = AppConfig.getRefactoringTargetSignature();
+        String outputCsv = AppConfig.getRefactoringOutputFullCsv();
+
+        // 3. Creazione cartella dedicata per l'esperimento
+        try {
+            Path outputDir = Paths.get(AppConfig.getRefactoringOutputDir());
+            Files.createDirectories(outputDir);
+
+            // 4. Generazione CSV con le nuove metriche
+            logger.info("Target Method: {}", targetSig);
+            refactoringCtrl.generateRefactoringCsv(
+                    datasetPath,
+                    outputCsv,
+                    originalFile,
+                    refactoredFile,
+                    targetSig
+            );
+            logger.info("Esperimento completato. CSV generato in: {}", outputCsv);
+
+            // =========================================================
+            // 5. ESECUZIONE PREDIZIONE (RISCHIO BUG)
+            // =========================================================
+
+            // A. Recuperiamo i parametri ESATTI usati nel Training (Classifier, Sampling, FeatSel)
+            String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
+            String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
+            String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
+
+            // B. Costruiamo il nome del file .model esattamente come fa il TrainFinalController
+            // Pattern: Project_Classifier_Sampling_FeatureSelection.model
+            String modelNameBase = String.format("%s_%s_%s_%s", projectKey, clfName, smpName, fsName);
+            String modelPath = basePath + "/models/" + modelNameBase + ".model";
+
+            logger.info("Tentativo caricamento modello: {}", modelPath);
+
+            if (new File(modelPath).exists()) {
+                PredictionService predictor = new PredictionService();
+                List<PredictionService.PredictionResult> results = predictor.predictDataset(modelPath, outputCsv);
+
+                // Stampa Tabella
+                System.out.println("\n======================================================================================");
+                System.out.printf("%-80s | %-10s | %s%n", "METODO", "RISCHIO", "PROB. BUG");
+                System.out.println("--------------------------------------------------------------------------------------");
+
+                for (PredictionService.PredictionResult res : results) {
+                    String risk = (res.bugProbability() > 0.5) ? "ALTO ⚠️" : "BASSO ✅";
+
+                    // Tronchiamo per leggibilità
+                    String displaySig = res.signature();
+                    if (displaySig.length() > 75) {
+                        displaySig = "..." + displaySig.substring(displaySig.length() - 72);
+                    }
+
+                    System.out.printf("%-80s | %-10s | %6.2f%%%n", displaySig, risk, res.bugProbability() * 100);
+                }
+                System.out.println("======================================================================================\n");
+
+            } else {
+                logger.warn("IMPOSSIBILE CALCOLARE IL RISCHIO: Modello non trovato in {}", modelPath);
+                logger.warn("Verifica di aver eseguito TRAIN_FINAL con le stesse impostazioni nel config.properties:");
+                logger.warn("- Classifier: {}", clfName);
+                logger.warn("- Sampling: {}", smpName);
+                logger.warn("- Feature Sel: {}", fsName);
+            }
+
+        } catch (Exception e) {
+            logger.error("Errore durante l'esecuzione del Refactoring Experiment", e);
+        }
     }
 
 }

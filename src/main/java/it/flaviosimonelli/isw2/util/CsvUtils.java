@@ -115,4 +115,17 @@ public class CsvUtils {
             logger.error("Errore scrittura CSV: {}", outputPath, e);
         }
     }
+
+    /**
+     * Legge solo la riga di intestazione del CSV e restituisce la lista dei nomi delle colonne.
+     * Utile per clonare la struttura del dataset.
+     */
+    public static List<String> getHeaders(String filePath) throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+             CSVParser parser = CSV_FORMAT.parse(reader)) {
+
+            // Commons CSV (versioni recenti) restituisce direttamente la lista
+            return parser.getHeaderNames();
+        }
+    }
 }

@@ -118,4 +118,25 @@ public class AppConfig {
         return rules.toArray(new String[0]);
     }
 
+    public static String getRefactoringOriginalFile() {
+        return getProperty("refactoring.original.file", "refactoring_experiments/Original.java");
+    }
+
+    public static String getRefactoringRefactoredFile() {
+        return getProperty("refactoring.refactored.file", "refactoring_experiments/Refactored.java");
+    }
+
+    public static String getRefactoringTargetSignature() {
+        return getProperty("refactoring.target.signature", "");
+    }
+
+    public static String getRefactoringOutputDir() {
+        String base = getProperty("output.base.path", "./results");
+        return base + java.io.File.separator + "refactoring_experiments";
+    }
+
+    public static String getRefactoringOutputFullCsv() {
+        return getRefactoringOutputDir() + java.io.File.separator + "refactoring_experiment_results.csv";
+    }
+
 }

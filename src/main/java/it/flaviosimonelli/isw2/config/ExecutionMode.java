@@ -7,6 +7,7 @@ public enum ExecutionMode {
     ML_ONLY,           // Solo Weka (richiede dataset esistente)
     GRAPH_ONLY,
     TRAIN_FINAL,
+    REFACTORING_EXPERIMENT,
     CREATE_VARIANTS,
     WHATIF_ANALYSIS;
 
