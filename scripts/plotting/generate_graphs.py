@@ -35,12 +35,19 @@ def main():
             sys.exit(0)
 
         # 2. Pulizia e Preparazione
-        if 'Sampling' in df.columns:
-            df.rename(columns={'Sampling': 'SMOTE'}, inplace=True)
+
+        # --- MODIFICA: Rimossa la rinominazione forzata da 'Sampling' a 'SMOTE' ---
+        # Ci assicuriamo che la colonna esista e la trattiamo come stringa
+        sampling_col = 'Sampling'
+        if sampling_col not in df.columns:
+            # Fallback se la colonna non si chiama Sampling
+            print(f"[Python] Warning: Colonna '{sampling_col}' non trovata. Cerco colonne simili...")
+            # Qui potresti aggiungere logica per trovare colonne alternative se serve
+            pass
+        else:
+            df[sampling_col] = df[sampling_col].astype(str)
 
         df['FeatureSelection'] = df['FeatureSelection'].astype(str)
-        if 'SMOTE' in df.columns:
-            df['SMOTE'] = df['SMOTE'].astype(str)
 
         project_name = df['Project'].iloc[0] if 'Project' in df.columns else "Project"
 
@@ -55,13 +62,14 @@ def main():
             print(f"[Python] Generazione grafico per {metric}...")
 
             # --- Generazione Matrice ---
+            # Nota: col="Sampling" invece di col="SMOTE"
             g = sns.catplot(
                 data=df,
                 kind="box",
                 x="Classifier",
                 y=metric,
                 hue="Classifier",
-                col="SMOTE",
+                col=sampling_col,      # Usa la colonna corretta
                 row="FeatureSelection",
                 palette=CUSTOM_PALETTE,
                 height=4,
@@ -70,15 +78,18 @@ def main():
                 showfliers=False,
                 linewidth=1.5,
                 sharey=True,
-                legend=True # Forziamo la creazione della legenda se possibile
+                legend=True
             )
 
             # --- Styling Avanzato ---
-            g.figure.subplots_adjust(top=0.9)
-            g.figure.suptitle(f'{project_name} - {metric} Distribution', fontsize=20, fontweight='bold')
+            #g.figure.subplots_adjust(top=0.9)
+            #g.figure.suptitle(f'{project_name} - {metric} Distribution', fontsize=20, fontweight='bold')
 
             g.set_axis_labels("", metric)
-            g.set_titles(col_template="SMOTE: {col_name}", row_template="Feat.Sel.: {row_name}")
+
+            # --- MODIFICA TITOLI ---
+            # Ora userà "Sampling: Undersampling", "Sampling: SMOTE", ecc.
+            g.set_titles(col_template="Sampling: {col_name}", row_template="Feat.Sel.: {row_name}")
 
             # Limiti asse Y
             if metric == 'Kappa':
@@ -87,12 +98,9 @@ def main():
                 g.set(ylim=(-0.05, 1.05))
 
             # --- FIX ERRORE LEGENDA ---
-            # Proviamo a spostare la legenda solo se esiste.
-            # Se Seaborn non l'ha creata (perché ridondante), saltiamo il passaggio senza crashare.
             try:
                 sns.move_legend(g, "upper right", bbox_to_anchor=(1, 1))
             except ValueError:
-                # Se la legenda non esiste, non fa nulla (il grafico va bene anche senza, i nomi sono sull'asse X)
                 pass
             except Exception as e:
                 print(f"[Python] Warning non bloccante sulla legenda: {e}")
