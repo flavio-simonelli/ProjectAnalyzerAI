@@ -206,27 +206,16 @@ public class Main {
         String targetSig = AppConfig.getRefactoringTargetSignature();
         String outputCsv = AppConfig.getRefactoringOutputFullCsv();
 
-        // 3. Creazione cartella dedicata per l'esperimento
         try {
             Path outputDir = Paths.get(AppConfig.getRefactoringOutputDir());
             Files.createDirectories(outputDir);
 
             // 4. Generazione CSV Tecnico (Simulazione)
             logger.info("Target Method: {}", targetSig);
-            refactoringCtrl.generateRefactoringCsv(
-                    datasetPath,
-                    outputCsv,
-                    originalFile,
-                    refactoredFile,
-                    targetSig
-            );
+            refactoringCtrl.generateRefactoringCsv(datasetPath, outputCsv, originalFile, refactoredFile, targetSig);
             logger.info("Esperimento completato. CSV tecnico generato in: {}", outputCsv);
 
-            // =========================================================
-            // 5. ESECUZIONE PREDIZIONE (RISCHIO BUG)
-            // =========================================================
-
-            // Costruzione nome modello dinamico
+            // 5. ESECUZIONE PREDIZIONE
             String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
             String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
             String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
@@ -237,23 +226,13 @@ public class Main {
             if (new File(modelPath).exists()) {
                 logger.info("Modello trovato: {}", modelNameBase);
 
-                // A. Calcolo Predizioni
                 PredictionService predictor = new PredictionService();
                 List<PredictionService.PredictionResult> results = predictor.predictDataset(modelPath, outputCsv);
 
-                // B. Stampa a Video (Console)
-                System.out.println("\n======================================================================================");
-                System.out.printf("%-80s | %-10s | %s%n", "METODO", "RISCHIO", "PROB. BUG");
-                System.out.println("--------------------------------------------------------------------------------------");
-                for (PredictionService.PredictionResult res : results) {
-                    String risk = (res.bugProbability() > 0.5) ? "ALTO ⚠️" : "BASSO ✅";
-                    String displaySig = res.signature();
-                    if (displaySig.length() > 75) displaySig = "..." + displaySig.substring(displaySig.length() - 72);
-                    System.out.printf("%-80s | %-10s | %6.2f%%%n", displaySig, risk, res.bugProbability() * 100);
-                }
-                System.out.println("======================================================================================\n");
+                // LOGICA DI STAMPA RIFATTORIZZATA (Sostituisce System.out)
+                logPredictionResults(results);
 
-                // C. SALVATAGGIO REPORT SU DISCO (Ecco la chiamata mancante!)
+                // C. Salvataggio report
                 refactoringCtrl.saveRefactoringReport(projectKey, results, basePath);
 
             } else {
@@ -263,6 +242,29 @@ public class Main {
         } catch (Exception e) {
             logger.error("Errore durante l'esecuzione del Refactoring Experiment", e);
         }
+    }
+
+    private static void logPredictionResults(List<PredictionService.PredictionResult> results) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n======================================================================================\n");
+        sb.append(String.format("%-80s | %-10s | %s%n", "METODO", "RISCHIO", "PROB. BUG"));
+        sb.append("--------------------------------------------------------------------------------------\n");
+
+        for (PredictionService.PredictionResult res : results) {
+            String risk = (res.bugProbability() > 0.5) ? "ALTO" : "BASSO";
+            String displaySig = res.signature();
+
+            // Tronca la signature se troppo lunga per mantenere l'allineamento della tabella
+            if (displaySig.length() > 75) {
+                displaySig = "..." + displaySig.substring(displaySig.length() - 72);
+            }
+
+            sb.append(String.format("%-80s | %-10s | %6.2f%%%n", displaySig, risk, res.bugProbability() * 100));
+        }
+        sb.append("======================================================================================");
+
+        // Unico log per l'intera tabella
+        logger.info(sb.toString());
     }
 
 }
