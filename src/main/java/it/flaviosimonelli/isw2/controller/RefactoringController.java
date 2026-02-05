@@ -40,6 +40,7 @@ public class RefactoringController {
     private static final String LOC_DELETED = "LOC_Deleted";
     private static final String MAX_LOC_DELETED = "MAX_LOC_Deleted";
     private static final String AVG_LOC_DELETED = "AVG_LOC_Deleted";
+    private static final String COLUMN_SIGNATURE = "Signature";
 
     public RefactoringController(StaticAnalysisService staticService) {
         this.staticService = staticService;
@@ -99,7 +100,7 @@ public class RefactoringController {
                         logger.info("Nuovo Metodo Estratto: {}", newSig);
                     }
 
-                    rowData.put("Signature", newSig);
+                    rowData.put(COLUMN_SIGNATURE, newSig);
                     printer.printRecord(mapToRecord(headers, rowData));
                 }
             }
@@ -289,7 +290,7 @@ public class RefactoringController {
     }
 
     private boolean isMetadata(String header) {
-        return List.of("Version", "ReleaseIndex", "ReleaseData", "Date", "File", "Class", "Signature", "Project").contains(header);
+        return List.of("Version", "ReleaseIndex", "ReleaseData", "Date", "File", "Class", COLUMN_SIGNATURE, "Project").contains(header);
     }
 
     private Iterable<Object> mapToRecord(List<String> headers, Map<String, String> data) {
@@ -314,7 +315,7 @@ public class RefactoringController {
             int maxReleaseIndex = Integer.MIN_VALUE;
 
             for (CSVRecord csvRecord : parser) {
-                if (signature.equals(csvRecord.get("Signature"))) {
+                if (signature.equals(csvRecord.get(COLUMN_SIGNATURE))) {
                     String releaseVal = csvRecord.get("ReleaseIndex");
                     if (releaseVal != null && !releaseVal.isEmpty()) {
                         try {
