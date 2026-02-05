@@ -40,17 +40,9 @@ public class PredictionService {
             DataSource source = new DataSource(csvPath);
             Instances originalData = source.getDataSet();
 
-            // 3. FIX CRITICO: Impostazione manuale della Classe
-            // Se la colonna Buggy contiene solo '?', Weka non sa che i valori possibili sono {False, True}
+            // 3. Impostazione manuale della Classe
             if (originalData.classIndex() == -1)
                 originalData.setClassIndex(originalData.numAttributes() - 1);
-
-            // Creiamo un header "forzato" con le classi corrette se necessario
-            // Questo allinea i metadati del CSV con quelli che il modello si aspetta
-            ArrayList<String> classValues = new ArrayList<>();
-            classValues.add("False");
-            classValues.add("True");
-            // Nota: L'ordine deve essere quello usato nel training! Solitamente Weka ordina alfabeticamente: False, True.
 
             Attribute classAttribute = originalData.classAttribute();
             if (classAttribute.numValues() == 0) {
