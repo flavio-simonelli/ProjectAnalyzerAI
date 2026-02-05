@@ -111,7 +111,7 @@ public class PredictionService {
                 String actualLabel = "?";
                 try {
                     actualLabel = originalData.instance(i).stringValue(originalData.classIndex());
-                } catch (Exception _e) { /* ignore */ }
+                } catch (Exception _) { }
 
                 results.add(new PredictionResult(signature, actualLabel, predLabel, pBug));
             }
