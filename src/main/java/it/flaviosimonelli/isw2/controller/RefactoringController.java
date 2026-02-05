@@ -300,17 +300,17 @@ public class RefactoringController {
             CSVRecord latestRecord = null;
             int maxReleaseIndex = Integer.MIN_VALUE;
 
-            for (CSVRecord record : parser) {
-                if (signature.equals(record.get("Signature"))) {
-                    String releaseVal = record.get("ReleaseIndex");
+            for (CSVRecord csvRecord : parser) {
+                if (signature.equals(csvRecord.get("Signature"))) {
+                    String releaseVal = csvRecord.get("ReleaseIndex");
                     if (releaseVal != null && !releaseVal.isEmpty()) {
                         try {
                             int currentIdx = Integer.parseInt(releaseVal);
                             if (currentIdx > maxReleaseIndex) {
                                 maxReleaseIndex = currentIdx;
-                                latestRecord = record;
+                                latestRecord = csvRecord;
                             }
-                        } catch (NumberFormatException e) {
+                        } catch (NumberFormatException _) {
                             // ignore
                         }
                     }
