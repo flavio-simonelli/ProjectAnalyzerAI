@@ -90,7 +90,7 @@ public class RefactoringController {
                         double addedCurrent = (diff > 0) ? diff : 0;
                         double deletedCurrent = (diff < 0) ? Math.abs(diff) : 0;
 
-                        rowData = buildModifiedRow(headers, historicalRecord, newStats, addedCurrent, deletedCurrent);
+                        rowData = buildModifiedRow(historicalRecord, newStats, addedCurrent, deletedCurrent);
                         logger.info("Target Modificato: {} | Added: {} | Deleted: {}", newSig, addedCurrent, deletedCurrent);
 
                     } else {
@@ -137,7 +137,7 @@ public class RefactoringController {
     // LOGICA DI BUILD DELLE RIGHE (Simulazione Commit)
     // =========================================================================
 
-    private Map<String, String> buildModifiedRow(List<String> headers, CSVRecord history,
+    private Map<String, String> buildModifiedRow(CSVRecord history,
                                                  MethodStaticMetrics stats,
                                                  double addedCurrent, double deletedCurrent) {
         // 1. Copia storia
