@@ -270,7 +270,7 @@ public class RefactoringController {
         if (!row.containsKey(key)) return 0.0;
         try {
             return Double.parseDouble(row.get(key));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
             return 0.0;
         }
     }
