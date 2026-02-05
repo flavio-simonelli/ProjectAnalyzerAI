@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,7 +62,7 @@ public class Main {
      * Gestisce il setup delle directory e dei file path.
      * Riduce il numero di variabili nel main da 14 a 4.
      */
-    private static ProjectEnvironment setupEnvironment(String projectKey, String basePath) throws Exception {
+    private static ProjectEnvironment setupEnvironment(String projectKey, String basePath) throws IOException {
         Path baseDir = Paths.get(basePath);
         Files.createDirectories(baseDir.resolve("dataset"));
         Files.createDirectories(baseDir.resolve("correlation"));
@@ -81,16 +82,30 @@ public class Main {
      */
     private static void executeWorkflow(ExecutionMode mode, String projectKey, ProjectEnvironment env) {
         switch (mode) {
+            // Usiamo il valore dell'enum direttamente (se lo switch è su 'mode')
             case FULL -> runFullWorkflow(projectKey, env);
+
             case DATASET_ONLY -> runDatasetGeneration(projectKey, env.datasetFile());
-            case CORRELATION_ONLY -> { if (ensureFileExists(env.datasetFile())) runCorrelationAnalysis(env.datasetFile(), env.correlationFile()); }
+
+            // CORREZIONE: Aggiungendo 'ExecutionMode e' definiamo il pattern di tipo
+            case ExecutionMode e when e == ExecutionMode.CORRELATION_ONLY && ensureFileExists(env.datasetFile()) ->
+                    runCorrelationAnalysis(env.datasetFile(), env.correlationFile());
+
             case ML_ONLY -> runMachineLearningMode(projectKey, env);
+
             case GRAPH_ONLY -> runGraphMode(env);
-            case TRAIN_FINAL -> { if (ensureFileExists(env.datasetFile())) runFinalTraining(env.datasetFile(), projectKey); }
-            case CREATE_VARIANTS -> { if (ensureFileExists(env.datasetFile())) runDatasetVariantsCreation(env.datasetFile(), projectKey); }
+
+            case ExecutionMode e when e == ExecutionMode.TRAIN_FINAL && ensureFileExists(env.datasetFile()) ->
+                    runFinalTraining(env.datasetFile(), projectKey);
+
+            case ExecutionMode e when e == ExecutionMode.CREATE_VARIANTS && ensureFileExists(env.datasetFile()) ->
+                    runDatasetVariantsCreation(env.datasetFile(), projectKey);
+
             case WHATIF_ANALYSIS -> runImpactAnalysis(projectKey);
+
             case REFACTORING_EXPERIMENT -> runRefactoringExperiment(projectKey);
-            default -> logger.warn("Modalità non riconosciuta.");
+
+            default -> logger.warn("Modalità non riconosciuta o pre-requisiti non soddisfatti.");
         }
     }
 
@@ -235,26 +250,29 @@ public class Main {
     }
 
     private static void logPredictionResults(List<PredictionService.PredictionResult> results) {
+        // Risolve java:S2629: evita calcoli pesanti se il log non è attivo
+        if (!logger.isInfoEnabled()) {
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
-        sb.append("\n======================================================================================\n");
-        sb.append(String.format("%-80s | %-10s | %s%n", "METODO", "RISCHIO", "PROB. BUG"));
-        sb.append("--------------------------------------------------------------------------------------\n");
+        sb.append("\n").append("=".repeat(90)).append("\n");
+        sb.append("%-70s | %-10s | %s%n".formatted("METODO", "RISCHIO", "PROB. BUG"));
+        sb.append("-".repeat(90)).append("\n");
 
         for (PredictionService.PredictionResult res : results) {
             String risk = (res.bugProbability() > 0.5) ? "ALTO" : "BASSO";
             String displaySig = res.signature();
 
-            // Tronca la signature se troppo lunga per mantenere l'allineamento della tabella
-            if (displaySig.length() > 75) {
-                displaySig = "..." + displaySig.substring(displaySig.length() - 72);
+            if (displaySig.length() > 65) {
+                displaySig = "..." + displaySig.substring(displaySig.length() - 62);
             }
 
-            sb.append(String.format("%-80s | %-10s | %6.2f%%%n", displaySig, risk, res.bugProbability() * 100));
+            sb.append("%-70s | %-10s | %6.2f%%%n".formatted(displaySig, risk, res.bugProbability() * 100));
         }
-        sb.append("======================================================================================");
+        sb.append("=".repeat(90));
 
-        // Unico log per l'intera tabella
-        logger.info(sb.toString());
+        logger.info("{}", sb); // Passiamo l'oggetto StringBuilder, SLF4J chiamerà toString() solo se serve
     }
 
 }
