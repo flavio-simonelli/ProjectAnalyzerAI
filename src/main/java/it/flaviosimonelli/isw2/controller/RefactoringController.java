@@ -280,11 +280,11 @@ public class RefactoringController {
     }
 
     private Iterable<Object> mapToRecord(List<String> headers, Map<String, String> data) {
-        List<Object> record = new ArrayList<>();
+        List<Object> row = new ArrayList<>();
         for (String h : headers) {
-            record.add(data.getOrDefault(h, "0"));
+            row.add(data.getOrDefault(h, "0"));
         }
-        return record;
+        return row;
     }
 
     private CSVRecord findRecordBySignature(String path, String signature) throws IOException {
