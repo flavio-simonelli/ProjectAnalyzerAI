@@ -28,6 +28,19 @@ public class RefactoringController {
     private static final Logger logger = LoggerFactory.getLogger(RefactoringController.class);
     private final StaticAnalysisService staticService;
 
+    // --- COSTANTI PER LE METRICHE (Risoluzione Code Smell Sonar) ---
+    private static final String NR = "NR";
+    private static final String NAUTH = "NAuth";
+    private static final String CHURN = "Churn";
+    private static final String MAX_CHURN = "MAX_Churn";
+    private static final String AVG_CHURN = "AVG_Churn";
+    private static final String LOC_ADDED = "LOC_Added";
+    private static final String MAX_LOC_ADDED = "MAX_LOC_Added";
+    private static final String AVG_LOC_ADDED = "AVG_LOC_Added";
+    private static final String LOC_DELETED = "LOC_Deleted";
+    private static final String MAX_LOC_DELETED = "MAX_LOC_Deleted";
+    private static final String AVG_LOC_DELETED = "AVG_LOC_Deleted";
+
     public RefactoringController(StaticAnalysisService staticService) {
         this.staticService = staticService;
     }
@@ -165,20 +178,20 @@ public class RefactoringController {
     private void updateProcessMetrics(Map<String, String> row, double added, double deleted, boolean isGlobal) {
         String prefix = isGlobal ? "Global_" : "";
 
-        // 1. Recupero valori storici
-        double nr = getDouble(row, prefix + "NR");
+        // 1. Recupero valori storici (Uso costanti)
+        double nr = getDouble(row, prefix + NR);
 
         // Added Stats
-        double locAdded = getDouble(row, prefix + "LOC_Added");
-        double maxLocAdded = getDouble(row, prefix + "MAX_LOC_Added");
+        double locAdded = getDouble(row, prefix + LOC_ADDED);
+        double maxLocAdded = getDouble(row, prefix + MAX_LOC_ADDED);
 
         // Deleted Stats
-        double locDeleted = getDouble(row, prefix + "LOC_Deleted");
-        double maxLocDeleted = getDouble(row, prefix + "MAX_LOC_Deleted");
+        double locDeleted = getDouble(row, prefix + LOC_DELETED);
+        double maxLocDeleted = getDouble(row, prefix + MAX_LOC_DELETED);
 
         // Churn Stats
-        double churn = getDouble(row, prefix + "Churn");
-        double maxChurn = getDouble(row, prefix + "MAX_Churn");
+        double churn = getDouble(row, prefix + CHURN);
+        double maxChurn = getDouble(row, prefix + MAX_CHURN);
 
         // 2. Calcolo Nuovi Valori
         double currentChurn = added + deleted; // Churn di questo commit specifico
@@ -199,20 +212,20 @@ public class RefactoringController {
         double newAvgLocAdded = (newNR > 0) ? (newLocAddedTotal / newNR) : added;
         double newAvgLocDeleted = (newNR > 0) ? (newLocDeletedTotal / newNR) : deleted;
 
-        // 3. Scrittura
-        row.put(prefix + "NR", String.valueOf(newNR));
+        // 3. Scrittura (Uso costanti)
+        row.put(prefix + NR, String.valueOf(newNR));
 
-        row.put(prefix + "Churn", String.valueOf(newChurnTotal));
-        row.put(prefix + "MAX_Churn", String.valueOf(newMaxChurn));
-        row.put(prefix + "AVG_Churn", String.valueOf(newAvgChurn));
+        row.put(prefix + CHURN, String.valueOf(newChurnTotal));
+        row.put(prefix + MAX_CHURN, String.valueOf(newMaxChurn));
+        row.put(prefix + AVG_CHURN, String.valueOf(newAvgChurn));
 
-        row.put(prefix + "LOC_Added", String.valueOf(newLocAddedTotal));
-        row.put(prefix + "MAX_LOC_Added", String.valueOf(newMaxLocAdded));
-        row.put(prefix + "AVG_LOC_Added", String.valueOf(newAvgLocAdded));
+        row.put(prefix + LOC_ADDED, String.valueOf(newLocAddedTotal));
+        row.put(prefix + MAX_LOC_ADDED, String.valueOf(newMaxLocAdded));
+        row.put(prefix + AVG_LOC_ADDED, String.valueOf(newAvgLocAdded));
 
-        row.put(prefix + "LOC_Deleted", String.valueOf(newLocDeletedTotal));
-        row.put(prefix + "MAX_LOC_Deleted", String.valueOf(newMaxLocDeleted));
-        row.put(prefix + "AVG_LOC_Deleted", String.valueOf(newAvgLocDeleted));
+        row.put(prefix + LOC_DELETED, String.valueOf(newLocDeletedTotal));
+        row.put(prefix + MAX_LOC_DELETED, String.valueOf(newMaxLocDeleted));
+        row.put(prefix + AVG_LOC_DELETED, String.valueOf(newAvgLocDeleted));
     }
 
     private void initializeProcessMetrics(Map<String, String> row, double size) {
@@ -220,22 +233,22 @@ public class RefactoringController {
         String[] prefixes = {"", "Global_"};
 
         for (String prefix : prefixes) {
-            row.put(prefix + "NR", "1");
-            row.put(prefix + "NAuth", "1");
+            row.put(prefix + NR, "1");
+            row.put(prefix + NAUTH, "1");
 
             // Tutto conta come Added e Churn
-            row.put(prefix + "Churn", sSize);
-            row.put(prefix + "MAX_Churn", sSize);
-            row.put(prefix + "AVG_Churn", sSize);
+            row.put(prefix + CHURN, sSize);
+            row.put(prefix + MAX_CHURN, sSize);
+            row.put(prefix + AVG_CHURN, sSize);
 
-            row.put(prefix + "LOC_Added", sSize);
-            row.put(prefix + "MAX_LOC_Added", sSize);
-            row.put(prefix + "AVG_LOC_Added", sSize);
+            row.put(prefix + LOC_ADDED, sSize);
+            row.put(prefix + MAX_LOC_ADDED, sSize);
+            row.put(prefix + AVG_LOC_ADDED, sSize);
 
             // Deleted è 0 per i nuovi file
-            row.put(prefix + "LOC_Deleted", "0");
-            row.put(prefix + "MAX_LOC_Deleted", "0");
-            row.put(prefix + "AVG_LOC_Deleted", "0");
+            row.put(prefix + LOC_DELETED, "0");
+            row.put(prefix + MAX_LOC_DELETED, "0");
+            row.put(prefix + AVG_LOC_DELETED, "0");
         }
     }
 
