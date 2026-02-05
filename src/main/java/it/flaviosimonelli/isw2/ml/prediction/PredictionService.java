@@ -80,13 +80,7 @@ public class PredictionService {
                 // B. Decodifica Etichetta
                 // Qui stava l'errore: filteredData.classAttribute().value((int) labelIdx) esplodeva
                 // Se l'attributo non ha valori, usiamo noi "False"/"True" manualmente basandoci sull'indice
-                String predLabel;
-                try {
-                    predLabel = filteredData.classAttribute().value((int) labelIdx);
-                } catch (IndexOutOfBoundsException _) {
-                    // Fallback manuale se i metadati sono vuoti
-                    predLabel = (labelIdx == 0.0) ? "False" : "True";
-                }
+                String predLabel = safeGetPredLabel(filteredData, labelIdx);
 
                 // C. Probabilità Bug (True)
                 double pBug = 0.0;
@@ -108,10 +102,7 @@ public class PredictionService {
                 }
 
                 // E. Actual Class (che sarà "?")
-                String actualLabel = "?";
-                try {
-                    actualLabel = originalData.instance(i).stringValue(originalData.classIndex());
-                } catch (Exception _) { }
+                String actualLabel = safeGetActualLabel(originalData, i);
 
                 results.add(new PredictionResult(signature, actualLabel, predLabel, pBug));
             }
@@ -120,5 +111,27 @@ public class PredictionService {
             logger.error("Errore predizione dataset: {}", csvPath, e);
         }
         return results;
+    }
+
+    private String safeGetPredLabel(Instances data, double labelIdx) {
+        try {
+            return data.classAttribute().value((int) labelIdx);
+        } catch (IndexOutOfBoundsException _) {
+            // Fallback manuale se i metadati sono vuoti
+            return (labelIdx == 0.0) ? "False" : "True";
+        }
+    }
+
+    /**
+     * Metodo helper per estrarre l'etichetta reale (Actual Class) gestendo le eccezioni.
+     * Risolve il Code Smell java:S1141 (Nested try-catch).
+     */
+    private String safeGetActualLabel(Instances data, int index) {
+        try {
+            return data.instance(index).stringValue(data.classIndex());
+        } catch (Exception _) {
+            // Se l'indice non esiste o il valore è mancante (dummy dataset), restituiamo "?"
+            return "?";
+        }
     }
 }
