@@ -83,7 +83,7 @@ public class PredictionService {
                 String predLabel;
                 try {
                     predLabel = filteredData.classAttribute().value((int) labelIdx);
-                } catch (IndexOutOfBoundsException e) {
+                } catch (IndexOutOfBoundsException _) {
                     // Fallback manuale se i metadati sono vuoti
                     predLabel = (labelIdx == 0.0) ? "False" : "True";
                 }
