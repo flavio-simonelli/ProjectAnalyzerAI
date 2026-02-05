@@ -25,6 +25,9 @@ public class EvaluationModelsController {
 
     private static final Logger logger = LoggerFactory.getLogger(EvaluationModelsController.class);
 
+    private static final String FS_NO_SELECTION = "NoSelection";
+    private static final String MODE_GLOBAL = "GLOBAL";
+
     private final String datasetPath;
     private final String projectKey;
 
@@ -78,12 +81,12 @@ public class EvaluationModelsController {
 
                     // 2. Determiniamo la strategia LOGICA per il Validator (dentro il fold)
                     // Se siamo in GLOBAL, il dataset è già filtrato, quindi nel fold non facciamo nulla ("NoSelection")
-                    String foldStrategyName = "GLOBAL".equalsIgnoreCase(fsMode) ? "NoSelection" : fsStrategyName;
+                    String foldStrategyName = MODE_GLOBAL.equalsIgnoreCase(fsMode) ? FS_NO_SELECTION : fsStrategyName;
 
                     // 3. Determiniamo l'etichetta per il CSV
                     // Vogliamo che nel file compaia "BestFirst (Global)" e non "NoSelection"
                     String csvStrategyName = fsStrategyName;
-                    if ("GLOBAL".equalsIgnoreCase(fsMode) && !"NoSelection".equalsIgnoreCase(fsStrategyName)) {
+                    if (MODE_GLOBAL.equalsIgnoreCase(fsMode) && !FS_NO_SELECTION.equalsIgnoreCase(fsStrategyName)) {
                         csvStrategyName = fsStrategyName + " (Global)";
                     }
 
@@ -108,7 +111,7 @@ public class EvaluationModelsController {
      * Applica la selezione globale se configurata, altrimenti restituisce il dataset originale.
      */
     private Instances applyGlobalFSIfRequired(Instances data, String strategy, String mode) throws Exception {
-        if ("GLOBAL".equalsIgnoreCase(mode) && !"NoSelection".equalsIgnoreCase(strategy)) {
+        if (MODE_GLOBAL.equalsIgnoreCase(mode) && !FS_NO_SELECTION.equalsIgnoreCase(strategy)) {
             logger.info("Applicazione Global Feature Selection: {}", strategy);
             return new GlobalFeatureSelectionProcessor().apply(data, strategy, METADATA_COLS);
         }
