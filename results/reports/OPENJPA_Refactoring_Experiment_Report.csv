@@ -1,0 +1,16 @@
+Method_Signature,Risk_Level,Bug_Probability
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseKeyAnnotations(FieldMapping, Annotation, MappingTag)",LOW,30.28%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseBasicColumnAnnotations(FieldMapping, Annotation, MappingTag)",LOW,30.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseIdentityAnnotations(FieldMapping, AnnotatedElement, Annotation, MappingTag)",LOW,42.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseElementEmbeddedMappingHelper(FieldMapping, ElementEmbeddedMapping)",LOW,0.54%
+org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseMemberMappingAnnotations(FieldMetaData),HIGH,90.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseKeyEmbeddedMappingHelper(FieldMapping, KeyEmbeddedMapping)",LOW,0.54%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseElementAnnotations(FieldMapping, Annotation, MappingTag)",LOW,44.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseKeyAdvancedConfig(FieldMapping, Annotation, MappingTag)",LOW,47.22%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseStrategyAnnotations(FieldMapping, Annotation, MappingTag)",LOW,40.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseMapKeyAnnotations(FieldMapping, Annotation, MappingTag)",LOW,36.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.AnnotationHandler.handle(FieldMapping, AnnotatedElement, Annotation, MappingTag)",LOW,33.45%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseXEmbeddedMappingHelper(FieldMapping, XEmbeddedMapping)",LOW,0.54%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseJoinAnnotations(FieldMapping, Annotation, MappingTag)",LOW,39.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseStandardKeyColumns(FieldMapping, Annotation, MappingTag)",LOW,40.00%
+"org.apache.openjpa.persistence.jdbc.AnnotationPersistenceMappingParser.parseOverrideAnnotations(FieldMapping, Annotation, MappingTag)",LOW,40.00%

@@ -356,7 +356,6 @@ public class BenchThroughputLatency implements AddCallback, Runnable {
 
     // --- FINE REFACTORING ---
 
-    // Metodi esistenti (warmUp e percentile) mantenuti per retrocompatibilità interna
     private static double percentile(long[] latency, int percentile) {
         int size = latency.length;
         int sampleSize = (size * percentile) / 100;

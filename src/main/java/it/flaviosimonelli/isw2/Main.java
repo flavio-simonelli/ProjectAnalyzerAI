@@ -211,7 +211,7 @@ public class Main {
             Path outputDir = Paths.get(AppConfig.getRefactoringOutputDir());
             Files.createDirectories(outputDir);
 
-            // 4. Generazione CSV con le nuove metriche
+            // 4. Generazione CSV Tecnico (Simulazione)
             logger.info("Target Method: {}", targetSig);
             refactoringCtrl.generateRefactoringCsv(
                     datasetPath,
@@ -220,52 +220,44 @@ public class Main {
                     refactoredFile,
                     targetSig
             );
-            logger.info("Esperimento completato. CSV generato in: {}", outputCsv);
+            logger.info("Esperimento completato. CSV tecnico generato in: {}", outputCsv);
 
             // =========================================================
             // 5. ESECUZIONE PREDIZIONE (RISCHIO BUG)
             // =========================================================
 
-            // A. Recuperiamo i parametri ESATTI usati nel Training (Classifier, Sampling, FeatSel)
+            // Costruzione nome modello dinamico
             String clfName = AppConfig.getProperty("final.model.classifier", "RandomForest");
             String smpName = AppConfig.getProperty("final.model.sampling", "NoSampling");
             String fsName = AppConfig.getProperty("final.model.feature_selection", "NoSelection");
 
-            // B. Costruiamo il nome del file .model esattamente come fa il TrainFinalController
-            // Pattern: Project_Classifier_Sampling_FeatureSelection.model
             String modelNameBase = String.format("%s_%s_%s_%s", projectKey, clfName, smpName, fsName);
             String modelPath = basePath + "/models/" + modelNameBase + ".model";
 
-            logger.info("Tentativo caricamento modello: {}", modelPath);
-
             if (new File(modelPath).exists()) {
+                logger.info("Modello trovato: {}", modelNameBase);
+
+                // A. Calcolo Predizioni
                 PredictionService predictor = new PredictionService();
                 List<PredictionService.PredictionResult> results = predictor.predictDataset(modelPath, outputCsv);
 
-                // Stampa Tabella
+                // B. Stampa a Video (Console)
                 System.out.println("\n======================================================================================");
                 System.out.printf("%-80s | %-10s | %s%n", "METODO", "RISCHIO", "PROB. BUG");
                 System.out.println("--------------------------------------------------------------------------------------");
-
                 for (PredictionService.PredictionResult res : results) {
                     String risk = (res.bugProbability() > 0.5) ? "ALTO ⚠️" : "BASSO ✅";
-
-                    // Tronchiamo per leggibilità
                     String displaySig = res.signature();
-                    if (displaySig.length() > 75) {
-                        displaySig = "..." + displaySig.substring(displaySig.length() - 72);
-                    }
-
+                    if (displaySig.length() > 75) displaySig = "..." + displaySig.substring(displaySig.length() - 72);
                     System.out.printf("%-80s | %-10s | %6.2f%%%n", displaySig, risk, res.bugProbability() * 100);
                 }
                 System.out.println("======================================================================================\n");
 
+                // C. SALVATAGGIO REPORT SU DISCO (Ecco la chiamata mancante!)
+                refactoringCtrl.saveRefactoringReport(projectKey, results, basePath);
+
             } else {
                 logger.warn("IMPOSSIBILE CALCOLARE IL RISCHIO: Modello non trovato in {}", modelPath);
-                logger.warn("Verifica di aver eseguito TRAIN_FINAL con le stesse impostazioni nel config.properties:");
-                logger.warn("- Classifier: {}", clfName);
-                logger.warn("- Sampling: {}", smpName);
-                logger.warn("- Feature Sel: {}", fsName);
             }
 
         } catch (Exception e) {

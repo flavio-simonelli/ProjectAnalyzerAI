@@ -1,0 +1,7 @@
+Method_Signature,Risk_Level,Bug_Probability
+"org.apache.bookkeeper.benchmark.BenchThroughputLatency.reportResults(BenchThroughputLatency, String, String, String)",LOW,31.00%
+"org.apache.bookkeeper.benchmark.BenchThroughputLatency.addComplete(int, LedgerHandle, long, Object)",LOW,34.00%
+"org.apache.bookkeeper.benchmark.BenchThroughputLatency.waitForCoordination(String, String)",LOW,21.00%
+org.apache.bookkeeper.benchmark.BenchThroughputLatency.main(String[]),LOW,22.00%
+org.apache.bookkeeper.benchmark.BenchThroughputLatency.setupTimeout(CommandLine),LOW,40.11%
+org.apache.bookkeeper.benchmark.BenchThroughputLatency.buildOptions(),LOW,40.00%

@@ -1,6 +1,7 @@
 package it.flaviosimonelli.isw2.controller;
 
 import it.flaviosimonelli.isw2.metrics.StaticAnalysisService;
+import it.flaviosimonelli.isw2.ml.prediction.PredictionService.PredictionResult;
 import it.flaviosimonelli.isw2.model.MethodStaticMetrics;
 import it.flaviosimonelli.isw2.util.CsvUtils;
 import org.apache.commons.csv.CSVFormat;
@@ -15,11 +16,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+/**
+ * Controller dedicato all'esperimento di Refactoring Simulato (What-If Analysis).
+ * Gestisce il confronto tra file originale e rifattorizzato, calcola i delta delle metriche
+ * (Added/Deleted) e prepara i dati per la predizione del rischio.
+ */
 public class RefactoringController {
 
     private static final Logger logger = LoggerFactory.getLogger(RefactoringController.class);
@@ -29,17 +32,21 @@ public class RefactoringController {
         this.staticService = staticService;
     }
 
+    // =========================================================================
+    // STEP 1: GENERAZIONE CSV PER WEKA
+    // =========================================================================
+
     public void generateRefactoringCsv(String originalDatasetPath, String outputCsvPath,
                                        String originalFile, String refactoredFile,
                                        String targetMethodSignature) {
-        logger.info(">>> Generazione CSV Refactoring Experiment (Versione Corretta)...");
+        logger.info(">>> Avvio Simulazione Refactoring (What-If Analysis)...");
 
         try {
             List<String> headers = CsvUtils.getHeaders(originalDatasetPath);
             CSVRecord historicalRecord = findRecordBySignature(originalDatasetPath, targetMethodSignature);
 
             if (historicalRecord == null) {
-                logger.error("ERRORE: Metodo '{}' non trovato nel dataset.", targetMethodSignature);
+                logger.error("ERRORE CRITICO: Metodo '{}' non trovato nel dataset storico.", targetMethodSignature);
                 return;
             }
 
@@ -49,56 +56,88 @@ public class RefactoringController {
             try (CSVPrinter printer = CsvUtils.createPrinter(outputCsvPath, false, headers.toArray(new String[0]))) {
 
                 for (Map.Entry<String, MethodStaticMetrics> entry : newFileMetrics.entrySet()) {
-                    String newSig = entry.getKey(); // Es: "reportResults(...)"
+                    String newSig = entry.getKey();
                     MethodStaticMetrics newStats = entry.getValue();
                     Map<String, String> rowData;
 
                     if (oldFileMetrics.containsKey(newSig)) {
-                        // CASO A: Il metodo esisteva già (es. il main stesso, o metodi helper non toccati)
+                        // CASO A: Il metodo esisteva già (es. main modificato)
                         double oldLoc = getVal(oldFileMetrics.get(newSig), "LOC");
                         double newLoc = getVal(newStats, "LOC");
-                        double churnDelta = Math.abs(newLoc - oldLoc);
 
-                        rowData = buildModifiedRow(headers, historicalRecord, newStats, churnDelta);
-                        logger.info("Modified: {} | DeltaLOC: {}", newSig, churnDelta);
+                        // Calcolo Delta Reale (con segno)
+                        double diff = newLoc - oldLoc;
+
+                        // Se non è cambiato nulla, saltiamo (Filtro Anti-Rumore)
+                        if (diff == 0.0) {
+                            continue;
+                        }
+
+                        // Distinguiamo tra Added e Deleted
+                        double addedCurrent = (diff > 0) ? diff : 0;
+                        double deletedCurrent = (diff < 0) ? Math.abs(diff) : 0;
+
+                        rowData = buildModifiedRow(headers, historicalRecord, newStats, addedCurrent, deletedCurrent);
+                        logger.info("Target Modificato: {} | Added: {} | Deleted: {}", newSig, addedCurrent, deletedCurrent);
+
                     } else {
-                        // CASO B: Nuovo metodo estratto (es. setupTimeout)
+                        // CASO B: Nuovo metodo estratto
                         rowData = buildNewRow(headers, historicalRecord, newStats);
-                        logger.info("Extracted: {}", newSig);
+                        logger.info("Nuovo Metodo Estratto: {}", newSig);
                     }
 
-                    // === FIX CRITICO: Sovrascriviamo la Signature! ===
-                    // Prima copiavamo la signature del 'main' ovunque. Ora mettiamo quella vera.
                     rowData.put("Signature", newSig);
-
                     printer.printRecord(mapToRecord(headers, rowData));
                 }
             }
-            logger.info("CSV Refactoring generato correttamente in: {}", outputCsvPath);
+            logger.info("CSV tecnico per Weka generato con successo: {}", outputCsvPath);
 
         } catch (Exception e) {
-            logger.error("Errore generazione CSV", e);
+            logger.error("Errore durante la generazione del CSV Refactoring", e);
         }
     }
 
-    // --- BUILDERS ---
+    // =========================================================================
+    // STEP 2: SALVATAGGIO REPORT FINALE
+    // =========================================================================
+
+    public void saveRefactoringReport(String projectKey, List<PredictionResult> results, String outputBase) {
+        String reportDir = outputBase + "/reports";
+        new File(reportDir).mkdirs();
+        String filePath = Paths.get(reportDir, projectKey + "_Refactoring_Experiment_Report.csv").toString();
+
+        logger.info("Salvataggio Report Finale in: {}", filePath);
+
+        List<String> headers = Arrays.asList("Method_Signature", "Risk_Level", "Bug_Probability");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (PredictionResult res : results) {
+            String risk = (res.bugProbability() > 0.5) ? "HIGH" : "LOW";
+            String probString = String.format(Locale.US, "%.2f%%", res.bugProbability() * 100);
+            rows.add(Arrays.asList(res.signature(), risk, probString));
+        }
+
+        CsvUtils.writeCsv(filePath, headers, rows);
+    }
+
+    // =========================================================================
+    // LOGICA DI BUILD DELLE RIGHE (Simulazione Commit)
+    // =========================================================================
 
     private Map<String, String> buildModifiedRow(List<String> headers, CSVRecord history,
-                                                 MethodStaticMetrics stats, double delta) {
-        // 1. Copia base storica (che contiene la Signature VECCHIA, ma la sovrascriveremo dopo)
+                                                 MethodStaticMetrics stats,
+                                                 double addedCurrent, double deletedCurrent) {
+        // 1. Copia storia
         Map<String, String> row = new HashMap<>(history.toMap());
 
-        // 2. Aggiorna Metriche Statiche
+        // 2. Aggiorna metriche statiche
         updateStaticFields(row, stats);
 
-        // 3. Aggiorna Metriche di Processo
-        updateProcessMetrics(row, delta, false); // Local
-        updateProcessMetrics(row, delta, true);  // Global
+        // 3. Aggiorna metriche di processo (Added vs Deleted)
+        updateProcessMetrics(row, addedCurrent, deletedCurrent, false); // Local
+        updateProcessMetrics(row, addedCurrent, deletedCurrent, true);  // Global
 
-        // 4. Target
-        if(row.containsKey("isBuggy")) row.put("isBuggy", "?");
-        if(row.containsKey("Buggy")) row.put("Buggy", "?");
-
+        setTargetUnknown(row);
         return row;
     }
 
@@ -106,88 +145,98 @@ public class RefactoringController {
                                             MethodStaticMetrics stats) {
         Map<String, String> row = new HashMap<>();
 
-        // 1. Copia metadati dal padre (inclusa la Signature vecchia, che sovrascriveremo)
         for (String h : headers) {
             if (isMetadata(h)) row.put(h, context.get(h));
             else row.put(h, "0");
         }
 
-        // 2. Statiche
         updateStaticFields(row, stats);
 
-        // 3. Processo (Nascita)
+        // Per un nuovo metodo, tutto è "Added"
         double size = getVal(stats, "LOC");
         initializeProcessMetrics(row, size);
 
-        // 4. Target
-        if(row.containsKey("isBuggy")) row.put("isBuggy", "?");
-        if(row.containsKey("Buggy")) row.put("Buggy", "?");
-
+        setTargetUnknown(row);
         return row;
     }
 
-    // --- LOGICA MATEMATICA PROCESSO ---
+    // --- Calcoli Matematici Process Metrics ---
 
-    private void updateProcessMetrics(Map<String, String> row, double delta, boolean isGlobal) {
+    private void updateProcessMetrics(Map<String, String> row, double added, double deleted, boolean isGlobal) {
         String prefix = isGlobal ? "Global_" : "";
 
-        String colNR = prefix + "NR";
-        String colChurn = prefix + "Churn";
-        String colMaxChurn = prefix + "MAX_Churn";
-        String colAvgChurn = prefix + "AVG_Churn";
+        // 1. Recupero valori storici
+        double nr = getDouble(row, prefix + "NR");
 
-        String colLocAdded = prefix + "LOC_Added";
-        String colMaxLocAdded = prefix + "MAX_LOC_Added";
-        String colAvgLocAdded = prefix + "AVG_LOC_Added";
+        // Added Stats
+        double locAdded = getDouble(row, prefix + "LOC_Added");
+        double maxLocAdded = getDouble(row, prefix + "MAX_LOC_Added");
 
-        double nr = getDouble(row, colNR);
-        double churn = getDouble(row, colChurn);
-        double maxChurn = getDouble(row, colMaxChurn);
+        // Deleted Stats
+        double locDeleted = getDouble(row, prefix + "LOC_Deleted");
+        double maxLocDeleted = getDouble(row, prefix + "MAX_LOC_Deleted");
 
-        double locAdded = getDouble(row, colLocAdded);
-        double maxLocAdded = getDouble(row, colMaxLocAdded);
+        // Churn Stats
+        double churn = getDouble(row, prefix + "Churn");
+        double maxChurn = getDouble(row, prefix + "MAX_Churn");
 
-        // Calcoli
+        // 2. Calcolo Nuovi Valori
+        double currentChurn = added + deleted; // Churn di questo commit specifico
         double newNR = nr + 1;
-        double newChurn = churn + delta;
-        double newMaxChurn = Math.max(maxChurn, delta);
-        double newAvgChurn = (newNR > 0) ? (newChurn / newNR) : delta;
 
-        double newLocAdded = locAdded + delta;
-        double newMaxLocAdded = Math.max(maxLocAdded, delta);
-        double newAvgLocAdded = (newNR > 0) ? (newLocAdded / newNR) : delta;
+        // Aggiornamento Totali
+        double newChurnTotal = churn + currentChurn;
+        double newLocAddedTotal = locAdded + added;
+        double newLocDeletedTotal = locDeleted + deleted;
 
-        // Salvataggio
-        row.put(colNR, String.valueOf(newNR));
-        row.put(colChurn, String.valueOf(newChurn));
-        row.put(colMaxChurn, String.valueOf(newMaxChurn));
-        row.put(colAvgChurn, String.valueOf(newAvgChurn));
-        row.put(colLocAdded, String.valueOf(newLocAdded));
-        row.put(colMaxLocAdded, String.valueOf(newMaxLocAdded));
-        row.put(colAvgLocAdded, String.valueOf(newAvgLocAdded));
+        // Aggiornamento MAX
+        double newMaxChurn = Math.max(maxChurn, currentChurn);
+        double newMaxLocAdded = Math.max(maxLocAdded, added);
+        double newMaxLocDeleted = Math.max(maxLocDeleted, deleted);
+
+        // Aggiornamento AVG (Media su NR aggiornato)
+        double newAvgChurn = (newNR > 0) ? (newChurnTotal / newNR) : currentChurn;
+        double newAvgLocAdded = (newNR > 0) ? (newLocAddedTotal / newNR) : added;
+        double newAvgLocDeleted = (newNR > 0) ? (newLocDeletedTotal / newNR) : deleted;
+
+        // 3. Scrittura
+        row.put(prefix + "NR", String.valueOf(newNR));
+
+        row.put(prefix + "Churn", String.valueOf(newChurnTotal));
+        row.put(prefix + "MAX_Churn", String.valueOf(newMaxChurn));
+        row.put(prefix + "AVG_Churn", String.valueOf(newAvgChurn));
+
+        row.put(prefix + "LOC_Added", String.valueOf(newLocAddedTotal));
+        row.put(prefix + "MAX_LOC_Added", String.valueOf(newMaxLocAdded));
+        row.put(prefix + "AVG_LOC_Added", String.valueOf(newAvgLocAdded));
+
+        row.put(prefix + "LOC_Deleted", String.valueOf(newLocDeletedTotal));
+        row.put(prefix + "MAX_LOC_Deleted", String.valueOf(newMaxLocDeleted));
+        row.put(prefix + "AVG_LOC_Deleted", String.valueOf(newAvgLocDeleted));
     }
 
     private void initializeProcessMetrics(Map<String, String> row, double size) {
         String sSize = String.valueOf(size);
-        // Init Local
-        row.put("NR", "1");
-        row.put("NAuth", "1");
-        row.put("Churn", sSize);
-        row.put("MAX_Churn", sSize);
-        row.put("AVG_Churn", sSize);
-        row.put("LOC_Added", sSize);
-        row.put("MAX_LOC_Added", sSize);
-        row.put("AVG_LOC_Added", sSize);
+        String[] prefixes = {"", "Global_"};
 
-        // Init Global
-        row.put("Global_NR", "1");
-        row.put("Global_NAuth", "1");
-        row.put("Global_Churn", sSize);
-        row.put("Global_MAX_Churn", sSize);
-        row.put("Global_AVG_Churn", sSize);
-        row.put("Global_LOC_Added", sSize);
-        row.put("Global_MAX_LOC_Added", sSize);
-        row.put("Global_AVG_LOC_Added", sSize);
+        for (String prefix : prefixes) {
+            row.put(prefix + "NR", "1");
+            row.put(prefix + "NAuth", "1");
+
+            // Tutto conta come Added e Churn
+            row.put(prefix + "Churn", sSize);
+            row.put(prefix + "MAX_Churn", sSize);
+            row.put(prefix + "AVG_Churn", sSize);
+
+            row.put(prefix + "LOC_Added", sSize);
+            row.put(prefix + "MAX_LOC_Added", sSize);
+            row.put(prefix + "AVG_LOC_Added", sSize);
+
+            // Deleted è 0 per i nuovi file
+            row.put(prefix + "LOC_Deleted", "0");
+            row.put(prefix + "MAX_LOC_Deleted", "0");
+            row.put(prefix + "AVG_LOC_Deleted", "0");
+        }
     }
 
     private void updateStaticFields(Map<String, String> row, MethodStaticMetrics stats) {
@@ -202,7 +251,14 @@ public class RefactoringController {
         row.put("CodeSmells", String.valueOf(getVal(stats, "CodeSmells")));
     }
 
-    // --- UTILITIES ---
+    // =========================================================================
+    // UTILITIES
+    // =========================================================================
+
+    private void setTargetUnknown(Map<String, String> row) {
+        if (row.containsKey("isBuggy")) row.put("isBuggy", "?");
+        if (row.containsKey("Buggy")) row.put("Buggy", "?");
+    }
 
     private double getVal(MethodStaticMetrics stats, String key) {
         if (stats == null) return 0.0;
@@ -220,8 +276,6 @@ public class RefactoringController {
     }
 
     private boolean isMetadata(String header) {
-        // "Signature" è considerato metadati, quindi veniva copiato dal padre.
-        // La sovrascrittura esplicita nel loop principale risolve il problema.
         return List.of("Version", "ReleaseIndex", "ReleaseData", "Date", "File", "Class", "Signature", "Project").contains(header);
     }
 
@@ -247,9 +301,7 @@ public class RefactoringController {
             int maxReleaseIndex = Integer.MIN_VALUE;
 
             for (CSVRecord record : parser) {
-                // Controllo tollerante per evitare problemi di spazi o package
-                String currentSig = record.get("Signature");
-                if (signature.equals(currentSig)) {
+                if (signature.equals(record.get("Signature"))) {
                     String releaseVal = record.get("ReleaseIndex");
                     if (releaseVal != null && !releaseVal.isEmpty()) {
                         try {
