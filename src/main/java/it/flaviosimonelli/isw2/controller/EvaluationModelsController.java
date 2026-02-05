@@ -64,40 +64,17 @@ public class EvaluationModelsController {
         List<String> activeClassifiers = AppConfig.getList("evaluation.classifiers", "RandomForest,NaiveBayes,IBk");
         List<String> activeSamplers = AppConfig.getList("evaluation.samplers", "NoSampling,SMOTE,Undersampling");
 
-        // Parametri per la Feature Selection flessibile
-        String fsMode = AppConfig.getProperty("evaluation.feature_selection.mode", "PER_FOLD"); // GLOBAL o PER_FOLD
+        String fsMode = AppConfig.getProperty("evaluation.feature_selection.mode", "PER_FOLD");
         List<String> fsStrategies = AppConfig.getList("evaluation.feature_selection", "NoSelection,BestFirst");
 
         try {
             Instances originalDataset = loader.loadData(datasetPath, ProjectConstants.TARGET_CLASS, null);
 
-            // 2. Loop delle RUN
+            // 2. Esecuzione delle Run (Estratto per ridurre complessità)
             for (int run = 1; run <= numRuns; run++) {
-                logger.info(">>> INIZIO RUN {}/{} <<<", run, numRuns);
-
-                for (String fsStrategyName : fsStrategies) {
-                    // 1. Applichiamo la selezione GLOBALE (se richiesta)
-                    Instances workingDataset = applyGlobalFSIfRequired(originalDataset, fsStrategyName, fsMode);
-
-                    // 2. Determiniamo la strategia LOGICA per il Validator (dentro il fold)
-                    // Se siamo in GLOBAL, il dataset è già filtrato, quindi nel fold non facciamo nulla ("NoSelection")
-                    String foldStrategyName = MODE_GLOBAL.equalsIgnoreCase(fsMode) ? FS_NO_SELECTION : fsStrategyName;
-
-                    // 3. Determiniamo l'etichetta per il CSV
-                    // Vogliamo che nel file compaia "BestFirst (Global)" e non "NoSelection"
-                    String csvStrategyName = fsStrategyName;
-                    if (MODE_GLOBAL.equalsIgnoreCase(fsMode) && !FS_NO_SELECTION.equalsIgnoreCase(fsStrategyName)) {
-                        csvStrategyName = fsStrategyName + " (Global)";
-                    }
-
-                    for (String clfName : activeClassifiers) {
-                        for (String smpName : activeSamplers) {
-                            // Passiamo foldStrategyName alla logica e csvStrategyName al report
-                            executeSingleConfiguration(run, workingDataset, clfName, smpName, foldStrategyName, csvStrategyName, ctx);
-                        }
-                    }
-                }
+                runSingleExperimentCycle(run, originalDataset, fsStrategies, fsMode, activeClassifiers, activeSamplers, ctx);
             }
+
             logger.info("Esperimento completato. Report in: {}", reportPath);
 
         } catch (DatasetLoadingException e) {
@@ -105,6 +82,47 @@ public class EvaluationModelsController {
         } catch (Exception e) {
             logger.error("Errore critico durante l'esperimento", e);
         }
+    }
+
+    /**
+     * Gestisce il ciclo delle strategie di Feature Selection per una singola run.
+     */
+    private void runSingleExperimentCycle(int run, Instances dataset, List<String> fsStrategies, String fsMode,
+                                          List<String> classifiers, List<String> samplers, ExperimentContext ctx) throws Exception {
+        logger.info(">>> INIZIO RUN {} <<<", run);
+
+        for (String fsStrategyName : fsStrategies) {
+            Instances workingDataset = applyGlobalFSIfRequired(dataset, fsStrategyName, fsMode);
+
+            // Determiniamo i nomi per la logica e per il report
+            String foldFsName = MODE_GLOBAL.equalsIgnoreCase(fsMode) ? FS_NO_SELECTION : fsStrategyName;
+            String csvFsName = formatFsNameForReport(fsStrategyName, fsMode);
+
+            runClassifiersAndSamplers(run, workingDataset, classifiers, samplers, foldFsName, csvFsName, ctx);
+        }
+    }
+
+    /**
+     * Gestisce l'incrocio finale tra Classificatori e Sampler.
+     */
+    private void runClassifiersAndSamplers(int run, Instances dataset, List<String> classifiers,
+                                           List<String> samplers, String logicFs, String reportFs,
+                                           ExperimentContext ctx) {
+        for (String clfName : classifiers) {
+            for (String smpName : samplers) {
+                executeSingleConfiguration(run, dataset, clfName, smpName, logicFs, reportFs, ctx);
+            }
+        }
+    }
+
+    /**
+     * Formatta il nome della Feature Selection per il CSV di output.
+     */
+    private String formatFsNameForReport(String strategy, String mode) {
+        if (MODE_GLOBAL.equalsIgnoreCase(mode) && !FS_NO_SELECTION.equalsIgnoreCase(strategy)) {
+            return strategy + " (Global)";
+        }
+        return strategy;
     }
 
     /**
