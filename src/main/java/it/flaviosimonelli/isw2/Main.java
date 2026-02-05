@@ -33,93 +33,21 @@ public class Main {
         logger.info("Avvio applicazione ISW2 Prediction...");
 
         try {
-            // =================================================================
-            // 1. SETUP AMBIENTE E PATH
-            // =================================================================
+            // 1. Setup configurazione e ambiente (Riduce LOC e variabili nel main)
             String projectKey = AppConfig.get("jira.projectKey");
-            String basePathString = AppConfig.getProperty("output.base.path", "./results");
+            String basePath = AppConfig.getProperty("output.base.path", "./results");
 
-            // Definizione Cartelle
-            Path baseDir = Paths.get(basePathString);
-            Path datasetDir = baseDir.resolve("dataset");
-            Path correlationDir = baseDir.resolve("correlation");
-            Path mlDir = baseDir.resolve("ml");
+            ProjectEnvironment env = setupEnvironment(projectKey, basePath);
 
-            // Creazione Cartelle (idempotente: se esistono non fa nulla)
-            Files.createDirectories(datasetDir);
-            Files.createDirectories(correlationDir);
-            Files.createDirectories(mlDir);
-
-            // Definizione File Path Completi
-            String datasetFile = datasetDir.resolve(projectKey + DATASET_SUFFIX).toString();
-            String correlationFile = correlationDir.resolve(projectKey + CORRELATION_SUFFIX).toString();
-
-            String mlResultFile = mlDir.resolve(projectKey + "_validation_results.csv").toString();
-            String graphsDir = mlDir.resolve("graphs").toString();
-
-            // =================================================================
-            // 2. LOGICA DI ESECUZIONE
-            // =================================================================
-            String modeStr = AppConfig.getProperty("execution.mode", "FULL");
-            ExecutionMode mode = ExecutionMode.fromString(modeStr);
+            // 2. Recupero modalità (Riduce complessità cognitiva)
+            ExecutionMode mode = ExecutionMode.fromString(AppConfig.getProperty("execution.mode", "FULL"));
 
             logger.info("Project: {}", projectKey);
             logger.info("Execution Mode: {}", mode);
-            logger.info("Base Output Dir: {}", baseDir.toAbsolutePath());
+            logger.info("Base Output Dir: {}", basePath);
 
-            switch (mode) {
-                case FULL:
-                    // Flusso completo a cascata
-                    runDatasetGeneration(projectKey, datasetFile);
-                    runCorrelationAnalysis(datasetFile, correlationFile);
-                    runMachineLearning(datasetFile, projectKey);
-                    break;
-
-                case DATASET_ONLY:
-                    runDatasetGeneration(projectKey, datasetFile);
-                    break;
-
-                case CORRELATION_ONLY:
-                    if (ensureFileExists(datasetFile)) {
-                        runCorrelationAnalysis(datasetFile, correlationFile);
-                    }
-                    break;
-
-                case ML_ONLY:
-                    if (ensureFileExists(datasetFile)) {
-                        runMachineLearning(datasetFile, projectKey);
-                        runGraphGeneration(mlResultFile, graphsDir);
-                    }
-                    break;
-                case GRAPH_ONLY:
-                    if (ensureFileExists(mlResultFile)) {
-                        runGraphGeneration(mlResultFile, graphsDir);
-                    } else {
-                        logger.error("Impossibile generare grafici: manca il file risultati ML ({})", mlResultFile);
-                    }
-                    break;
-
-                case TRAIN_FINAL:
-                    if (ensureFileExists(datasetFile)) {
-                        runFinalTraining(datasetFile, projectKey);
-                    }
-                    break;
-
-                case CREATE_VARIANTS:
-                    if (ensureFileExists(datasetFile)) {
-                        runDatasetVariantsCreation(datasetFile, projectKey);
-                    }
-                    break;
-
-                case WHATIF_ANALYSIS:
-                    runImpactAnalysis(projectKey);
-                    break;
-
-                case REFACTORING_EXPERIMENT: // Assicurati che l'enum abbia questo valore
-                    runRefactoringExperiment(projectKey);
-                    break;
-
-            }
+            // 3. Esecuzione (Riduce Nesting Level e LOC)
+            executeWorkflow(mode, projectKey, env);
 
             logger.info("=== PROCESSO TERMINATO CON SUCCESSO ===");
 
@@ -128,6 +56,68 @@ public class Main {
             System.exit(1);
         }
     }
+
+    /**
+     * Gestisce il setup delle directory e dei file path.
+     * Riduce il numero di variabili nel main da 14 a 4.
+     */
+    private static ProjectEnvironment setupEnvironment(String projectKey, String basePath) throws Exception {
+        Path baseDir = Paths.get(basePath);
+        Files.createDirectories(baseDir.resolve("dataset"));
+        Files.createDirectories(baseDir.resolve("correlation"));
+        Files.createDirectories(baseDir.resolve("ml"));
+
+        String datasetFile = baseDir.resolve("dataset/" + projectKey + DATASET_SUFFIX).toString();
+        String correlationFile = baseDir.resolve("correlation/" + projectKey + CORRELATION_SUFFIX).toString();
+        String mlResultFile = baseDir.resolve("ml/" + projectKey + "_validation_results.csv").toString();
+        String graphsDir = baseDir.resolve("ml/graphs").toString();
+
+        return new ProjectEnvironment(datasetFile, correlationFile, mlResultFile, graphsDir);
+    }
+
+    /**
+     * Smista l'esecuzione in base alla modalità selezionata.
+     * Riduce la complessità ciclomatica del main.
+     */
+    private static void executeWorkflow(ExecutionMode mode, String projectKey, ProjectEnvironment env) {
+        switch (mode) {
+            case FULL -> runFullWorkflow(projectKey, env);
+            case DATASET_ONLY -> runDatasetGeneration(projectKey, env.datasetFile());
+            case CORRELATION_ONLY -> { if (ensureFileExists(env.datasetFile())) runCorrelationAnalysis(env.datasetFile(), env.correlationFile()); }
+            case ML_ONLY -> runMachineLearningMode(projectKey, env);
+            case GRAPH_ONLY -> runGraphMode(env);
+            case TRAIN_FINAL -> { if (ensureFileExists(env.datasetFile())) runFinalTraining(env.datasetFile(), projectKey); }
+            case CREATE_VARIANTS -> { if (ensureFileExists(env.datasetFile())) runDatasetVariantsCreation(env.datasetFile(), projectKey); }
+            case WHATIF_ANALYSIS -> runImpactAnalysis(projectKey);
+            case REFACTORING_EXPERIMENT -> runRefactoringExperiment(projectKey);
+            default -> logger.warn("Modalità non riconosciuta.");
+        }
+    }
+
+    // Helper per raggruppare i path del workflow completo
+    private static void runFullWorkflow(String projectKey, ProjectEnvironment env) {
+        runDatasetGeneration(projectKey, env.datasetFile());
+        runCorrelationAnalysis(env.datasetFile(), env.correlationFile());
+        runMachineLearning(env.datasetFile(), projectKey);
+    }
+
+    private static void runMachineLearningMode(String projectKey, ProjectEnvironment env) {
+        if (ensureFileExists(env.datasetFile())) {
+            runMachineLearning(env.datasetFile(), projectKey);
+            runGraphGeneration(env.mlResultFile(), env.graphsDir());
+        }
+    }
+
+    private static void runGraphMode(ProjectEnvironment env) {
+        if (ensureFileExists(env.mlResultFile())) {
+            runGraphGeneration(env.mlResultFile(), env.graphsDir());
+        } else {
+            logger.error("Impossibile generare grafici: manca il file risultati ML ({})", env.mlResultFile());
+        }
+    }
+
+    // DTO per trasportare i path senza inquinare il main di variabili
+    private record ProjectEnvironment(String datasetFile, String correlationFile, String mlResultFile, String graphsDir) {}
 
     private static void runDatasetGeneration(String projectKey, String outputCsvPath) {
         logger.info(">>> STEP 1: Generazione Dataset");
