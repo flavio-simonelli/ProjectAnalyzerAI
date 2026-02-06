@@ -1,0 +1,16 @@
+2026-02-03 23:36:34.098 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Prediction...
+2026-02-03 23:36:34.106 [main] INFO  it.flaviosimonelli.isw2.Main - Project: BOOKKEEPER
+2026-02-03 23:36:34.107 [main] INFO  it.flaviosimonelli.isw2.Main - Execution Mode: CREATE_VARIANTS
+2026-02-03 23:36:34.107 [main] INFO  it.flaviosimonelli.isw2.Main - Base Output Dir: C:\Users\flavi\Projects\ProjectAnalyzerAI\.\results
+2026-02-03 23:36:34.108 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP: Creazione Varianti Dataset (B+, B, C)
+2026-02-03 23:36:34.111 [main] INFO  i.f.i.c.DatasetVariantController - >>> CREAZIONE VARIANTI DATASET (A, B+, B, C) per BOOKKEEPER <<<
+2026-02-03 23:36:34.114 [main] INFO  i.f.isw2.ml.data.WekaDataLoader - Caricamento dataset da: .\results\dataset\BOOKKEEPER_dataset.csv
+2026-02-03 23:36:35.226 [main] INFO  i.f.i.c.DatasetVariantController - Dataset A caricato: 21432 istanze.
+2026-02-03 23:36:35.234 [main] INFO  i.f.i.c.DatasetVariantController - Split completato. Scrittura CSV...
+2026-02-03 23:36:35.236 [main] INFO  i.f.i.c.DatasetVariantController - Dataset B+ (Smelly): 7606 istanze
+2026-02-03 23:36:35.236 [main] INFO  i.f.i.c.DatasetVariantController - Dataset B  (Fixed):  7606 istanze
+2026-02-03 23:36:35.236 [main] INFO  i.f.i.c.DatasetVariantController - Dataset C  (Clean):  13826 istanze
+2026-02-03 23:36:35.429 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\BOOKKEEPER_B_PLUS.csv
+2026-02-03 23:36:35.495 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\BOOKKEEPER_B_FIXED.csv
+2026-02-03 23:36:35.614 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\BOOKKEEPER_C_CLEAN.csv
+2026-02-03 23:36:35.614 [main] INFO  it.flaviosimonelli.isw2.Main - === PROCESSO TERMINATO CON SUCCESSO ===

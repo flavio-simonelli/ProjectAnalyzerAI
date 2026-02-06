@@ -1,0 +1,15 @@
+2026-02-03 12:03:17.853 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Prediction...
+2026-02-03 12:03:17.859 [main] INFO  it.flaviosimonelli.isw2.Main - Project: OPENJPA
+2026-02-03 12:03:17.860 [main] INFO  it.flaviosimonelli.isw2.Main - Execution Mode: CORRELATION_ONLY
+2026-02-03 12:03:17.860 [main] INFO  it.flaviosimonelli.isw2.Main - Base Output Dir: C:\Users\flavi\Projects\ProjectAnalyzerAI\.\results
+2026-02-03 12:03:17.861 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP 2: Analisi Correlazione
+2026-02-03 12:03:17.862 [main] INFO  i.f.i.c.CorrelationReportController - === START CORRELATION REPORT ===
+2026-02-03 12:03:17.862 [main] INFO  i.f.i.c.CorrelationReportController - Input: .\results\dataset\OPENJPA_dataset.csv
+2026-02-03 12:03:22.047 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: .\results\correlation\OPENJPA_correlation.csv
+2026-02-03 12:03:22.048 [main] INFO  i.f.i.c.CorrelationReportController - --- TOP 3 METRICS (Spearman) ---
+2026-02-03 12:03:22.049 [main] INFO  i.f.i.c.CorrelationReportController - LOC -> Spear: 0.234, Pears: 0.219
+2026-02-03 12:03:22.049 [main] INFO  i.f.i.c.CorrelationReportController - NumLocalVars -> Spear: 0.227, Pears: 0.199
+2026-02-03 12:03:22.049 [main] INFO  i.f.i.c.CorrelationReportController - NumStatements -> Spear: 0.221, Pears: 0.201
+2026-02-03 12:03:22.049 [main] INFO  i.f.i.c.CorrelationReportController - Report salvato in: .\results\correlation\OPENJPA_correlation.csv
+2026-02-03 12:03:22.049 [main] INFO  i.f.i.c.CorrelationReportController - === END CORRELATION REPORT ===
+2026-02-03 12:03:22.049 [main] INFO  it.flaviosimonelli.isw2.Main - === PROCESSO TERMINATO CON SUCCESSO ===

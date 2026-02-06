@@ -1,0 +1,16 @@
+2026-02-04 17:41:47.278 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Prediction...
+2026-02-04 17:41:47.284 [main] INFO  it.flaviosimonelli.isw2.Main - Project: OPENJPA
+2026-02-04 17:41:47.285 [main] INFO  it.flaviosimonelli.isw2.Main - Execution Mode: CREATE_VARIANTS
+2026-02-04 17:41:47.285 [main] INFO  it.flaviosimonelli.isw2.Main - Base Output Dir: C:\Users\flavi\Projects\ProjectAnalyzerAI\.\results
+2026-02-04 17:41:47.286 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP: Creazione Varianti Dataset (B+, B, C)
+2026-02-04 17:41:47.287 [main] INFO  i.f.i.c.DatasetVariantController - >>> CREAZIONE VARIANTI DATASET (A, B+, B, C) per OPENJPA <<<
+2026-02-04 17:41:47.289 [main] INFO  i.f.isw2.ml.data.WekaDataLoader - Caricamento dataset da: .\results\dataset\OPENJPA_dataset.csv
+2026-02-04 17:41:50.836 [main] INFO  i.f.i.c.DatasetVariantController - Dataset A caricato: 244608 istanze.
+2026-02-04 17:41:50.874 [main] INFO  i.f.i.c.DatasetVariantController - Split completato. Scrittura CSV...
+2026-02-04 17:41:50.877 [main] INFO  i.f.i.c.DatasetVariantController - Dataset B+ (Smelly): 93231 istanze
+2026-02-04 17:41:50.877 [main] INFO  i.f.i.c.DatasetVariantController - Dataset B  (Fixed):  93231 istanze
+2026-02-04 17:41:50.878 [main] INFO  i.f.i.c.DatasetVariantController - Dataset C  (Clean):  151377 istanze
+2026-02-04 17:41:51.982 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\OPENJPA_B_PLUS.csv
+2026-02-04 17:41:52.840 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\OPENJPA_B_FIXED.csv
+2026-02-04 17:41:54.165 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: ./results/dataset/variants\OPENJPA_C_CLEAN.csv
+2026-02-04 17:41:54.166 [main] INFO  it.flaviosimonelli.isw2.Main - === PROCESSO TERMINATO CON SUCCESSO ===

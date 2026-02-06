@@ -1,0 +1,21 @@
+2026-02-05 09:58:25.205 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Prediction...
+2026-02-05 09:58:25.212 [main] INFO  it.flaviosimonelli.isw2.Main - Project: BOOKKEEPER
+2026-02-05 09:58:25.213 [main] INFO  it.flaviosimonelli.isw2.Main - Execution Mode: REFACTORING_EXPERIMENT
+2026-02-05 09:58:25.213 [main] INFO  it.flaviosimonelli.isw2.Main - Base Output Dir: C:\Users\flavi\Projects\ProjectAnalyzerAI\.\results
+2026-02-05 09:58:25.214 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP: Refactoring Experiment (Analisi Post-Modifica)
+2026-02-05 09:58:25.559 [main] INFO  i.f.isw2.git.client.JGitClient - Repository Git aperto correttamente: C:/Users/flavi/Projects/ProgettiDaAnalizzare/bookkeeper
+2026-02-05 09:58:25.617 [main] DEBUG i.f.isw2.metrics.PmdAnalysisService - Aggiunto ruleset PMD: pmd-ruleset.xml
+2026-02-05 09:58:25.619 [main] INFO  it.flaviosimonelli.isw2.Main - Target Method: org.apache.bookkeeper.benchmark.BenchThroughputLatency.main(String[])
+2026-02-05 09:58:25.619 [main] INFO  i.f.i.c.RefactoringController - >>> Avvio Simulazione Refactoring (What-If Analysis)...
+2026-02-05 09:58:28.039 [main] INFO  i.f.i.c.RefactoringController - Nuovo Metodo Estratto: org.apache.bookkeeper.benchmark.BenchThroughputLatency.reportResults(BenchThroughputLatency, String, String, String)
+2026-02-05 09:58:28.040 [main] INFO  i.f.i.c.RefactoringController - Target Modificato: org.apache.bookkeeper.benchmark.BenchThroughputLatency.addComplete(int, LedgerHandle, long, Object) | Added: 0.0 | Deleted: 2.0
+2026-02-05 09:58:28.040 [main] INFO  i.f.i.c.RefactoringController - Nuovo Metodo Estratto: org.apache.bookkeeper.benchmark.BenchThroughputLatency.waitForCoordination(String, String)
+2026-02-05 09:58:28.040 [main] INFO  i.f.i.c.RefactoringController - Target Modificato: org.apache.bookkeeper.benchmark.BenchThroughputLatency.main(String[]) | Added: 0.0 | Deleted: 105.0
+2026-02-05 09:58:28.041 [main] INFO  i.f.i.c.RefactoringController - Nuovo Metodo Estratto: org.apache.bookkeeper.benchmark.BenchThroughputLatency.setupTimeout(CommandLine)
+2026-02-05 09:58:28.041 [main] INFO  i.f.i.c.RefactoringController - Nuovo Metodo Estratto: org.apache.bookkeeper.benchmark.BenchThroughputLatency.buildOptions()
+2026-02-05 09:58:28.041 [main] INFO  i.f.i.c.RefactoringController - CSV tecnico per Weka generato con successo: ./results\refactoring_experiments\refactoring_experiment_results.csv
+2026-02-05 09:58:28.042 [main] INFO  it.flaviosimonelli.isw2.Main - Esperimento completato. CSV tecnico generato in: ./results\refactoring_experiments\refactoring_experiment_results.csv
+2026-02-05 09:58:28.042 [main] INFO  it.flaviosimonelli.isw2.Main - Modello trovato: BOOKKEEPER_RandomForest_NoSampling_NoSelection
+2026-02-05 09:58:29.248 [main] INFO  i.f.i.c.RefactoringController - Salvataggio Report Finale in: .\results\reports\BOOKKEEPER_Refactoring_Experiment_Report.csv
+2026-02-05 09:58:29.249 [main] INFO  i.flaviosimonelli.isw2.util.CsvUtils - CSV scritto con successo: .\results\reports\BOOKKEEPER_Refactoring_Experiment_Report.csv
+2026-02-05 09:58:29.249 [main] INFO  it.flaviosimonelli.isw2.Main - === PROCESSO TERMINATO CON SUCCESSO ===

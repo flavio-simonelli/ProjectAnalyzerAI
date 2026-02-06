@@ -1,0 +1,935 @@
+2026-02-03 15:10:12.515 [main] INFO  it.flaviosimonelli.isw2.Main - Avvio applicazione ISW2 Prediction...
+2026-02-03 15:10:12.522 [main] INFO  it.flaviosimonelli.isw2.Main - Project: BOOKKEEPER
+2026-02-03 15:10:12.523 [main] INFO  it.flaviosimonelli.isw2.Main - Execution Mode: ML_ONLY
+2026-02-03 15:10:12.523 [main] INFO  it.flaviosimonelli.isw2.Main - Base Output Dir: C:\Users\flavi\Projects\ProjectAnalyzerAI\.\results
+2026-02-03 15:10:12.523 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP 3: Machine Learning (Weka)
+2026-02-03 15:10:12.524 [main] INFO  i.f.i.c.EvaluationModelsController - Avvio esperimento Bug Prediction per BOOKKEEPER
+2026-02-03 15:10:12.532 [main] INFO  i.f.isw2.ml.data.WekaDataLoader - Caricamento dataset da: .\results\dataset\BOOKKEEPER_dataset.csv
+2026-02-03 15:10:13.711 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 1/10 <<<
+2026-02-03 15:10:13.712 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:10:13.713 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:10:13.713 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:10:13.714 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:10:25.137 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:10:25.138 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:10:25.138 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:10:25.139 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:10:25.139 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:11:53.063 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:11:53.064 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:11:53.064 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:11:53.064 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:11:53.064 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:11:53.359 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:11:53.360 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:11:53.360 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:11:53.360 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:11:53.360 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:13:02.945 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:13:02.946 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:13:02.946 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:13:02.946 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:13:02.946 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:13:10.531 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:13:10.532 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:13:10.532 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:13:10.532 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:13:10.532 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:14:28.247 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:14:28.248 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:14:28.248 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:14:28.248 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:14:28.248 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:14:32.498 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:14:32.499 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:14:32.499 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:14:32.499 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:14:32.499 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:15:03.814 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:15:03.815 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:15:03.815 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:15:03.815 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:15:03.815 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:15:04.003 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:15:04.004 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:15:04.004 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:15:04.004 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:15:04.004 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:15:30.503 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:15:30.504 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:15:30.504 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:15:30.504 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:15:30.504 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:15:41.272 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:15:41.272 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:15:41.272 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:15:41.273 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:15:41.273 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:16:20.835 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:16:20.836 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:16:20.836 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:16:20.836 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:16:20.837 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:16:27.834 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:16:27.835 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:16:27.835 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:16:27.835 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:16:27.835 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:17:05.177 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:17:05.178 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:17:05.178 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:17:05.178 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:17:05.178 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:17:05.445 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:17:05.446 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:17:05.446 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:17:05.446 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:17:05.446 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:17:35.897 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:17:35.898 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:17:35.898 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:17:35.898 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:17:35.898 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:17:41.882 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:17:41.882 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:17:41.882 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:17:41.882 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:17:41.882 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 1] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:18:19.448 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:18:19.449 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 2/10 <<<
+2026-02-03 15:18:19.449 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:18:19.450 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:18:19.450 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:18:19.450 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:18:30.496 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:18:30.497 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:18:30.497 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:18:30.497 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:18:30.497 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:19:54.512 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:19:54.513 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:19:54.513 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:19:54.513 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:19:54.513 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:19:54.663 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:19:54.664 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:19:54.664 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:19:54.664 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:19:54.664 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:21:00.794 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:21:00.795 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:21:00.795 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:21:00.795 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:21:00.795 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:21:08.304 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:21:08.305 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:21:08.305 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:21:08.305 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:21:08.305 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:22:23.036 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:22:23.037 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:22:23.037 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:22:23.037 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:22:23.037 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:22:26.880 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:22:26.880 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:22:26.880 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:22:26.880 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:22:26.881 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:22:58.601 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:22:58.602 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:22:58.603 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:22:58.603 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:22:58.603 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:22:58.784 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:22:58.785 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:22:58.785 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:22:58.785 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:22:58.785 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:23:25.076 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:23:25.077 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:23:25.077 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:23:25.077 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:23:25.077 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:23:35.854 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:23:35.855 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:23:35.855 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:23:35.855 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:23:35.855 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:24:17.237 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:24:17.238 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:24:17.238 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:24:17.238 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:24:17.238 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:24:23.742 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:24:23.743 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:24:23.743 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:24:23.743 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:24:23.743 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:25:01.218 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:25:01.219 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:25:01.219 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:25:01.219 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:25:01.219 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:25:01.507 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:25:01.508 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:25:01.508 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:25:01.508 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:25:01.508 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:25:31.247 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:25:31.248 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:25:31.248 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:25:31.248 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:25:31.248 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:25:37.327 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:25:37.328 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:25:37.328 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:25:37.328 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:25:37.328 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 2] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:26:14.343 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:26:14.344 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 3/10 <<<
+2026-02-03 15:26:14.344 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:26:14.344 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:26:14.344 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:26:14.344 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:26:25.004 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:26:25.004 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:26:25.004 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:26:25.004 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:26:25.004 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:27:44.898 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:27:44.899 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:27:44.899 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:27:44.899 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:27:44.899 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:27:45.033 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:27:45.034 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:27:45.034 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:27:45.034 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:27:45.034 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:28:54.867 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:28:54.867 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:28:54.868 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:28:54.868 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:28:54.868 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:29:02.918 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:29:02.919 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:29:02.919 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:29:02.919 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:29:02.919 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:30:21.845 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:30:21.847 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:30:21.847 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:30:21.847 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:30:21.847 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:30:25.944 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:30:25.944 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:30:25.945 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:30:25.945 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:30:25.945 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:30:57.010 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:30:57.011 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:30:57.011 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:30:57.011 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:30:57.011 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:30:57.331 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:30:57.332 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:30:57.332 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:30:57.332 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:30:57.332 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:31:25.646 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:31:25.647 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:31:25.647 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:31:25.647 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:31:25.647 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:31:36.437 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:31:36.437 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:31:36.437 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:31:36.437 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:31:36.437 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:32:15.648 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:32:15.649 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:32:15.649 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:32:15.649 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:32:15.649 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:32:22.733 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:32:22.733 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:32:22.734 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:32:22.734 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:32:22.734 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:33:02.732 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:33:02.733 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:33:02.733 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:33:02.733 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:33:02.733 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:33:02.987 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:33:02.988 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:33:02.988 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:33:02.988 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:33:02.988 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:33:34.235 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:33:34.236 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:33:34.236 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:33:34.236 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:33:34.236 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:33:40.461 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:33:40.461 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:33:40.462 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:33:40.462 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:33:40.462 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 3] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:34:18.953 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:34:18.954 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 4/10 <<<
+2026-02-03 15:34:18.954 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:34:18.954 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:34:18.954 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:34:18.954 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:34:30.413 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:34:30.414 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:34:30.414 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:34:30.414 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:34:30.414 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:35:52.917 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:35:52.918 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:35:52.918 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:35:52.918 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:35:52.918 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:35:53.053 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:35:53.054 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:35:53.054 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:35:53.054 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:35:53.054 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:37:02.308 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:37:02.309 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:37:02.309 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:37:02.309 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:37:02.309 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:37:10.232 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:37:10.233 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:37:10.233 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:37:10.233 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:37:10.233 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:38:28.272 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:38:28.273 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:38:28.273 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:38:28.273 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:38:28.273 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:38:32.243 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:38:32.244 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:38:32.244 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:38:32.244 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:38:32.244 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:39:02.575 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:39:02.576 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:39:02.576 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:39:02.576 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:39:02.576 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:39:02.740 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:39:02.741 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:39:02.741 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:39:02.741 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:39:02.741 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:39:29.617 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:39:29.617 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:39:29.617 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:39:29.617 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:39:29.617 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:39:40.346 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:39:40.347 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:39:40.347 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:39:40.347 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:39:40.347 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:40:21.840 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:40:21.841 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:40:21.841 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:40:21.841 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:40:21.841 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:40:28.847 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:40:28.848 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:40:28.848 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:40:28.848 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:40:28.848 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:41:08.505 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:41:08.505 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:41:08.505 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:41:08.505 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:41:08.505 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:41:08.761 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:41:08.762 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:41:08.762 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:41:08.762 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:41:08.762 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:41:38.995 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:41:38.996 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:41:38.996 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:41:38.996 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:41:38.996 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:41:45.475 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:41:45.476 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:41:45.476 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:41:45.476 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:41:45.476 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 4] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:42:23.554 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:42:23.555 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 5/10 <<<
+2026-02-03 15:42:23.555 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:42:23.555 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:42:23.555 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:42:23.555 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:42:34.321 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:42:34.321 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:42:34.321 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:42:34.321 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:42:34.321 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:43:57.501 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:43:57.502 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:43:57.502 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:43:57.502 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:43:57.502 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:43:57.714 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:43:57.715 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:43:57.715 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:43:57.715 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:43:57.715 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:45:06.486 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:45:06.486 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:45:06.486 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:45:06.487 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:45:06.487 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:45:14.075 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:45:14.076 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:45:14.076 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:45:14.076 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:45:14.076 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:46:28.630 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:46:28.632 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:46:28.632 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:46:28.632 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:46:28.632 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:46:32.488 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:46:32.488 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:46:32.492 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:46:32.492 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:46:32.492 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:47:03.195 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:47:03.195 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:47:03.195 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:47:03.195 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:47:03.195 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:47:03.366 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:47:03.366 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:47:03.366 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:47:03.366 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:47:03.366 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:47:30.236 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:47:30.237 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:47:30.237 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:47:30.237 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:47:30.237 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:47:41.418 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:47:41.418 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:47:41.418 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:47:41.418 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:47:41.418 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:48:21.776 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:48:21.776 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:48:21.776 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:48:21.776 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:48:21.776 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:48:28.831 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:48:28.832 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:48:28.832 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:48:28.832 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:48:28.832 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:49:05.792 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:49:05.793 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:49:05.793 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:49:05.793 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:49:05.793 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:49:06.054 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:49:06.054 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:49:06.054 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:49:06.054 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:49:06.054 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:49:36.615 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:49:36.616 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:49:36.616 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:49:36.616 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:49:36.616 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:49:43.028 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:49:43.028 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:49:43.028 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:49:43.028 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:49:43.028 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 5] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:50:21.933 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:50:21.933 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 6/10 <<<
+2026-02-03 15:50:21.934 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:50:21.934 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:50:21.934 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:50:21.934 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:50:32.645 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:50:32.645 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:50:32.645 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:50:32.645 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:50:32.645 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:51:54.260 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:51:54.261 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:51:54.261 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:51:54.261 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:51:54.261 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:51:54.397 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:51:54.398 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:51:54.398 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:51:54.398 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:51:54.398 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:53:01.816 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 15:53:01.819 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:53:01.819 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:53:01.819 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:53:01.819 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:53:09.670 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 15:53:09.670 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:53:09.670 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:53:09.670 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:53:09.670 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:54:26.670 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 15:54:26.671 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:54:26.671 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:54:26.671 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:54:26.671 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:54:30.597 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 15:54:30.601 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:54:30.601 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:54:30.601 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:54:30.601 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:55:00.786 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 15:55:00.787 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:55:00.787 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:55:00.787 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:55:00.787 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:55:00.955 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 15:55:00.955 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:55:00.955 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:55:00.955 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:55:00.955 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:55:26.233 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 15:55:26.234 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:55:26.234 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:55:26.234 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:55:26.234 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 15:55:36.635 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 15:55:36.636 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:55:36.636 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:55:36.636 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 15:55:36.636 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 15:56:20.253 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 15:56:20.254 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:56:20.254 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:56:20.254 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:56:20.255 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:56:26.720 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 15:56:26.721 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:56:26.721 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:56:26.721 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:56:26.721 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:57:04.114 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 15:57:04.115 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:57:04.115 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:57:04.115 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:57:04.115 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:57:04.380 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 15:57:04.380 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:57:04.380 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:57:04.380 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:57:04.380 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:57:35.245 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 15:57:35.246 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:57:35.246 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:57:35.246 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:57:35.246 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 15:57:41.373 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 15:57:41.373 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 15:57:41.373 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:57:41.373 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 15:57:41.373 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 6] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 15:58:18.911 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 15:58:18.911 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 7/10 <<<
+2026-02-03 15:58:18.912 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:58:18.912 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:58:18.912 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:58:18.912 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:58:29.708 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 15:58:29.709 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 15:58:29.709 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:58:29.709 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:58:29.709 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 15:59:53.469 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 15:59:53.469 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:59:53.469 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 15:59:53.469 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:59:53.469 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 15:59:53.598 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 15:59:53.599 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 15:59:53.599 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 15:59:53.599 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 15:59:53.599 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:01:06.096 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 16:01:06.097 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:01:06.097 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:01:06.097 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:01:06.097 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:01:14.907 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 16:01:14.907 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:01:14.907 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:01:14.907 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:01:14.907 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:02:38.626 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 16:02:38.627 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:02:38.627 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:02:38.627 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:02:38.627 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:02:42.722 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 16:02:42.723 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:02:42.723 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:02:42.723 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:02:42.723 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:03:14.789 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 16:03:14.789 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:03:14.789 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:03:14.789 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:03:14.789 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:03:14.965 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 16:03:14.965 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:03:14.965 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:03:14.965 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:03:14.965 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:03:42.158 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 16:03:42.159 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:03:42.159 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:03:42.159 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:03:42.159 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:03:54.138 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 16:03:54.139 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:03:54.139 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:03:54.139 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:03:54.139 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:04:35.717 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 16:04:35.718 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:04:35.718 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:04:35.718 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:04:35.718 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:04:42.963 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 16:04:42.964 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:04:42.964 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:04:42.964 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:04:42.964 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:05:21.706 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 16:05:21.706 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:05:21.706 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:05:21.706 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:05:21.706 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:05:21.941 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 16:05:21.942 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:05:21.942 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:05:21.942 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:05:21.942 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:05:53.515 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 16:05:53.516 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:05:53.516 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:05:53.516 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:05:53.516 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:06:00.193 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 16:06:00.194 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:06:00.194 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:06:00.194 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:06:00.194 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 7] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:06:40.998 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 16:06:40.998 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 8/10 <<<
+2026-02-03 16:06:40.999 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:06:40.999 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:06:40.999 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:06:40.999 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:06:51.898 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 16:06:51.898 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:06:51.898 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:06:51.898 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:06:51.898 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:08:13.258 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 16:08:13.259 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:08:13.259 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:08:13.259 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:08:13.259 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:08:13.404 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 16:08:13.405 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:08:13.405 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:08:13.405 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:08:13.405 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:09:22.629 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 16:09:22.630 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:09:22.630 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:09:22.630 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:09:22.630 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:09:30.226 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 16:09:30.227 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:09:30.227 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:09:30.227 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:09:30.227 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:10:43.686 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 16:10:43.686 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:10:43.686 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:10:43.686 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:10:43.686 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:10:47.492 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 16:10:47.492 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:10:47.492 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:10:47.492 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:10:47.492 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:11:17.163 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 16:11:17.164 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:11:17.164 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:11:17.164 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:11:17.164 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:11:17.383 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 16:11:17.384 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:11:17.384 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:11:17.384 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:11:17.384 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:11:43.169 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 16:11:43.170 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:11:43.170 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:11:43.170 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:11:43.170 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:11:53.692 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 16:11:53.692 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:11:53.692 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:11:53.692 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:11:53.692 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:12:37.470 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 16:12:37.470 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:12:37.470 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:12:37.470 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:12:37.471 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:12:44.686 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 16:12:44.687 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:12:44.687 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:12:44.687 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:12:44.687 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:13:23.118 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 16:13:23.119 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:13:23.119 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:13:23.119 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:13:23.119 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:13:23.379 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 16:13:23.379 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:13:23.379 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:13:23.379 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:13:23.379 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:13:52.483 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 16:13:52.483 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:13:52.483 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:13:52.483 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:13:52.483 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:13:58.360 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 16:13:58.360 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:13:58.361 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:13:58.361 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:13:58.361 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 8] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:14:33.942 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 16:14:33.943 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 9/10 <<<
+2026-02-03 16:14:33.943 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:14:33.943 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:14:33.943 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:14:33.943 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:14:44.259 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 16:14:44.259 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:14:44.259 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:14:44.259 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:14:44.259 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:16:06.249 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 16:16:06.250 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:16:06.250 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:16:06.250 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:16:06.250 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:16:06.382 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 16:16:06.383 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:16:06.383 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:16:06.383 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:16:06.383 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:17:14.678 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 16:17:14.678 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:17:14.679 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:17:14.679 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:17:14.679 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:17:22.103 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 16:17:22.104 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:17:22.104 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:17:22.104 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:17:22.104 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:18:44.352 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 16:18:44.353 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:18:44.353 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:18:44.353 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:18:44.353 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:18:49.233 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 16:18:49.233 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:18:49.233 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:18:49.233 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:18:49.233 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:19:23.378 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 16:19:23.378 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:19:23.378 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:19:23.378 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:19:23.378 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:19:23.545 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 16:19:23.546 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:19:23.546 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:19:23.546 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:19:23.546 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:19:49.355 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 16:19:49.355 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:19:49.355 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:19:49.355 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:19:49.355 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:20:00.200 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 16:20:00.201 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:20:00.201 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:20:00.201 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:20:00.201 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:20:38.669 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 16:20:38.670 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:20:38.670 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:20:38.670 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:20:38.670 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:20:44.929 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 16:20:44.930 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:20:44.930 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:20:44.930 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:20:44.930 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:21:23.931 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 16:21:23.931 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:21:23.931 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:21:23.931 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:21:23.931 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:21:24.178 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 16:21:24.179 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:21:24.179 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:21:24.179 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:21:24.179 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:21:55.321 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 16:21:55.322 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:21:55.322 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:21:55.322 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:21:55.322 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:22:01.725 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 16:22:01.726 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:22:01.726 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:22:01.726 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:22:01.726 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 9] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:22:39.287 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 16:22:39.288 [main] INFO  i.f.i.c.EvaluationModelsController - >>> INIZIO RUN 10/10 <<<
+2026-02-03 16:22:39.288 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:22:39.288 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:22:39.288 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:22:39.288 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:22:49.973 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, NoSelection)
+2026-02-03 16:22:49.974 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:22:49.974 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:22:49.974 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:22:49.974 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:24:13.478 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, NoSelection)
+2026-02-03 16:24:13.479 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:24:13.479 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:24:13.479 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:24:13.479 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:24:13.617 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, NoSelection)
+2026-02-03 16:24:13.618 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:24:13.618 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:24:13.618 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:24:13.618 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:25:21.982 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, NoSelection)
+2026-02-03 16:25:21.984 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:25:21.984 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:25:21.984 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:25:21.984 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + NoSampling + NoSelection (CSV: NoSelection)
+2026-02-03 16:25:29.706 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, NoSelection)
+2026-02-03 16:25:29.707 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:25:29.707 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:25:29.707 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: NoSelection
+2026-02-03 16:25:29.707 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + SMOTE + NoSelection (CSV: NoSelection)
+2026-02-03 16:26:50.068 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, NoSelection)
+2026-02-03 16:26:50.069 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:26:50.069 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:26:50.069 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:26:50.069 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:26:54.347 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, InfoGain)
+2026-02-03 16:26:54.348 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:26:54.348 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:26:54.348 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:26:54.348 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:27:26.825 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, InfoGain)
+2026-02-03 16:27:26.826 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:27:26.826 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:27:26.826 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:27:26.826 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:27:26.994 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, InfoGain)
+2026-02-03 16:27:26.995 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:27:26.995 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:27:26.995 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:27:26.995 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:27:54.642 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, InfoGain)
+2026-02-03 16:27:54.643 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:27:54.643 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:27:54.643 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:27:54.643 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + NoSampling + InfoGain (CSV: InfoGain)
+2026-02-03 16:28:05.722 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, InfoGain)
+2026-02-03 16:28:05.723 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:28:05.723 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:28:05.723 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: InfoGain
+2026-02-03 16:28:05.723 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + SMOTE + InfoGain (CSV: InfoGain)
+2026-02-03 16:28:47.748 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, InfoGain)
+2026-02-03 16:28:47.748 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:28:47.748 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:28:47.748 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:28:47.748 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:28:54.414 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (NoSampling, BestFirst)
+2026-02-03 16:28:54.415 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: RandomForest
+2026-02-03 16:28:54.415 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:28:54.415 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:28:54.415 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] RandomForest + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:29:33.923 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per RandomForest (SMOTE, BestFirst)
+2026-02-03 16:29:33.924 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:29:33.924 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:29:33.924 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:29:33.924 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:29:34.167 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (NoSampling, BestFirst)
+2026-02-03 16:29:34.168 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: NaiveBayes
+2026-02-03 16:29:34.168 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:29:34.168 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:29:34.168 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] NaiveBayes + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:30:05.188 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per NaiveBayes (SMOTE, BestFirst)
+2026-02-03 16:30:05.188 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:30:05.188 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: NoSampling
+2026-02-03 16:30:05.188 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:30:05.188 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + NoSampling + BestFirst (CSV: BestFirst)
+2026-02-03 16:30:11.220 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (NoSampling, BestFirst)
+2026-02-03 16:30:11.220 [main] DEBUG i.f.isw2.ml.model.ClassifierFactory - Istanza Classificatore richiesta: IBk
+2026-02-03 16:30:11.220 [main] DEBUG i.f.isw2.ml.sampling.SamplingFactory - Istanza Sampling Strategy richiesta: SMOTE
+2026-02-03 16:30:11.220 [main] DEBUG i.f.i.m.f.FeatureSelectionFactory - Istanza Feature Selection richiesta: BestFirst
+2026-02-03 16:30:11.220 [main] INFO  i.f.i.c.EvaluationModelsController - Valutazione: [Run 10] IBk + SMOTE + BestFirst (CSV: BestFirst)
+2026-02-03 16:30:50.514 [main] INFO  i.f.i.ml.reporting.CsvResultExporter - Salvati 4 risultati per IBk (SMOTE, BestFirst)
+2026-02-03 16:30:50.515 [main] INFO  i.f.i.c.EvaluationModelsController - Esperimento completato. Report in: .\results\ml\BOOKKEEPER_validation_results.csv
+2026-02-03 16:30:50.515 [main] INFO  it.flaviosimonelli.isw2.Main - >>> STEP 4: Generazione Grafici (Python)
+2026-02-03 16:30:50.516 [main] INFO  i.f.i.m.r.GraphGenerationService - Avvio generazione grafici Python...
+2026-02-03 16:30:58.266 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Avvio generazione grafici a matrice...
+2026-02-03 16:30:58.267 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per Precision...
+2026-02-03 16:30:58.267 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_Precision.png
+2026-02-03 16:30:58.267 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per Recall...
+2026-02-03 16:30:58.267 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_Recall.png
+2026-02-03 16:30:58.268 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per F-Measure...
+2026-02-03 16:30:58.268 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_F-Measure.png
+2026-02-03 16:30:58.268 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per AUC...
+2026-02-03 16:30:58.268 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_AUC.png
+2026-02-03 16:30:58.269 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per Kappa...
+2026-02-03 16:30:58.269 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_Kappa.png
+2026-02-03 16:30:58.269 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Generazione grafico per NPofB20...
+2026-02-03 16:30:58.269 [main] INFO  i.f.i.m.r.GraphGenerationService - [PYTHON] [Python] Salvato: BOOKKEEPER_matrix_NPofB20.png
+2026-02-03 16:30:58.758 [main] INFO  i.f.i.m.r.GraphGenerationService - Grafici generati correttamente in: .\results\ml\graphs
+2026-02-03 16:30:58.759 [main] INFO  it.flaviosimonelli.isw2.Main - === PROCESSO TERMINATO CON SUCCESSO ===
